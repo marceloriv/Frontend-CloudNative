@@ -46,7 +46,7 @@ Secciones no aplicables a este proyecto: N/A (todas son relevantes).
 
 - **Node** 24 (Active LTS; fijado en `.github/workflows/deploy.yml`)
 - **npm** (`"type": "module"`)
-- **TypeScript** ^7.0.2 (devDep; verificar versión real con `npx tsc --version`)
+- **TypeScript** ^5.9.3 (devDep). El export de Figma Make traía 7.0.2, pero `typescript-eslint` todavía no lo soporta como peer dependency — se bajó a la última 5.x estable. Revisar si se puede volver a subir cuando `typescript-eslint` agregue soporte para TS7.
 
 ### Dependencias de runtime
 
@@ -117,18 +117,24 @@ Secciones no aplicables a este proyecto: N/A (todas son relevantes).
 │   │   └── ProtectedRoute.tsx     # componente guard: valida rol o redirige
 │   │
 │   ├── hooks/
-│   │   └── useAuth.tsx            # AuthContext + AuthProvider + useAuth()
+│   │   ├── useAuth.ts              # AuthContext, USERS, hook useAuth() — sin JSX
+│   │   └── AuthProvider.tsx        # solo el componente AuthProvider (separado para no romper fast refresh)
 │   │
 │   ├── types/
 │   │   └── index.ts               # Role, User (tipos compartidos)
 │   │
 │   └── lib/
-│       └── data.ts                # datos estáticos compartidos (spaces, gastos, avisos, channels, registroFotos)
+│       └── data.ts                # datos estáticos compartidos (gastos, avisos, channels, registroFotos)
 │
 ├── index.html
 ├── vite.config.ts
 ├── tsconfig.json
-└── package.json
+├── package.json
+├── CHANGELOG.md                   # Keep a Changelog — se actualiza en cada PR a main (ver §10)
+└── .github/workflows/
+    ├── deploy.yml                  # protegido, ver §11
+    ├── react-doctor.yml            # protegido, ver §11
+    └── ci-develop.yml              # lint + typecheck + build en push/PR a develop
 ```
 
 ---
@@ -223,6 +229,8 @@ El entorno no tiene Vitest, React Testing Library, ni ningún runner de tests in
 - Cobertura mínima requerida: 60% de líneas
 - Prioridad de cobertura: guards de roles, lógica de validación de formularios, generación de código QR
 
+**CI evaluado y pospuesto** (no urgente, requiere decisión de alcance/costo del equipo): bundle size / Lighthouse CI (necesita definir umbrales/baseline), CodeQL (minutos de CI extra). Ningún workflow de tests todavía — no tiene sentido antes de configurar Vitest arriba.
+
 ---
 
 ## 8. Comandos de setup
@@ -298,16 +306,19 @@ Conventional Commits v1.0.0. Formato: `:emoji: <tipo>(<alcance>)?(!)?: <sujeto>`
 - `hotfix/*`: crea desde `main`, merge a `main` + `develop`, se borra. `hotfix/descripcion-corta`.
 - Tags: `vMAJOR.MINOR.PATCH` en commits de `main`. Mantener `develop` sincronizada con `main` tras cada merge.
 - Branch protection (cuando se pushee a GitHub): `main` requires PR + 1 approval + status checks, no force push; `develop` requires PR, no force push; `feature/*` allow force push.
+- **Merge de `develop` a `main`: merge commit (`--no-ff`), nunca squash ni rebase.** Squash o rebase generan commits en `main` que no existen en `develop`, desincronizando las ramas y complicando futuros `hotfix/*` (que mergean a ambas). En GitHub, dejar habilitado solo "Create a merge commit" para PRs hacia `main`.
+- **`CHANGELOG.md`**: se actualiza en cada PR hacia `main` (no en cada commit a `develop`, no solo en tags) — una entrada nueva por versión, agrupando los commits del PR. Formato Keep a Changelog, español.
 
 ## 11. Límites del agente (nunca tocar sin aprobación explícita)
 
 - `.github/workflows/react-doctor.yml` — React Doctor en CI (advisory; no bloquea PRs).
 - `.github/workflows/deploy.yml` — build + lint + deploy a GitHub Pages en push a `main`. Requiere Settings → Pages → Source: GitHub Actions. `vite.config.ts` usa `base` dinámico vía `GITHUB_REPOSITORY` — no hardcodear el nombre del repo.
-- N/A: resto de workflows (CI/lighthouse/bundle-size), DB y `.env`.
+- `.github/workflows/ci-develop.yml` — **no está protegido**, se puede editar libremente. Corre lint + typecheck + build en push/PR a `develop`.
+- N/A: resto de workflows (lighthouse/bundle-size/CodeQL — evaluados y descartados por ahora, ver Deuda pendiente §7), DB y `.env`.
 
 ## 12. Enforcement
 
-Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint` + `npm run typecheck`. El CI refuerza (react-doctor advisory en PRs; deploy corre lint + build en `main`) — no hay pre-commit hooks.
+Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint` + `npm run typecheck`. El CI refuerza en dos puntos: `ci-develop.yml` (lint + typecheck + build en cada push/PR a `develop`) y `deploy.yml` (lint + build en `main`, más `react-doctor` advisory en PRs) — no hay pre-commit hooks.
 
 ## 13. Mantenimiento
 
