@@ -1,0 +1,40 @@
+# CI — develop
+# Valida lint + typecheck + build en PRs hacia `develop` y en cada push directo
+# a `develop` (sin paso de deploy). Tapa el gap: hoy nada corre en esta rama.
+
+name: CI — develop
+
+on:
+  pull_request:
+    branches: ["develop"]
+  push:
+    branches: ["develop"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-develop-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
