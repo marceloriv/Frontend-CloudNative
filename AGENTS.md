@@ -148,6 +148,10 @@ Secciones no aplicables a este proyecto: N/A (todas son relevantes).
 - Sin `any`. Sin `as unknown as X` a menos que sea inevitable y comentado.
 - JSX en archivos `.tsx`. Hooks sin JSX en `.ts` (excepción: `useAuth.tsx` usa JSX para el Provider).
 
+### Mobile First
+
+Todo layout/estilo nuevo se diseña primero para mobile, después se escala hacia arriba — nunca al revés. En Tailwind: clases sin prefijo = base/mobile, `sm:`/`md:`/`lg:` para agrandar desde ahí, no para achicar. No asumir viewport de escritorio como caso por defecto.
+
 ### Sistema de diseño
 
 Fuentes cargadas vía Google Fonts CSS2 `@import` al tope de `src/index.css`:

@@ -1,54 +1,56 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
-import { useAuth } from "../hooks/useAuth";
+import { useState } from "react"
+import { Link } from "react-router"
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts"
+import { useAuth } from "../hooks/useAuth"
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
-interface SparkPoint { v: number }
+interface SparkPoint {
+  v: number
+}
 
 interface KpiCardProps {
-  icon: string;
-  title: string;
-  value: string;
-  subtitle: string;
+  icon: string
+  title: string
+  value: string
+  subtitle: string
   badge: {
-    label: string;
-    variant: "green" | "yellow" | "blue";
-  };
-  spark?: SparkPoint[];
-  sparkColor?: string;
+    label: string
+    variant: "green" | "yellow" | "blue"
+  }
+  spark?: SparkPoint[]
+  sparkColor?: string
 }
 
 interface NoticeCard {
-  id: number;
-  title: string;
-  date: string;
-  category: string;
-  excerpt: string;
+  id: number
+  title: string
+  date: string
+  category: string
+  excerpt: string
 }
 
 interface Visit {
-  id: number;
-  nombre: string;
-  fecha: string;
-  estado: "Confirmada" | "Pendiente QR";
+  id: number
+  nombre: string
+  fecha: string
+  estado: "Confirmada" | "Pendiente QR"
 }
 
 interface ActivityItem {
-  id: number;
-  icon: string;
-  description: string;
-  timestamp: string;
-  color: string;
+  id: number
+  icon: string
+  description: string
+  timestamp: string
+  color: string
 }
 
 interface QuickLink {
-  label: string;
-  icon: string;
-  to: string;
-  bg: string;
-  iconColor: string;
+  label: string
+  icon: string
+  to: string
+  bg: string
+  iconColor: string
 }
 
 // ── Sub-components ───────────────────────────────────────────────────────────
@@ -57,16 +59,16 @@ const BADGE_STYLES: Record<string, string> = {
   green: "bg-primary/15 text-primary",
   yellow: "bg-alert-yellow/20 text-text",
   blue: "bg-blue-100 text-blue-700",
-};
+}
 
 function Badge({
   label,
   variant,
 }: {
-  label: string;
-  variant: "green" | "yellow" | "blue";
+  label: string
+  variant: "green" | "yellow" | "blue"
 }) {
-  const styles = BADGE_STYLES;
+  const styles = BADGE_STYLES
 
   return (
     <span
@@ -80,10 +82,18 @@ function Badge({
       )}
       {label}
     </span>
-  );
+  )
 }
 
-function KpiCard({ icon, title, value, subtitle, badge, spark, sparkColor = '#0D9488' }: KpiCardProps) {
+function KpiCard({
+  icon,
+  title,
+  value,
+  subtitle,
+  badge,
+  spark,
+  sparkColor = "#0D9488",
+}: KpiCardProps) {
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-border bg-white p-5 shadow-sm overflow-hidden relative">
       <div className="flex items-start justify-between">
@@ -102,7 +112,10 @@ function KpiCard({ icon, title, value, subtitle, badge, spark, sparkColor = '#0D
       {spark && (
         <div className="h-10 -mx-5 -mb-5 mt-1">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={spark} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={spark}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id={`sg-${title}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={sparkColor} stopOpacity={0.18} />
@@ -112,7 +125,16 @@ function KpiCard({ icon, title, value, subtitle, badge, spark, sparkColor = '#0D
               <Tooltip
                 content={({ active, payload }) =>
                   active && payload?.length ? (
-                    <span style={{ fontSize: 11, fontFamily: 'Inter, system-ui, sans-serif', background: '#00201B', color: '#fff', padding: '3px 7px', borderRadius: 5 }}>
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontFamily: "Inter, system-ui, sans-serif",
+                        background: "#00201B",
+                        color: "#fff",
+                        padding: "3px 7px",
+                        borderRadius: 5,
+                      }}
+                    >
                       {payload[0].value}
                     </span>
                   ) : null
@@ -132,7 +154,7 @@ function KpiCard({ icon, title, value, subtitle, badge, spark, sparkColor = '#0D
         </div>
       )}
     </div>
-  );
+  )
 }
 
 function NoticeTile({ notice }: { notice: NoticeCard }) {
@@ -151,7 +173,7 @@ function NoticeTile({ notice }: { notice: NoticeCard }) {
         {notice.excerpt}
       </p>
     </div>
-  );
+  )
 }
 
 // ── Static data ───────────────────────────────────────────────────────────────
@@ -181,7 +203,7 @@ const notices: NoticeCard[] = [
     excerpt:
       "Ya están abiertas las inscripciones para el torneo de tenis interno del condominio. Plazas limitadas, inscríbete antes del 25 de agosto.",
   },
-];
+]
 
 const visits: Visit[] = [
   {
@@ -196,7 +218,7 @@ const visits: Visit[] = [
     fecha: "Sáb 23 ago, 10:00–14:00",
     estado: "Pendiente QR",
   },
-];
+]
 
 const quickLinks: QuickLink[] = [
   {
@@ -241,7 +263,7 @@ const quickLinks: QuickLink[] = [
     bg: "bg-slate-100",
     iconColor: "text-slate-600",
   },
-];
+]
 
 const activity: ActivityItem[] = [
   {
@@ -272,14 +294,14 @@ const activity: ActivityItem[] = [
     timestamp: "Hace 5 días",
     color: "bg-slate-400 text-white",
   },
-];
+]
 
 // ── Page component ────────────────────────────────────────────────────────────
 
 export default function ResidenteDashboard() {
-  const { user } = useAuth();
-  const [notifDismissed, setNotifDismissed] = useState(false);
-  const unreadCount = 3;
+  const { user } = useAuth()
+  const [notifDismissed, setNotifDismissed] = useState(false)
+  const unreadCount = 3
 
   return (
     <div className="flex flex-col gap-0 font-body">
@@ -287,11 +309,9 @@ export default function ResidenteDashboard() {
       <div className="bg-text px-6 py-10 md:px-10">
         <div className="mx-auto max-w-6xl">
           <h1 className="font-display text-3xl font-semibold text-white md:text-4xl">
-            Buenos días, {user.nombre.split(' ')[0]}
+            Buenos días, {user.nombre.split(" ")[0]}
           </h1>
-          <p className="mt-1 font-body text-sm text-white/60">
-            {user.unidad}
-          </p>
+          <p className="mt-1 font-body text-sm text-white/60">{user.unidad}</p>
 
           {/* Quick actions */}
           <div className="mt-6 flex flex-wrap gap-3">
@@ -320,12 +340,13 @@ export default function ResidenteDashboard() {
       {/* ── Content area ── */}
       <div className="bg-slate-50 px-6 py-8 md:px-10">
         <div className="mx-auto flex max-w-6xl flex-col gap-8">
-
           {/* ── Notifications banner ── */}
           {!notifDismissed && unreadCount > 0 && (
             <div className="flex items-center justify-between rounded-xl bg-alert-yellow px-4 py-3">
               <div className="flex items-center gap-2">
-                <span className="text-text" aria-hidden="true">🔔</span>
+                <span className="text-text" aria-hidden="true">
+                  🔔
+                </span>
                 <span className="font-body text-sm font-semibold text-text">
                   {unreadCount} notificaciones no leídas
                 </span>
@@ -356,7 +377,16 @@ export default function ResidenteDashboard() {
               value="Quincho Los Aromos"
               subtitle="Sáb 23 ago, 18:00 hrs"
               badge={{ label: "Confirmada", variant: "green" }}
-              spark={[{v:1},{v:2},{v:1},{v:3},{v:2},{v:4},{v:3},{v:5}]}
+              spark={[
+                { v: 1 },
+                { v: 2 },
+                { v: 1 },
+                { v: 3 },
+                { v: 2 },
+                { v: 4 },
+                { v: 3 },
+                { v: 5 },
+              ]}
               sparkColor="#0D9488"
             />
             <KpiCard
@@ -365,7 +395,16 @@ export default function ResidenteDashboard() {
               value="$65.000 CLP"
               subtitle="Vence en 5 días"
               badge={{ label: "Pendiente", variant: "yellow" }}
-              spark={[{v:3},{v:4},{v:3},{v:5},{v:4},{v:6},{v:5},{v:7}]}
+              spark={[
+                { v: 3 },
+                { v: 4 },
+                { v: 3 },
+                { v: 5 },
+                { v: 4 },
+                { v: 6 },
+                { v: 5 },
+                { v: 7 },
+              ]}
               sparkColor="#005047"
             />
             <KpiCard
@@ -374,7 +413,16 @@ export default function ResidenteDashboard() {
               value="1 incidente"
               subtitle="Filtr. desde plomería"
               badge={{ label: "En revisión", variant: "yellow" }}
-              spark={[{v:0},{v:1},{v:0},{v:1},{v:2},{v:1},{v:1},{v:1}]}
+              spark={[
+                { v: 0 },
+                { v: 1 },
+                { v: 0 },
+                { v: 1 },
+                { v: 2 },
+                { v: 1 },
+                { v: 1 },
+                { v: 1 },
+              ]}
               sparkColor="#EAB308"
             />
             <KpiCard
@@ -383,17 +431,24 @@ export default function ResidenteDashboard() {
               value="2 paquetes"
               subtitle="Esperando retiro"
               badge={{ label: "Pendiente retiro", variant: "yellow" }}
-              spark={[{v:1},{v:0},{v:2},{v:1},{v:3},{v:2},{v:2},{v:2}]}
+              spark={[
+                { v: 1 },
+                { v: 0 },
+                { v: 2 },
+                { v: 1 },
+                { v: 3 },
+                { v: 2 },
+                { v: 2 },
+                { v: 2 },
+              ]}
               sparkColor="#0D9488"
             />
           </div>
 
           {/* ── Main content grid ── */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-
             {/* Left column (wider) */}
             <div className="flex flex-col gap-8 md:col-span-2">
-
               {/* Tablón notices */}
               <section>
                 <div className="mb-4 flex items-center justify-between">
@@ -483,7 +538,6 @@ export default function ResidenteDashboard() {
 
             {/* Right column */}
             <div className="flex flex-col gap-8">
-
               {/* Accesos rápidos */}
               <section>
                 <h2 className="mb-4 font-display text-xl font-semibold text-text">
@@ -532,10 +586,7 @@ export default function ResidenteDashboard() {
                           </p>
                         </div>
                         {i < activity.length - 1 && (
-                          <span
-                            className="absolute"
-                            aria-hidden="true"
-                          />
+                          <span className="absolute" aria-hidden="true" />
                         )}
                       </li>
                     ))}
@@ -552,7 +603,8 @@ export default function ResidenteDashboard() {
                 ¿Tienes dudas sobre los gastos?
               </h3>
               <p className="mt-0.5 font-body text-sm text-muted">
-                Revisa el detalle de gastos comunes y el registro de mantenciones.
+                Revisa el detalle de gastos comunes y el registro de
+                mantenciones.
               </p>
             </div>
             <Link
@@ -562,9 +614,8 @@ export default function ResidenteDashboard() {
               Ver gastos →
             </Link>
           </div>
-
         </div>
       </div>
     </div>
-  );
+  )
 }
