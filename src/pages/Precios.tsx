@@ -148,17 +148,17 @@ function FeatureCell({ value }: { value: boolean | string }) {
   return <td style={{ padding: '12px 20px', textAlign: 'center', fontSize: 13, color: '#64748B', fontWeight: 500 }}>{value}</td>
 }
 
+function formatPrice(p: number | null, isAnnual: boolean) {
+  if (p === null) return 'A medida'
+  if (p === 0) return 'Gratis'
+  const val = isAnnual ? p - 5000 : p
+  return `$${val.toLocaleString('es-CL')}`
+}
+
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
 export default function Precios() {
   const [annual, setAnnual] = useState(false)
-
-  const formatPrice = (p: number | null, isAnnual: boolean) => {
-    if (p === null) return 'A medida'
-    if (p === 0) return 'Gratis'
-    const val = isAnnual ? p - 5000 : p
-    return `$${val.toLocaleString('es-CL')}`
-  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8FAFB' }}>
@@ -173,7 +173,7 @@ export default function Precios() {
         {/* Toggle mensual/anual */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 14, background: 'rgba(255,255,255,0.07)', borderRadius: 100, padding: '8px 16px', border: '1px solid rgba(255,255,255,0.12)' }}>
           <span style={{ fontSize: 13, color: annual ? 'rgba(255,255,255,0.45)' : '#fff', fontWeight: annual ? 400 : 600, transition: 'color 0.2s' }}>Mensual</span>
-          <button onClick={() => setAnnual(!annual)} style={{
+          <button onClick={() => setAnnual(!annual)} aria-label="Cambiar entre plan mensual y anual" aria-pressed={annual} style={{
             width: 44, height: 24, borderRadius: 12, cursor: 'pointer', border: 'none', position: 'relative',
             background: annual ? '#0D9488' : 'rgba(255,255,255,0.2)', transition: 'background 0.25s',
           }}>

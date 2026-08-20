@@ -135,7 +135,7 @@ export default function Gastos() {
           <div style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 16, padding: '28px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h3 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 20, color: '#00201B', margin: 0, fontWeight: 400 }}>Desglose mensual</h3>
-              <select value={selectedMes} onChange={e => setSelectedMes(e.target.value)} style={{ fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 8, padding: '7px 12px', color: '#00201B', background: '#fff', outline: 'none' }}>
+              <select aria-label="Filtrar por mes" value={selectedMes} onChange={e => setSelectedMes(e.target.value)} style={{ fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 8, padding: '7px 12px', color: '#00201B', background: '#fff', outline: 'none' }}>
                 {meses.map(m => <option key={m}>{m}</option>)}
               </select>
             </div>
@@ -163,8 +163,8 @@ export default function Gastos() {
           {isAdmin && <div style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 16, padding: '28px' }}>
             <h3 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 20, color: '#00201B', margin: '0 0 24px', fontWeight: 400 }}>Estado por unidad</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {unidades.map((u, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', borderRadius: 10, background: u.bg, border: `1px solid ${u.color}22` }}>
+              {unidades.map((u) => (
+                <div key={u.unidad} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 14px', borderRadius: 10, background: u.bg, border: `1px solid ${u.color}22` }}>
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 600, color: '#00201B' }}>{u.unidad}</div>
                     <div style={{ fontSize: 12, color: '#94A3B8' }}>{u.estado === 'Al día' ? 'Sin deuda' : `Deuda: ${u.monto}`}</div>
@@ -195,7 +195,7 @@ export default function Gastos() {
               </thead>
               <tbody>
                 {historial.map((h, i) => (
-                  <tr key={i} style={{ borderBottom: i < historial.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                  <tr key={h.mes} style={{ borderBottom: i < historial.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
                     <td style={{ padding: '14px 0', fontSize: 14, color: '#00201B', fontWeight: 500 }}>{h.mes}</td>
                     <td style={{ padding: '14px 0', fontSize: 14, fontWeight: 700, color: '#00201B' }}>{h.total}</td>
                     <td style={{ padding: '14px 0' }}>
@@ -220,9 +220,9 @@ export default function Gastos() {
           <p style={{ fontSize: 11, fontWeight: 700, color: '#0D9488', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Funcionalidades</p>
           <h2 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 'clamp(24px, 3vw, 38px)', color: '#00201B', margin: '0 0 40px', fontWeight: 400 }}>Todo bajo control</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
-            {FLIP_CARD_DATA.map(({ title, description, Icon }, i) => (
+            {FLIP_CARD_DATA.map(({ title, description, Icon }) => (
               <FlipCard
-                key={i}
+                key={title}
                 height={200}
                 front={
                   <div style={{ background: '#F8FAFB', borderRadius: 14, border: '1px solid #E2E8F0', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, padding: '24px 20px', boxSizing: 'border-box' }}>
@@ -243,7 +243,7 @@ export default function Gastos() {
 
       {/* Alternating image+text sections */}
       {alternatingSections.map((section, i) => (
-        <div key={i} style={{ background: i % 2 === 0 ? '#F8FAFB' : '#fff', padding: '80px 24px' }}>
+        <div key={section.title} style={{ background: i % 2 === 0 ? '#F8FAFB' : '#fff', padding: '80px 24px' }}>
           <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 48, alignItems: 'center', flexDirection: section.imgRight ? 'row' : 'row-reverse' }}>
             <div style={{ flex: '1 1 360px' }}>
               <p style={{ fontSize: 11, fontWeight: 700, color: '#0D9488', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>Gastos comunes</p>
@@ -288,7 +288,12 @@ export default function Gastos() {
       {/* Pay modal */}
       {showPayModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setShowPayModal(false)} />
+          <button
+            type="button"
+            aria-label="Cerrar"
+            onClick={() => setShowPayModal(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.6)', backdropFilter: 'blur(4px)', border: 'none', padding: 0, cursor: 'default' }}
+          />
           <div style={{ position: 'relative', background: '#fff', borderRadius: 20, width: '100%', maxWidth: 440, padding: '32px 28px', boxShadow: '0 24px 80px rgba(0,0,0,0.2)' }}>
             <h3 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 22, color: '#00201B', margin: '0 0 6px' }}>Pagar gasto común</h3>
             <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 24px' }}>Agosto 2026 · Unidad 301 Torre A</p>

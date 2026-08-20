@@ -76,8 +76,8 @@ export default function Dashboard() {
             { label: 'Acumulado anual', val: '$7.200.000', sub: 'CLP · 2026', icon: <IconTag style={{ width: 20, height: 20 }} />, color: '#005047' },
             { label: 'Mejoras implementadas', val: '$1.770.000', sub: 'CLP · 2026', icon: <IconEye style={{ width: 20, height: 20 }} />, color: '#14B8A6' },
             { label: 'Registros con boleta', val: `${registros.length} / ${registros.length}`, sub: '100% verificados', icon: <IconDownload style={{ width: 20, height: 20 }} />, color: '#0D9488' },
-          ].map((k, i) => (
-            <div key={i} style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 14, padding: '22px 20px' }}>
+          ].map((k) => (
+            <div key={k.label} style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 14, padding: '22px 20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                 <div style={{ fontSize: 12, color: '#94A3B8', fontWeight: 600, letterSpacing: '0.04em', maxWidth: 140, lineHeight: 1.3 }}>{k.label}</div>
                 <div style={{ color: k.color }}>{k.icon}</div>
@@ -110,9 +110,9 @@ export default function Dashboard() {
                 />
                 <Tooltip content={<ChartTooltip />} cursor={{ fill: '#F0FDFA' }} />
                 <Bar dataKey="gasto" radius={[5, 5, 0, 0]}>
-                  {evolucionMensual.map((_, i) => (
+                  {evolucionMensual.map((m, i) => (
                     <Cell
-                      key={i}
+                      key={m.mes}
                       fill={i === evolucionMensual.length - 1 ? '#0D9488' : '#CCFBF1'}
                     />
                   ))}
@@ -146,7 +146,7 @@ export default function Dashboard() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
             <h3 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 20, color: '#00201B', margin: 0, fontWeight: 400 }}>Detalle de gastos</h3>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-              <select value={activeCategoria} onChange={e => setActiveCategoria(e.target.value)} style={{ fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 8, padding: '7px 12px', color: '#00201B', background: '#fff', outline: 'none' }}>
+              <select aria-label="Filtrar por categoría" value={activeCategoria} onChange={e => setActiveCategoria(e.target.value)} style={{ fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 8, padding: '7px 12px', color: '#00201B', background: '#fff', outline: 'none' }}>
                 {categorias.map(c => <option key={c}>{c}</option>)}
               </select>
               <button style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: '#0D9488', background: 'none', border: '1px solid #0D9488', borderRadius: 8, padding: '7px 14px', cursor: 'pointer' }}>
@@ -165,7 +165,7 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {filtered.map((r, i) => (
-                  <tr key={i} style={{ borderBottom: i < filtered.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                  <tr key={r.boleta} style={{ borderBottom: i < filtered.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
                     <td style={{ padding: '14px 12px 14px 0', fontSize: 13, color: '#64748B', whiteSpace: 'nowrap' }}>{r.fecha}</td>
                     <td style={{ padding: '14px 12px 14px 0', fontSize: 13 }}>
                       <span style={{ background: '#F0FDFA', color: '#005047', fontSize: 11, fontWeight: 600, padding: '3px 8px', borderRadius: 6 }}>{r.categoria}</span>

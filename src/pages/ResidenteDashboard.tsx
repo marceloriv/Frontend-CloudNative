@@ -53,6 +53,12 @@ interface QuickLink {
 
 // ── Sub-components ───────────────────────────────────────────────────────────
 
+const BADGE_STYLES: Record<string, string> = {
+  green: "bg-primary/15 text-primary",
+  yellow: "bg-alert-yellow/20 text-text",
+  blue: "bg-blue-100 text-blue-700",
+};
+
 function Badge({
   label,
   variant,
@@ -60,11 +66,7 @@ function Badge({
   label: string;
   variant: "green" | "yellow" | "blue";
 }) {
-  const styles: Record<string, string> = {
-    green: "bg-primary/15 text-primary",
-    yellow: "bg-alert-yellow/20 text-text",
-    blue: "bg-blue-100 text-blue-700",
-  };
+  const styles = BADGE_STYLES;
 
   return (
     <span

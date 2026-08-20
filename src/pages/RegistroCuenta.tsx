@@ -55,7 +55,7 @@ function StepIndicator({ current, labels }: StepIndicatorProps) {
         const done = current > s
         const active = current === s
         return (
-          <div key={i} className="flex items-center flex-1 last:flex-none">
+          <div key={label} className="flex items-center flex-1 last:flex-none">
             <div className="flex flex-col items-center gap-1 shrink-0">
               <div
                 aria-current={active ? 'step' : undefined}
@@ -99,6 +99,10 @@ function Field({ label, id, error, children }: FieldProps) {
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
+function inputClass(err?: string) {
+  return `w-full px-3.5 py-2.5 rounded-lg border text-sm text-text placeholder:text-muted/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${err ? 'border-alert-red bg-red-50' : 'border-border bg-white'}`
+}
+
 export default function RegistroCuenta() {
   const [step, setStep] = useState<Step>(1)
   const [unitForm, setUnitForm] = useState<StepUnitForm>({ torre: '', piso: '', numero: '' })
@@ -107,9 +111,6 @@ export default function RegistroCuenta() {
   const [errors, setErrors] = useState<StepErrors>({})
   const [reglamentoError, setReglamentoError] = useState('')
   const [done, setDone] = useState(false)
-
-  const inputClass = (err?: string) =>
-    `w-full px-3.5 py-2.5 rounded-lg border text-sm text-text placeholder:text-muted/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${err ? 'border-alert-red bg-red-50' : 'border-border bg-white'}`
 
   function handleUnit(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setUnitForm(p => ({ ...p, [e.target.name]: e.target.value }))
@@ -170,7 +171,7 @@ export default function RegistroCuenta() {
             'Crea tu cuenta con correo y contraseña',
             'Acepta el Reglamento Interno digitalmente',
           ].map((t, i) => (
-            <li key={i} className="flex gap-3 items-start">
+            <li key={t} className="flex gap-3 items-start">
               <div className="w-5 h-5 rounded-full bg-primary/25 text-primary text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                 {i + 1}
               </div>

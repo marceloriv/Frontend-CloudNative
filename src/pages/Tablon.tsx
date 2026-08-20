@@ -124,7 +124,7 @@ export default function Tablon() {
                 padding: '8px 16px', borderRadius: 100, fontSize: 13, fontWeight: 500, cursor: 'pointer', border: '1px solid',
                 borderColor: activeTipo === t ? '#0D9488' : '#E2E8F0',
                 background: activeTipo === t ? '#0D9488' : '#fff',
-                color: activeTipo === t ? '#fff' : '#64748B', transition: 'all 0.15s',
+                color: activeTipo === t ? '#fff' : '#64748B', transition: 'border-color 0.15s, background 0.15s, color 0.15s',
               }}>{t}</button>
             ))}
           </div>
@@ -133,12 +133,12 @@ export default function Tablon() {
 
         {/* Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 20 }}>
-          {filtered.map((a, i) => {
+          {filtered.map((a) => {
             const idx = avisos.indexOf(a)
             const yaConfirmado = confirmados[idx]
             const bc = badgeClasses[a.badge as BadgeKey] ?? badgeClasses.primary
             return (
-              <div key={i} className={`bg-surface border border-border border-l-4 ${bc.border} rounded-2xl overflow-hidden transition-[box-shadow,transform] duration-200 hover:shadow-lg hover:-translate-y-0.5`}>
+              <div key={a.titulo} className={`bg-surface border border-border border-l-4 ${bc.border} rounded-2xl overflow-hidden transition-[box-shadow,transform] duration-200 hover:shadow-lg hover:-translate-y-0.5`}>
                 <div style={{ padding: '22px 22px 0' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                     <span className={`text-[11px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${bc.label}`}>
@@ -162,7 +162,7 @@ export default function Tablon() {
                       onClick={() => setConfirmados(prev => ({ ...prev, [idx]: !prev[idx] }))}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600,
-                        padding: '7px 14px', borderRadius: 8, border: '1px solid', cursor: 'pointer', transition: 'all 0.15s',
+                        padding: '7px 14px', borderRadius: 8, border: '1px solid', cursor: 'pointer', transition: 'border-color 0.15s, background 0.15s, color 0.15s',
                         borderColor: yaConfirmado ? '#0D9488' : '#E2E8F0',
                         background: yaConfirmado ? '#F0FDFA' : '#fff',
                         color: yaConfirmado ? '#0D9488' : '#64748B',
@@ -283,7 +283,12 @@ export default function Tablon() {
       {/* New post modal */}
       {showNew && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setShowNew(false)} />
+          <button
+            type="button"
+            aria-label="Cerrar"
+            onClick={() => setShowNew(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.6)', backdropFilter: 'blur(4px)', border: 'none', padding: 0, cursor: 'default' }}
+          />
           <div style={{ position: 'relative', background: '#fff', borderRadius: 20, width: '100%', maxWidth: 480, padding: '32px 28px', boxShadow: '0 24px 80px rgba(0,0,0,0.2)' }}>
             <h3 style={{ fontFamily: 'Gloock, Georgia, serif', fontSize: 22, color: '#00201B', margin: '0 0 6px' }}>
               {canPublishDirect ? 'Publicar aviso' : 'Solicitar publicación'}
@@ -295,19 +300,19 @@ export default function Tablon() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Tipo</label>
-                <select style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', background: '#fff', outline: 'none' }}>
+                <label htmlFor="nuevo-aviso-tipo" style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Tipo</label>
+                <select id="nuevo-aviso-tipo" style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', background: '#fff', outline: 'none' }}>
                   <option>Aviso de interés comunitario</option><option>Rifa / bazar</option><option>Venta</option>
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Título</label>
-                <input type="text" placeholder="Título del aviso" style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', outline: 'none', boxSizing: 'border-box' }}
+                <label htmlFor="nuevo-aviso-titulo" style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Título</label>
+                <input id="nuevo-aviso-titulo" type="text" placeholder="Título del aviso" style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', outline: 'none', boxSizing: 'border-box' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#0D9488')} onBlur={e => (e.currentTarget.style.borderColor = '#E2E8F0')} />
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Descripción</label>
-                <textarea rows={4} placeholder="Descripción detallada..." style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', outline: 'none', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' }}
+                <label htmlFor="nuevo-aviso-desc" style={{ fontSize: 12, fontWeight: 600, color: '#64748B', display: 'block', marginBottom: 6 }}>Descripción</label>
+                <textarea id="nuevo-aviso-desc" rows={4} placeholder="Descripción detallada..." style={{ width: '100%', padding: '10px 12px', border: '1px solid #E2E8F0', borderRadius: 8, fontSize: 14, color: '#00201B', outline: 'none', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box' }}
                   onFocus={e => (e.currentTarget.style.borderColor = '#0D9488')} onBlur={e => (e.currentTarget.style.borderColor = '#E2E8F0')} />
               </div>
             </div>

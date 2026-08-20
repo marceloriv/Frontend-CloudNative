@@ -269,8 +269,9 @@ function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProp
         </div>
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Título <span className="text-alert-red">*</span></label>
+            <label htmlFor="incidente-titulo" className="block text-sm font-semibold text-text mb-1">Título <span className="text-alert-red">*</span></label>
             <input
+              id="incidente-titulo"
               type="text" required
               value={form.titulo}
               onChange={e => setForm({ ...form, titulo: e.target.value })}
@@ -281,8 +282,9 @@ function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProp
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-semibold text-text mb-1">Categoría</label>
+              <label htmlFor="incidente-categoria" className="block text-sm font-semibold text-text mb-1">Categoría</label>
               <select
+                id="incidente-categoria"
                 value={form.categoria}
                 onChange={e => setForm({ ...form, categoria: e.target.value as Categoria })}
                 className="w-full rounded-lg border border-border px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -291,8 +293,9 @@ function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProp
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-text mb-1">Prioridad</label>
+              <label htmlFor="incidente-prioridad" className="block text-sm font-semibold text-text mb-1">Prioridad</label>
               <select
+                id="incidente-prioridad"
                 value={form.prioridad}
                 onChange={e => setForm({ ...form, prioridad: e.target.value as Prioridad })}
                 className="w-full rounded-lg border border-border px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -305,8 +308,9 @@ function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProp
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Ubicación</label>
+            <label htmlFor="incidente-ubicacion" className="block text-sm font-semibold text-text mb-1">Ubicación</label>
             <select
+              id="incidente-ubicacion"
               value={form.ubicacion}
               onChange={e => setForm({ ...form, ubicacion: e.target.value })}
               className="w-full rounded-lg border border-border px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -316,8 +320,9 @@ function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProp
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Descripción</label>
+            <label htmlFor="incidente-descripcion" className="block text-sm font-semibold text-text mb-1">Descripción</label>
             <textarea
+              id="incidente-descripcion"
               value={form.descripcion}
               onChange={e => setForm({ ...form, descripcion: e.target.value })}
               rows={3}
@@ -486,9 +491,10 @@ export default function Incidentes() {
   const [filtroPrioridad, setFiltroPrioridad] = useState<Prioridad | 'todas'>('todas')
   const [showNuevo, setShowNuevo] = useState(false)
 
-  const filtrados = incidentes
-    .filter(i => filtroEstado === 'todos' || i.estado === filtroEstado)
-    .filter(i => filtroPrioridad === 'todas' || i.prioridad === filtroPrioridad)
+  const filtrados = incidentes.filter(i =>
+    (filtroEstado === 'todos' || i.estado === filtroEstado) &&
+    (filtroPrioridad === 'todas' || i.prioridad === filtroPrioridad)
+  )
 
   const counts: Record<EstadoIncidente | 'todos', number> = {
     todos: incidentes.length,

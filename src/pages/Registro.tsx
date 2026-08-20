@@ -86,7 +86,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
     <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} style={{
       borderRadius: 16, overflow: 'hidden', border: '1px solid #E2E8F0', background: '#fff',
       boxShadow: hovered ? '0 12px 40px rgba(0,0,0,0.09)' : '0 2px 8px rgba(0,0,0,0.04)',
-      transform: hovered ? 'translateY(-3px)' : 'none', transition: 'all 0.25s ease',
+      transform: hovered ? 'translateY(-3px)' : 'none', transition: 'box-shadow 0.25s ease, transform 0.25s ease',
     }}>
       <div style={{ position: 'relative', height: 200, background: '#E2E8F0', overflow: 'hidden' }}>
         <img src={showBefore ? registro.antes : registro.despues} alt={showBefore ? 'Antes' : 'Después'} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.3s' }} />
@@ -95,7 +95,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
             <button key={label} onClick={e => { e.stopPropagation(); setShowBefore(i === 0) }} style={{
               padding: '4px 10px', borderRadius: 100, fontSize: 11, fontWeight: 600, cursor: 'pointer', border: 'none',
               background: (showBefore && i === 0) || (!showBefore && i === 1) ? '#fff' : 'rgba(255,255,255,0.5)',
-              color: '#00201B', transition: 'all 0.15s',
+              color: '#00201B', transition: 'background 0.15s',
             }}>{label}</button>
           ))}
         </div>
@@ -189,7 +189,7 @@ export default function Registro() {
               padding: '8px 16px', borderRadius: 100, fontSize: 13, fontWeight: 500, cursor: 'pointer', border: '1px solid',
               borderColor: activeCat === c ? '#0D9488' : '#E2E8F0',
               background: activeCat === c ? '#0D9488' : '#fff',
-              color: activeCat === c ? '#fff' : '#64748B', transition: 'all 0.15s',
+              color: activeCat === c ? '#fff' : '#64748B', transition: 'border-color 0.15s, background 0.15s, color 0.15s',
             }}>{c}</button>
           ))}
         </div>
@@ -306,7 +306,12 @@ export default function Registro() {
       {/* Detail modal */}
       {selected && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.65)', backdropFilter: 'blur(6px)' }} onClick={() => setSelected(null)} />
+          <button
+            type="button"
+            aria-label="Cerrar"
+            onClick={() => setSelected(null)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,32,27,0.65)', backdropFilter: 'blur(6px)', border: 'none', padding: 0, cursor: 'default' }}
+          />
           <div style={{ position: 'relative', background: '#fff', borderRadius: 20, width: '100%', maxWidth: 680, maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 32px 80px rgba(0,0,0,0.25)' }}>
             <div style={{ position: 'relative', height: 320, background: '#E2E8F0', overflow: 'hidden', borderRadius: '20px 20px 0 0' }}>
               <img
@@ -320,11 +325,11 @@ export default function Registro() {
                     padding: '8px 20px', borderRadius: 100, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: 'none',
                     background: (showBefore && i === 0) || (!showBefore && i === 1) ? '#fff' : 'rgba(255,255,255,0.4)',
                     color: (showBefore && i === 0) || (!showBefore && i === 1) ? '#00201B' : '#fff',
-                    transition: 'all 0.2s',
+                    transition: 'background 0.2s, color 0.2s',
                   }}>{label}</button>
                 ))}
               </div>
-              <button onClick={() => setSelected(null)} style={{ position: 'absolute', top: 16, right: 16, background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}>
+              <button onClick={() => setSelected(null)} aria-label="Cerrar" style={{ position: 'absolute', top: 16, right: 16, background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}>
                 ✕
               </button>
             </div>

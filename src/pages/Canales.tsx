@@ -133,10 +133,10 @@ export default function Canales() {
 
         {/* Channel cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 40 }}>
-          {channels.map((c, i) => {
+          {channels.map((c) => {
             const badge = urgenciaBadge[c.urgencia]
             return (
-              <div key={i} style={{
+              <div key={c.area} style={{
                 background: '#fff', border: '1px solid #E2E8F0', borderRadius: 16, padding: '24px 28px',
                 display: 'grid', gridTemplateColumns: '56px 1fr auto', gap: 20, alignItems: 'center',
                 transition: 'box-shadow 0.2s, border-color 0.2s',

@@ -53,6 +53,13 @@ const NAV_LINKS_BY_ROLE: Record<Role, { label: string; path: string; icon: React
   ],
 }
 
+const FLOATING_SIDEBAR_ITEMS = [
+  { id: 'reservar',    icon: <IconCalendar style={{ width: 17, height: 17 }} />, label: 'Reservar',   path: '/reservas',  bg: '#0D9488' },
+  { id: 'gastos',      icon: <IconDollar   style={{ width: 17, height: 17 }} />, label: 'Mis gastos', path: '/gastos',    bg: '#005047' },
+  { id: 'emergencia',  icon: <IconPhone    style={{ width: 17, height: 17 }} />, label: 'Emergencia', path: '/canales',   bg: '#E11D48' },
+  { id: 'tablon',      icon: <IconMessage  style={{ width: 17, height: 17 }} />, label: 'Tablón',     path: '/tablon',    bg: '#0D9488' },
+]
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AnnouncementRibbon — declared before Layout to avoid hoisting issues
 // ─────────────────────────────────────────────────────────────────────────────
@@ -115,8 +122,8 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
 
         {/* Dot indicators */}
         <div style={{ display: 'flex', gap: 4, flexShrink: 0 }} className="ribbon-dots">
-          {RIBBON_ITEMS.map((_, i) => (
-            <button key={i} onClick={() => { setIdx(i); setFading(false) }} style={{
+          {RIBBON_ITEMS.map((item, i) => (
+            <button key={item.text} aria-label={`Ver aviso ${i + 1} de ${RIBBON_ITEMS.length}`} onClick={() => { setIdx(i); setFading(false) }} style={{
               width: i === idx ? 14 : 5, height: 5, borderRadius: 3,
               background: i === idx ? '#5EEAD4' : 'rgba(255,255,255,0.3)',
               border: 'none', cursor: 'pointer', padding: 0,
@@ -126,7 +133,7 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
         </div>
 
         {/* Dismiss */}
-        <button onClick={onDismiss} style={{
+        <button onClick={onDismiss} aria-label="Cerrar aviso" style={{
           flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
           color: 'rgba(255,255,255,0.6)', padding: '2px 4px', lineHeight: 1,
           fontSize: 14, transition: 'color 0.15s',
@@ -145,13 +152,7 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
 
 function FloatingSidebar() {
   const [hovered, setHovered] = useState<string | null>(null)
-
-  const items = [
-    { id: 'reservar',    icon: <IconCalendar style={{ width: 17, height: 17 }} />, label: 'Reservar',   path: '/reservas',  bg: '#0D9488' },
-    { id: 'gastos',      icon: <IconDollar   style={{ width: 17, height: 17 }} />, label: 'Mis gastos', path: '/gastos',    bg: '#005047' },
-    { id: 'emergencia',  icon: <IconPhone    style={{ width: 17, height: 17 }} />, label: 'Emergencia', path: '/canales',   bg: '#E11D48' },
-    { id: 'tablon',      icon: <IconMessage  style={{ width: 17, height: 17 }} />, label: 'Tablón',     path: '/tablon',    bg: '#0D9488' },
-  ]
+  const items = FLOATING_SIDEBAR_ITEMS
 
   return (
     <div className="float-sidebar" style={{
@@ -377,7 +378,7 @@ export default function Layout() {
               display: 'flex', alignItems: 'center', gap: 5,
               fontSize: 12, fontWeight: 600, color: '#64748B',
               background: 'none', padding: '7px 12px', borderRadius: 7,
-              textDecoration: 'none', border: '1px solid #E2E8F0', transition: 'all 0.2s',
+              textDecoration: 'none', border: '1px solid #E2E8F0', transition: 'color 0.2s, border-color 0.2s',
             }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#00201B'; (e.currentTarget as HTMLElement).style.borderColor = '#CBD5E1' }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#64748B'; (e.currentTarget as HTMLElement).style.borderColor = '#E2E8F0' }}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router'
 
 interface FormState {
@@ -23,17 +23,17 @@ function validate(form: FormState): FieldError {
 export default function Login() {
   const [form, setForm] = useState<FormState>({ email: '', password: '' })
   const [errors, setErrors] = useState<FieldError>({})
-  const [submitted, setSubmitted] = useState(false)
+  const submitted = useRef(false)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
-    if (submitted) setErrors(validate({ ...form, [name]: value }))
+    if (submitted.current) setErrors(validate({ ...form, [name]: value }))
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setSubmitted(true)
+    submitted.current = true
     const errs = validate(form)
     setErrors(errs)
     if (Object.keys(errs).length === 0) {

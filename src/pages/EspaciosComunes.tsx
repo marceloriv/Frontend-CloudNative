@@ -174,33 +174,25 @@ function formatDeposito(deposito: number): string {
 }
 
 function DetalleModal({ espacio, onClose }: DetalleModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    dialogRef.current?.showModal();
     closeRef.current?.focus();
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  }, []);
+
+  const handleClose = () => dialogRef.current?.close();
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
       aria-labelledby="modal-title"
+      className="m-auto p-0 rounded-2xl bg-transparent backdrop:bg-black/60 backdrop:backdrop-blur-sm w-full max-w-2xl max-h-[90vh]"
     >
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
       {/* Panel */}
-      <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Image */}
         <div className="relative">
           <img
@@ -210,7 +202,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
           />
           <button
             ref={closeRef}
-            onClick={onClose}
+            onClick={handleClose}
             tabIndex={0}
             aria-label="Cerrar detalle"
             className="absolute top-3 right-3 bg-white/90 hover:bg-white text-text rounded-full w-9 h-9 flex items-center justify-center shadow transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
@@ -286,8 +278,8 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
               Reglas de uso
             </p>
             <ul className="space-y-1.5">
-              {espacio.reglas.map((regla, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-text">
+              {espacio.reglas.map((regla) => (
+                <li key={regla} className="flex items-start gap-2 text-sm text-text">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -346,7 +338,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
               </button>
             )}
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="px-4 py-2.5 border border-border rounded-lg text-sm font-medium text-muted hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               Cerrar
@@ -354,7 +346,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 }
 
@@ -514,6 +506,7 @@ export default function EspaciosComunes() {
             </svg>
             <input
               type="search"
+              aria-label="Buscar espacio"
               placeholder="Buscar espacio..."
               value={filtros.busqueda}
               onChange={(e) =>

@@ -42,6 +42,21 @@ interface QRCodeProps {
   size?: number
 }
 
+// Regions to skip (finder + quiet + timing + alignment)
+function isReserved(r: number, c: number) {
+  // Top-left finder + separator
+  if (r <= 7 && c <= 7) return true
+  // Top-right finder + separator
+  if (r <= 7 && c >= 13) return true
+  // Bottom-left finder + separator
+  if (r >= 13 && c <= 7) return true
+  // Timing
+  if (r === 6 || c === 6) return true
+  // Alignment
+  if (r >= 14 && r <= 18 && c >= 14 && c <= 18) return true
+  return false
+}
+
 function QRCode({ code, size = 200 }: QRCodeProps) {
   const GRID = 21
   const QUIET = 4
@@ -94,21 +109,6 @@ function QRCode({ code, size = 200 }: QRCodeProps) {
     const bitPos = Math.floor(bitIdx / charCodes.length) % 8
     bitIdx++
     return ((charCodes[idx] >> bitPos) & 1) === 1
-  }
-
-  // Regions to skip (finder + quiet + timing + alignment)
-  const isReserved = (r: number, c: number) => {
-    // Top-left finder + separator
-    if (r <= 7 && c <= 7) return true
-    // Top-right finder + separator
-    if (r <= 7 && c >= 13) return true
-    // Bottom-left finder + separator
-    if (r >= 13 && c <= 7) return true
-    // Timing
-    if (r === 6 || c === 6) return true
-    // Alignment
-    if (r >= 14 && r <= 18 && c >= 14 && c <= 18) return true
-    return false
   }
 
   for (let r = 0; r < GRID; r++) {
@@ -322,7 +322,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
           {/* Unidad destino (read-only) */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Unidad destino</label>
+            <p className="block text-sm font-semibold text-text mb-1">Unidad destino</p>
             <div className="rounded-lg border border-border bg-gray-50 px-3 py-2 text-muted text-sm">
               Torre A · Piso 12 · Unidad 1204
             </div>
@@ -330,10 +330,11 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Nombre */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">
+            <label htmlFor="visita-nombre" className="block text-sm font-semibold text-text mb-1">
               Nombre del visitante <span className="text-alert-red">*</span>
             </label>
             <input
+              id="visita-nombre"
               type="text"
               required
               value={form.nombre}
@@ -345,8 +346,9 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* RUT */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">RUT / Documento</label>
+            <label htmlFor="visita-documento" className="block text-sm font-semibold text-text mb-1">RUT / Documento</label>
             <input
+              id="visita-documento"
               type="text"
               value={form.documento}
               onChange={(e) => setForm({ ...form, documento: e.target.value })}
@@ -357,10 +359,11 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Fecha */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">
+            <label htmlFor="visita-fecha" className="block text-sm font-semibold text-text mb-1">
               Fecha de visita <span className="text-alert-red">*</span>
             </label>
             <input
+              id="visita-fecha"
               type="date"
               required
               min={todayStr()}
@@ -372,8 +375,9 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Hora */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Hora estimada de llegada</label>
+            <label htmlFor="visita-hora" className="block text-sm font-semibold text-text mb-1">Hora estimada de llegada</label>
             <select
+              id="visita-hora"
               value={form.hora}
               onChange={(e) => setForm({ ...form, hora: e.target.value })}
               className="w-full rounded-lg border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-primary/40 bg-white"
@@ -386,8 +390,9 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Motivo */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">Motivo</label>
+            <label htmlFor="visita-motivo" className="block text-sm font-semibold text-text mb-1">Motivo</label>
             <select
+              id="visita-motivo"
               value={form.motivo}
               onChange={(e) => setForm({ ...form, motivo: e.target.value })}
               className="w-full rounded-lg border border-border px-3 py-2 text-text focus:outline-none focus:ring-2 focus:ring-primary/40 bg-white"
@@ -400,11 +405,12 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Observaciones */}
           <div>
-            <label className="block text-sm font-semibold text-text mb-1">
+            <label htmlFor="visita-observaciones" className="block text-sm font-semibold text-text mb-1">
               Observaciones
               <span className="text-muted font-normal ml-1">(opcional)</span>
             </label>
             <textarea
+              id="visita-observaciones"
               value={form.observaciones}
               onChange={(e) => {
                 if (e.target.value.length <= 200) {
@@ -442,8 +448,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
 // ─── StatusBadge ──────────────────────────────────────────────────────────────
 
-function StatusBadge({ estado }: { estado: EstadoVisita }) {
-  const map: Record<EstadoVisita, { label: string; icon: string; className: string }> = {
+const STATUS_BADGE_MAP: Record<EstadoVisita, { label: string; icon: string; className: string }> = {
     pendiente_qr: {
       label: 'Pendiente QR',
       icon: '⏳',
@@ -470,7 +475,9 @@ function StatusBadge({ estado }: { estado: EstadoVisita }) {
       className: 'bg-gray-100 text-muted',
     },
   }
-  const { label, icon, className } = map[estado]
+
+function StatusBadge({ estado }: { estado: EstadoVisita }) {
+  const { label, icon, className } = STATUS_BADGE_MAP[estado]
   return (
     <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${className}`}>
       {icon && <span>{icon}</span>}
@@ -529,6 +536,7 @@ function RechazoModal({ onConfirm, onCancel }: RechazoModalProps) {
       <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 flex flex-col gap-4">
         <h3 className="font-display text-xl text-text">Motivo de rechazo</h3>
         <textarea
+          aria-label="Motivo de rechazo"
           value={motivo}
           onChange={(e) => setMotivo(e.target.value)}
           rows={3}
@@ -625,6 +633,7 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
         <form onSubmit={handleSearch} className="flex gap-2">
           <input
             type="text"
+            aria-label="Código de acceso"
             value={searchCode}
             onChange={(e) => {
               setSearchCode(e.target.value)
@@ -725,8 +734,8 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {LOG_ENTRIES.map((entry, i) => (
-                <tr key={i} className="hover:bg-gray-50 transition-colors">
+              {LOG_ENTRIES.map((entry) => (
+                <tr key={`${entry.hora}-${entry.visitante}-${entry.accion}`} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 font-mono text-text">{entry.hora}</td>
                   <td className="px-4 py-3 text-text font-medium">{entry.visitante}</td>
                   <td className="px-4 py-3 text-muted">{entry.unidad}</td>

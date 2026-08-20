@@ -180,15 +180,17 @@ function Counter({ target, suffix }: StatItem) {
   return <span ref={ref}>{val.toLocaleString('es-CL')}{suffix}</span>
 }
 
+const HERO_QUICK_LINKS = [
+  { icon: <IconCalendar style={{ width: 18, height: 18 }} />, label: 'Reservar espacio', path: '/espacios',  color: '#0D9488' },
+  { icon: <IconDollar   style={{ width: 18, height: 18 }} />, label: 'Pagar gastos',    path: '/gastos',    color: '#005047' },
+  { icon: <IconMessage  style={{ width: 18, height: 18 }} />, label: 'Ver tablón',      path: '/tablon',    color: '#0D9488' },
+  { icon: <IconShield   style={{ width: 18, height: 18 }} />, label: 'Emergencias',     path: '/canales',   color: '#E11D48' },
+  { icon: <IconTrendingUp style={{ width: 18, height: 18 }} />, label: 'Dashboard',     path: '/dashboard', color: '#14B8A6' },
+  { icon: <IconCamera   style={{ width: 18, height: 18 }} />, label: 'Registro fotos',  path: '/registro',  color: '#0D9488' },
+]
+
 function HeroSection() {
-  const quickLinks = [
-    { icon: <IconCalendar style={{ width: 18, height: 18 }} />, label: 'Reservar espacio', path: '/espacios',  color: '#0D9488' },
-    { icon: <IconDollar   style={{ width: 18, height: 18 }} />, label: 'Pagar gastos',    path: '/gastos',    color: '#005047' },
-    { icon: <IconMessage  style={{ width: 18, height: 18 }} />, label: 'Ver tablón',      path: '/tablon',    color: '#0D9488' },
-    { icon: <IconShield   style={{ width: 18, height: 18 }} />, label: 'Emergencias',     path: '/canales',   color: '#E11D48' },
-    { icon: <IconTrendingUp style={{ width: 18, height: 18 }} />, label: 'Dashboard',     path: '/dashboard', color: '#14B8A6' },
-    { icon: <IconCamera   style={{ width: 18, height: 18 }} />, label: 'Registro fotos',  path: '/registro',  color: '#0D9488' },
-  ]
+  const quickLinks = HERO_QUICK_LINKS
 
   return (
     <section style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
@@ -344,13 +346,13 @@ function ModuleTabs() {
         {/* Tab bar */}
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
           {MODULOS.map((mod, i) => (
-            <button key={i} onClick={() => setActive(i)} style={{
+            <button key={mod.label} onClick={() => setActive(i)} style={{
               display: 'flex', alignItems: 'center', gap: 7, padding: '9px 18px',
               borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: '1.5px solid',
               borderColor: active === i ? '#0D9488' : '#E2E8F0',
               background: active === i ? '#0D9488' : '#fff',
               color: active === i ? '#fff' : '#64748B',
-              transition: 'all 0.18s',
+              transition: 'border-color 0.18s, background 0.18s, color 0.18s',
             }}>
               {mod.icon} {mod.label}
             </button>
@@ -408,7 +410,7 @@ function HowItWorks() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }} className="steps-grid">
             {PASOS.map((p, i) => (
-              <div key={i} style={{ textAlign: 'center', padding: '0 16px', position: 'relative', zIndex: 1 }}>
+              <div key={p.titulo} style={{ textAlign: 'center', padding: '0 16px', position: 'relative', zIndex: 1 }}>
                 <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: i === 0 ? '#0D9488' : '#fff', border: `3px solid ${i === 0 ? '#0D9488' : '#CCFBF1'}`, boxShadow: '0 4px 20px rgba(13,148,136,0.14)' }}>
                   <span style={{ fontFamily: 'Gloock,Georgia,serif', fontSize: 24, color: i === 0 ? '#fff' : '#0D9488', fontWeight: 400 }}>{i + 1}</span>
                 </div>
@@ -426,33 +428,35 @@ function HowItWorks() {
   )
 }
 
+const FEATURE_SECTIONS = [
+  {
+    imgLeft: false,
+    img: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=560&fit=crop&auto=format',
+    label: 'Transparencia de gastos',
+    headline: 'Cada peso del condominio, visible para todos',
+    body: 'El Dashboard de Transparencia centraliza todos los gastos con su respectiva boleta adjunta. Ningún residente tiene que confiar a ciegas.',
+    stats: [{ val: '$7.2M', sub: 'Acumulado 2026' }, { val: '100%', sub: 'Con boleta adjunta' }],
+    cta: { label: 'Ver dashboard', path: '/dashboard' },
+  },
+  {
+    imgLeft: true,
+    img: 'https://images.unsplash.com/photo-1763479142280-675629f6db27?w=800&h=560&fit=crop&auto=format',
+    label: 'Espacios comunes',
+    headline: '7 espacios disponibles para reservar hoy',
+    body: 'Desde el Quincho Los Aromos hasta la Sala de Juegos / Cowork. Filtra, reserva y paga en segundos con tu método preferido.',
+    stats: [{ val: '7', sub: 'Espacios disponibles' }, { val: '3', sub: 'Métodos de pago' }],
+    cta: { label: 'Ver espacios', path: '/reservas' },
+  },
+]
+
 function FeatureSections() {
-  const sections = [
-    {
-      imgLeft: false,
-      img: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=560&fit=crop&auto=format',
-      label: 'Transparencia de gastos',
-      headline: 'Cada peso del condominio, visible para todos',
-      body: 'El Dashboard de Transparencia centraliza todos los gastos con su respectiva boleta adjunta. Ningún residente tiene que confiar a ciegas.',
-      stats: [{ val: '$7.2M', sub: 'Acumulado 2026' }, { val: '100%', sub: 'Con boleta adjunta' }],
-      cta: { label: 'Ver dashboard', path: '/dashboard' },
-    },
-    {
-      imgLeft: true,
-      img: 'https://images.unsplash.com/photo-1763479142280-675629f6db27?w=800&h=560&fit=crop&auto=format',
-      label: 'Espacios comunes',
-      headline: '7 espacios disponibles para reservar hoy',
-      body: 'Desde el Quincho Los Aromos hasta la Sala de Juegos / Cowork. Filtra, reserva y paga en segundos con tu método preferido.',
-      stats: [{ val: '7', sub: 'Espacios disponibles' }, { val: '3', sub: 'Métodos de pago' }],
-      cta: { label: 'Ver espacios', path: '/reservas' },
-    },
-  ]
+  const sections = FEATURE_SECTIONS
 
   return (
     <section style={{ background: '#fff', padding: '100px 24px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 96 }}>
-        {sections.map((s, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', direction: s.imgLeft ? 'rtl' : 'ltr' }} className="alt-grid">
+        {sections.map((s) => (
+          <div key={s.label} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center', direction: s.imgLeft ? 'rtl' : 'ltr' }} className="alt-grid">
             <div style={{ borderRadius: 20, overflow: 'hidden', height: 360, background: '#E2E8F0', boxShadow: '0 20px 60px rgba(0,0,0,0.1)', direction: 'ltr' }}>
               <img src={s.img} alt={s.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
@@ -468,7 +472,7 @@ function FeatureSections() {
                   </div>
                 ))}
               </div>
-              <Link to={s.cta.path} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '2px solid #0D9488', color: '#0D9488', fontWeight: 700, fontSize: 14, padding: '11px 22px', borderRadius: 10, textDecoration: 'none', transition: 'all 0.2s' }}
+              <Link to={s.cta.path} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: '2px solid #0D9488', color: '#0D9488', fontWeight: 700, fontSize: 14, padding: '11px 22px', borderRadius: 10, textDecoration: 'none', transition: 'background 0.2s, color 0.2s' }}
                 onMouseEnter={e => { e.currentTarget.style.background = '#0D9488'; e.currentTarget.style.color = '#fff' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#0D9488' }}>
                 {s.cta.label} <IconChevronRight style={{ width: 14, height: 14 }} />
@@ -491,8 +495,8 @@ function TestimonialsSection() {
           <h2 style={{ fontFamily: 'Gloock,Georgia,serif', fontSize: 'clamp(28px,3.5vw,42px)', color: '#00201B', lineHeight: 1.2, margin: 0, fontWeight: 400 }}>La comunidad habla</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }} className="testi-grid">
-          {TESTIMONIOS.map((t, i) => (
-            <div key={i} style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 18, padding: '32px 28px', transition: 'box-shadow 0.2s, transform 0.2s' }}
+          {TESTIMONIOS.map((t) => (
+            <div key={t.nombre} style={{ background: '#fff', border: '1px solid #E2E8F0', borderRadius: 18, padding: '32px 28px', transition: 'box-shadow 0.2s, transform 0.2s' }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(13,148,136,0.09)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
               <div style={{ fontSize: 48, color: '#CCFBF1', fontFamily: 'Georgia,serif', lineHeight: 1, marginBottom: 16 }}>"</div>
@@ -524,8 +528,8 @@ function PricingSection() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 20, alignItems: 'stretch' }} className="pricing-grid">
-          {PRICING.map((plan, i) => (
-            <div key={i} style={{
+          {PRICING.map((plan) => (
+            <div key={plan.name} style={{
               borderRadius: 20, padding: plan.highlight ? '40px 28px' : '32px 28px',
               background: plan.highlight ? '#0D9488' : 'rgba(255,255,255,0.05)',
               border: `1px solid ${plan.highlight ? '#0D9488' : 'rgba(255,255,255,0.1)'}`,

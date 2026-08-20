@@ -6,13 +6,11 @@ import Home from '../pages/Home'
 import Reservas from '../pages/Reservas'
 import Gastos from '../pages/Gastos'
 import Tablon from '../pages/Tablon'
-import Dashboard from '../pages/Dashboard'
 import Canales from '../pages/Canales'
 import Registro from '../pages/Registro'
 import Precios from '../pages/Precios'
 import Login from '../pages/Login'
 import RegistroCuenta from '../pages/RegistroCuenta'
-import ResidenteDashboard from '../pages/ResidenteDashboard'
 import EspaciosComunes from '../pages/EspaciosComunes'
 import Visitas from '../pages/Visitas'
 import Incidentes from '../pages/Incidentes'
@@ -38,7 +36,8 @@ const router = createBrowserRouter([
       {
         element: <ProtectedRoute allowedRoles={['residente']} />,
         children: [
-          { path: 'mi-dashboard', Component: ResidenteDashboard },
+          // recharts es pesada — lazy-load para no meterla en el chunk principal.
+          { path: 'mi-dashboard', lazy: () => import('../pages/ResidenteDashboard').then(m => ({ Component: m.default })) },
         ],
       },
 
@@ -72,7 +71,8 @@ const router = createBrowserRouter([
       {
         element: <ProtectedRoute allowedRoles={['admin']} />,
         children: [
-          { path: 'dashboard', Component: Dashboard },
+          // recharts es pesada — lazy-load para no meterla en el chunk principal.
+          { path: 'dashboard', lazy: () => import('../pages/Dashboard').then(m => ({ Component: m.default })) },
         ],
       },
     ],
