@@ -1,114 +1,279 @@
-# AGENTS.md
+# Convivo — AGENTS.md
 
-## 0. Jerarquía de reglas
+Guía de referencia para agentes de código que trabajen en este repositorio.
+Describe el estado **real y actual** del código. Las secciones marcadas **PENDIENTE** reflejan deuda documentada, no funcionalidad implementada.
 
-Cuando dos reglas de este archivo entran en conflicto, se resuelven en este orden:
-1. Seguridad y corrección — nunca se sacrifican por ninguna otra regla.
-2. Convenciones del proyecto (stack, estilo, arquitectura) — se siguen salvo instrucción explícita en contrario.
-3. Minimalismo (sección 5, disciplina Ponytail) — se aplica solo después de satisfacer 1 y 2.
+---
 
-Las secciones que no aplican al repo están marcadas N/A — no inventar contenido.
+## 1. Jerarquía de reglas
 
-## 1. Resumen del proyecto
+1. **Seguridad y corrección** — nunca introducir XSS, injection, race conditions, o lógica de autenticación rota. Un bug de seguridad cancela cualquier otra prioridad.
+2. **Convenciones del proyecto** — respetar la estructura de carpetas, el sistema de diseño (tokens, fuentes), la API de react-router v8, y los patrones de roles/guards ya establecidos.
+3. **Minimalismo (Ponytail)** — no agregar abstracciones, dependencias, ni carpetas que el código no necesite hoy. Tres líneas similares son preferibles a una abstracción prematura.
 
-SPA personal `frontend-cloudnative` (Vite 8 + React 19). Aún template stock de Vite: sin router, sin librería de estado, sin API client, sin páginas propias — el nombre "Cloud Native" es aspiracional. Entrada: `src/main.jsx` → `src/App.jsx`.
+Secciones no aplicables a este proyecto: N/A (todas son relevantes).
 
-**Paleta de diseño del proyecto:**
+---
 
-| Rol | Valor |
-|-----|-------|
-| Primario | `#0D9488` (teal) |
-| Secundario | `#134E4A` (verde oscuro) |
-| Fondo | `#F0FDFA` |
-| Alerta | `#E11D48` |
-| Advertencia | `#EAB308` |
+## 2. Resumen del proyecto
 
-Nota: el CSS del template (`src/index.css`, `src/App.css`) todavía usa acento púrpura — aún no está adaptado a esta paleta.
+**Convivo** es una plataforma web de gestión para condominios residenciales en Chile. Permite a residentes, conserjes y administradores gestionar reservas de espacios, gastos comunes, visitas, incidentes y comunicación interna.
 
-## 2. Stack técnico
+### Pantallas implementadas
 
-- Lenguaje: JavaScript (JSX), sin TypeScript, sin typecheck
-- Node: 24 (Active LTS Krypton; fijado en `.github/workflows/deploy.yml`; sin campo `engines` en `package.json`)
-- Framework: React 19 (`react@^19.2.8`, `react-dom@^19.2.8`) + Vite 8 (`vite@^8.2.0`) vía `@vitejs/plugin-react@^6.0.4`
-- Gestor: npm (`"type": "module"`)
-- **React Compiler habilitado** vía `@rolldown/plugin-babel` + `reactCompilerPreset` en `vite.config.js`
-- CSS: plano, importado por componente (`index.css`, `App.css`); sin CSS modules
-- Lint: ESLint 10 (`eslint@^10.8.0`), flat config `eslint.config.js` (react-hooks + react-refresh)
+| Ruta | Componente | Roles con acceso |
+|---|---|---|
+| `/` | `Home` | público |
+| `/login` | `Login` | público |
+| `/crear-cuenta` | `RegistroCuenta` | público |
+| `/precios` | `Precios` | público |
+| `/tablon` | `Tablon` | todos |
+| `/canales` | `Canales` | todos |
+| `/visitas` | `Visitas` | todos (vista adapta por rol) |
+| `/incidentes` | `Incidentes` | todos (acciones adaptan por rol) |
+| `/mi-dashboard` | `ResidenteDashboard` | residente |
+| `/espacios` | `EspaciosComunes` | residente |
+| `/reservas` | `Reservas` | residente |
+| `/gastos` | `Gastos` | residente |
+| `/registro` | `Registro` | conserje, admin |
+| `/dashboard` | `Dashboard` | admin |
 
-## 3. Comandos de setup
+---
+
+## 3. Stack técnico
+
+### Entorno
+
+- **Node** 24 (Active LTS; fijado en `.github/workflows/deploy.yml`)
+- **npm** (`"type": "module"`)
+- **TypeScript** ^7.0.2 (devDep; verificar versión real con `npx tsc --version`)
+
+### Dependencias de runtime
+
+| Paquete | Versión | Uso |
+|---|---|---|
+| `react` | ^19.0.0 | UI |
+| `react-dom` | ^19.0.0 | Renderer |
+| `react-router` | ^8.3.0 | Routing (Data Mode) |
+| `recharts` | ^3.10.1 | Gráficos (BarChart en Dashboard, AreaChart sparklines en ResidenteDashboard) |
+| `cuelume` | ^0.2.2 | Feedback sonoro en botones clave |
+
+### Dependencias de desarrollo
+
+| Paquete | Uso |
+|---|---|
+| `vite` | Bundler / dev server |
+| `@vitejs/plugin-react` | Fast Refresh + JSX |
+| `tailwindcss` + `@tailwindcss/vite` | CSS utility framework (sin PostCSS) |
+| `oxfmt` | Formatter (sustituye Prettier) |
+| `eslint` + `typescript-eslint` + `eslint-plugin-react-hooks` + `eslint-plugin-react-refresh` | Lint |
+| `@types/react`, `@types/react-dom`, `@types/node` | Tipos TS |
+
+### Lo que deliberadamente NO hay
+
+- Sin librería de animación — CSS keyframes puro en `src/index.css`
+- Sin librería de íconos — SVG inline a mano en `src/components/icons/Icons.tsx`
+- Sin librería de formularios — `useState` + validación propia por componente
+- Sin generador de QR externo — SVG algorítmico implementado en `src/pages/Visitas.tsx`
+- Sin `tailwind.config.js` ni `postcss.config.js` — Tailwind v4 se configura enteramente vía `@theme inline` en `src/index.css`
+- Sin React Router `BrowserRouter`/`Routes` — se usa exclusivamente la API Data Mode
+
+---
+
+## 4. Estructura de carpetas
+
+```
+/
+├── src/
+│   ├── App.tsx                    # thin: AuthProvider + RouterProvider
+│   ├── main.tsx                   # entrypoint: bind() de cuelume + ReactDOM.createRoot
+│   ├── index.css                  # Tailwind import + @theme inline tokens + keyframes CSS
+│   ├── vite-env.d.ts
+│   │
+│   ├── pages/                     # un archivo por ruta
+│   │   ├── Home.tsx
+│   │   ├── Login.tsx
+│   │   ├── RegistroCuenta.tsx
+│   │   ├── ResidenteDashboard.tsx
+│   │   ├── EspaciosComunes.tsx
+│   │   ├── Reservas.tsx
+│   │   ├── Gastos.tsx
+│   │   ├── Visitas.tsx
+│   │   ├── Incidentes.tsx
+│   │   ├── Tablon.tsx
+│   │   ├── Canales.tsx
+│   │   ├── Registro.tsx
+│   │   ├── Dashboard.tsx
+│   │   └── Precios.tsx
+│   │
+│   ├── components/                # componentes reutilizables entre pantallas
+│   │   ├── Layout.tsx             # shell con nav, ribbon, footer, FloatingSidebar
+│   │   ├── FlipCard.tsx           # tarjeta con animación flip CSS
+│   │   └── icons/
+│   │       └── Icons.tsx          # todos los SVG exportados como IconXxx
+│   │
+│   ├── routes/                    # definición de rutas y guards
+│   │   ├── router.tsx             # createBrowserRouter con guards por rol
+│   │   └── ProtectedRoute.tsx     # componente guard: valida rol o redirige
+│   │
+│   ├── hooks/
+│   │   └── useAuth.tsx            # AuthContext + AuthProvider + useAuth()
+│   │
+│   ├── types/
+│   │   └── index.ts               # Role, User (tipos compartidos)
+│   │
+│   └── lib/
+│       └── data.ts                # datos estáticos compartidos (spaces, gastos, avisos, channels, registroFotos)
+│
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+└── package.json
+```
+
+---
+
+## 5. Estilo de código
+
+### TypeScript
+
+- Componentes funcionales con tipado explícito. Props siempre via `interface`, nunca `type` inline en el parámetro ni `PropTypes`.
+- Un componente de export default por archivo. Sub-componentes de apoyo se definen en el mismo archivo si solo los usa esa página.
+- Sin `any`. Sin `as unknown as X` a menos que sea inevitable y comentado.
+- JSX en archivos `.tsx`. Hooks sin JSX en `.ts` (excepción: `useAuth.tsx` usa JSX para el Provider).
+
+### Sistema de diseño
+
+Fuentes cargadas vía Google Fonts CSS2 `@import` al tope de `src/index.css`:
+
+| Token CSS | Familia | Uso |
+|---|---|---|
+| `--font-display` | Gloock (serif) | Headings, display |
+| `--font-body` | Inter (sans) | Cuerpo, UI, labels |
+
+Clases Tailwind: `font-display` y `font-body` (mapeadas desde los tokens vía `@theme inline`).
+
+Paleta de colores (tokens en `@theme inline`, usar **clases Tailwind** — nunca hex sueltos en JSX):
+
+| Token | Valor | Clase Tailwind | Uso |
+|---|---|---|---|
+| `--color-primary` | `#0D9488` | `text-primary`, `bg-primary` | Acción principal, énfasis |
+| `--color-accent` | `#005047` | `text-accent`, `bg-accent` | Hover sobre primary, acento oscuro |
+| `--color-text` | `#00201B` | `text-text` | Texto base |
+| `--color-muted` | `#64748B` | `text-muted` | Labels, metadata |
+| `--color-border` | `#E2E8F0` | `border-border` | Bordes de cards y separadores |
+| `--color-surface` | `#FFFFFF` | `bg-surface` | Fondo de cards |
+| `--color-alert-red` | `#E11D48` | `text-alert-red`, `bg-alert-red` | Error, peligro |
+| `--color-alert-yellow` | `#EAB308` | `bg-alert-yellow` | Advertencia — siempre con `text-text`, **nunca `text-white`** |
+
+> **Regla de contraste para advertencias:** los badges amarillos (`bg-alert-yellow`) deben usar `text-text` (#00201B). El texto blanco sobre amarillo falla WCAG AA.
+
+### Animaciones CSS
+
+Definidas en `src/index.css` con `@keyframes`. Clases utilitarias: `.cv-hero-badge`, `.cv-hero-h1`, `.cv-blob`, etc. Todas respetan `@media (prefers-reduced-motion: reduce)`.
+
+---
+
+## 6. Roles y permisos
+
+### Modelo de roles
+
+Definido en `src/types/index.ts`:
+
+```ts
+type Role = 'residente' | 'conserje' | 'admin'
+```
+
+> **Nota:** el ERS menciona un cuarto rol `committee` (comité) y un rol `Propietario` detectado en el ERS funcional de la compañera (ver `../ers-funcional-companera.md`). Ninguno está implementado todavía en el frontend. `admin` cubre parcialmente las responsabilidades de comité mientras tanto.
+
+### Estado de sesión
+
+**No hay autenticación real implementada.** El rol vive en React state dentro de `AuthProvider` (`src/hooks/useAuth.tsx`), se inicializa como `'residente'` y no persiste entre recargas. En producción esto debe reemplazarse por sesión real vía **Azure Entra ID** (OIDC, ver `../ERS.md` §4.6 y `../mvp.md` §7) — Authorization Code + PKCE, JWT devuelto directo al frontend.
+
+Para demo/desarrollo, el Layout expone un **role switcher** en la barra de navegación que permite cambiar entre `residente`, `conserje` y `admin` en tiempo real.
+
+### Route guards
+
+`src/routes/ProtectedRoute.tsx` — componente de layout de react-router que recibe `allowedRoles: Role[]`. Si el rol activo no está en la lista, redirige a `/` (configurable con `redirectTo`).
+
+```tsx
+<ProtectedRoute allowedRoles={['admin']} />
+<ProtectedRoute allowedRoles={['conserje', 'admin']} />
+```
+
+Usado en `src/routes/router.tsx` como elemento de layout intermedio (sin path propio).
+
+### Vista adaptativa por rol
+
+Algunas rutas son accesibles a todos los roles pero renderizan contenido diferente según el rol activo:
+
+- `/visitas` — residente ve sus visitas + pre-registro; conserje ve panel de validación QR; admin ve ambas vistas con tab selector.
+- `/incidentes` — todos pueden crear; conserje/admin pueden cambiar estado; solo admin puede asignar responsable.
+
+---
+
+## 7. Pruebas
+
+**No hay testing configurado en este repositorio.**
+
+El entorno no tiene Vitest, React Testing Library, ni ningún runner de tests instalado. No hay archivos `*.test.ts`, `*.spec.ts`, ni carpeta `__tests__`.
+
+**Deuda pendiente (según ERS):**
+- Configurar Vitest + React Testing Library
+- Cobertura mínima requerida: 60% de líneas
+- Prioridad de cobertura: guards de roles, lógica de validación de formularios, generación de código QR
+
+---
+
+## 8. Comandos de setup
 
 ```bash
-npm install          # instalar
-npm run dev          # levantar entorno local (HMR)
-npm run build        # build producción a dist/
-npm run preview      # servir el build
-npm run lint         # eslint . (config flat)
-npx -y react-doctor@latest --verbose   # chequeo de calidad React (perf/bugs/a11y)
+npm install           # instalar
+npm run dev           # servidor de desarrollo (HMR)
+npm run build         # build de producción a dist/
+npm run preview       # preview del build
+npm run lint          # eslint .
+npm run format        # oxfmt
+npm run typecheck     # tsc --noEmit
 ```
 
-Tests: NO existe runner ni script de test, ni typecheck (ver §6). Para react-doctor, verificar con `--verbose` y confirmar que el diagnóstico puntual desapareció.
+---
 
-## 4. Estilo de código
+## 9. Gotchas del proyecto
 
-Regla: componentes funcionales con hooks, nunca clases. Un componente por archivo, `export default`. JSX plano; sin PropTypes ni TS. CSS por componente; colores de la paleta (§1) cuando se adapten, no hex sueltos.
+### Tailwind v4 sin archivo de configuración
+No existe `tailwind.config.js` ni `postcss.config.js`. Tailwind se carga como plugin de Vite (`@tailwindcss/vite`). Los tokens de color y tipografía se definen en el bloque `@theme inline` dentro de `src/index.css`. Agregar tokens nuevos ahí, no en un archivo de config separado.
 
-```jsx
-function App() {
-  const [count, setCount] = useState(0)
-  return (
-    <button type="button" onClick={() => setCount((count) => count + 1)}>
-      Count is {count}
-    </button>
-  )
-}
-export default App
-```
+### react-router v8 Data Mode (no la API clásica)
+Este proyecto usa `createBrowserRouter` + `RouterProvider` + `Outlet`. **No usar** `BrowserRouter`, `Routes`, ni `<Route>` JSX clásico. Los guards de rol se implementan como elementos de layout con `Outlet`, no como wrappers ad-hoc. Ver `src/routes/router.tsx`.
 
-**Reglas React Compiler** (el compilador memoiza solo): no añadir `useMemo`/`useCallback`/`React.memo` a mano; nunca mutar props ni objetos de estado; hooks estables. `react-doctor` valida. StrictMode on en `src/main.jsx`.
+### El QR de Visitas no es escaneable
+El componente `QRCode` en `src/pages/Visitas.tsx` genera un SVG con estética de QR pero **no es un QR válido**. Es un mockup visual. Los patrones finder y datos son algorítmicos pero no siguen ISO 18004. No reemplazar sin evaluar una librería real (ej. `qrcode`, `qr-code-styling`).
 
-## 5. Disciplina anti-sobreingeniería (Ponytail)
+### recharts: forzar pre-bundling en Vite
+`recharts` está en `optimizeDeps.include` en `vite.config.ts`. Sin esto, Vite puede fallar al importarlo dinámicamente. Ya está configurado — no remover esa entrada.
 
-Escalera de decisión antes de escribir código nuevo:
-1. ¿Es necesario construir esto? (YAGNI)
-2. ¿La librería estándar ya lo resuelve? Úsala.
-3. ¿Una función nativa de la plataforma lo cubre? Úsala.
-4. ¿Una dependencia ya instalada lo resuelve? Úsala.
-5. ¿Se puede resolver en una línea? Hazlo en una línea.
-6. Solo entonces: escribe el mínimo código funcional.
+### cuelume: sin equivalente a reduced-motion
+`cuelume` llama a `bind()` globalmente en `src/main.tsx` y no expone integración con `prefers-reduced-motion`. Los usuarios con esa preferencia activa seguirán escuchando sonidos. **Deuda de accesibilidad pendiente:** detectar `prefers-reduced-motion` y llamar a `setEnabled(false)` de cuelume si está activa.
 
-No aplicar pereza en: comprensión completa del problema, validación de inputs en fronteras de confianza, manejo de errores que previene pérdida de datos, seguridad, accesibilidad, y cualquier cosa explícitamente solicitada.
+### Autenticación es mock — sin persistencia
+El rol se guarda solo en React state. Una recarga devuelve al usuario a `'residente'`. Reemplazar por Entra ID (ver §6) es deuda pendiente, no solo "agregar backend".
 
-Toda lógica no trivial deja una verificación ejecutable mínima (assert o test pequeño).
+### `useAuth.tsx` con extensión `.tsx`
+El archivo exporta `AuthProvider` que incluye JSX, por eso tiene extensión `.tsx` aunque sea principalmente un hook. Si se refactoriza para separar Provider y hook, el archivo del hook puede volver a `.ts`.
 
-No crear carpetas standby (`api/`, `services/`, `context/`, `utils/`) — YAGNI.
+### `.codegraph/` NO existe
+Usar herramientas de archivos normales (Read/Grep/Glob), no codegraph.
 
-## 6. Pruebas unitarias
+### `public/` (`favicon.svg`, `icons.svg`) se referencia por URL absoluta
+`/favicon.svg`, no ruta relativa.
 
-N/A — no existe runner ni script de test en este repo. No agregar uno para esta SPA. Gates de verificación: `npm run lint` + `npx react-doctor@latest --verbose` + `npm run build`.
+### Skills locales versionadas en git
+`.claude/skills/` y `.agents/skills/` (react-best-practices, composition-patterns, frontend-design, vite, accessibility, seo, nodejs-backend-patterns, nodejs-best-practices; instaladas en ambas rutas). El equipo comparte las mismas skills; `skills-lock.json` garantiza instalación reproducible. Cargar con `skill`.
 
-## 7. Métricas de claridad
+---
 
-| Métrica | Umbral | Cómo medir |
-|---|---|---|
-| Longitud de función | ≤ 40 líneas | revisión manual |
-| Nesting | ≤ 3 niveles | revisión manual |
-| Complejidad ciclomática | N/A (sin herramienta instalada) | — |
-
-## 8. Procedimientos QA
-
-Checklist pre-entrega: `npm run lint` limpio, `npm run build` sin errores, `react-doctor` sin diagnósticos confirmados, sin secrets hardcodeados, documentación al día.
-
-| Severidad | Acción |
-|---|---|
-| Crítico | bloquea el cambio (build roto, secrets expuestos) |
-| Mayor | corregir antes de dar por hecho el cambio |
-| Menor | nota post-merge |
-
-## 9. Seguridad
-
-SPA estático, sin backend. Nunca commitear secrets/tokens. Validar inputs solo si aparece una frontera de confianza (hoy no hay backend ni entradas de usuario).
-
-## 10. Commits y PR (git inicializado — branch `main`, sin commits aún; aplicar al primer commit)
+## 10. Commits y PR
 
 Conventional Commits v1.0.0. Formato: `:emoji: <tipo>(<alcance>)?(!)?: <sujeto>`
 
@@ -136,21 +301,14 @@ Conventional Commits v1.0.0. Formato: `:emoji: <tipo>(<alcance>)?(!)?: <sujeto>`
 
 ## 11. Límites del agente (nunca tocar sin aprobación explícita)
 
-- `.github/workflows/react-doctor.yml` — React Doctor en CI (advisory; no bloquea PRs). Existe hoy; listo para cuando se pushee a GitHub.
-- `.github/workflows/deploy.yml` — build + lint + deploy a GitHub Pages en push a `main`. Requiere Settings → Pages → Source: GitHub Actions. `vite.config.js` usa `base` dinámico vía `GITHUB_REPOSITORY` — no hardcodear el nombre del repo.
+- `.github/workflows/react-doctor.yml` — React Doctor en CI (advisory; no bloquea PRs).
+- `.github/workflows/deploy.yml` — build + lint + deploy a GitHub Pages en push a `main`. Requiere Settings → Pages → Source: GitHub Actions. `vite.config.ts` usa `base` dinámico vía `GITHUB_REPOSITORY` — no hardcodear el nombre del repo.
 - N/A: resto de workflows (CI/lighthouse/bundle-size), DB y `.env`.
 
 ## 12. Enforcement
 
-Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint`. El CI refuerza (react-doctor advisory en PRs; deploy corre lint + build en `main`) — no hay pre-commit hooks.
+Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint` + `npm run typecheck`. El CI refuerza (react-doctor advisory en PRs; deploy corre lint + build en `main`) — no hay pre-commit hooks.
 
 ## 13. Mantenimiento
 
 Tratar como código. Empezar corto; añadir sección solo tras fallos repetidos; quitar cuando cambie la convención.
-
-## Gotchas del repo
-
-- `.codegraph/` NO existe — usar herramientas de archivos normales (Read/Grep/Glob), no codegraph.
-- `public/` (`favicon.svg`, `icons.svg`) se referencia por URL absoluta (`/favicon.svg`).
-- Skills locales en `.claude/skills/` y `.agents/skills/` (react-best-practices, composition-patterns, frontend-design, vite, accessibility, seo, nodejs-backend-patterns, nodejs-best-practices; instaladas en ambas rutas). **Versionadas en git** — el equipo comparte las mismas skills; `skills-lock.json` garantiza instalación reproducible. Cargar con `skill`.
-- `src/App.jsx` aún es el template: texto "Get started" y assets de ejemplo (`src/assets/`).
