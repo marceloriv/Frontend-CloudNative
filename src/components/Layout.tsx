@@ -953,6 +953,7 @@ export default function Layout() {
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div
+            className="footer-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "2fr 1fr 1fr 1fr",
@@ -1118,6 +1119,12 @@ export default function Layout() {
         }
         @media (max-width: 700px) {
           .ribbon-dots { display: none !important; }
+        }
+        @media (max-width: 700px) {
+          .footer-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (min-width: 701px) and (max-width: 960px) {
+          .footer-grid { grid-template-columns: 1fr 1fr !important; }
         }
         * { box-sizing: border-box; }
       `}</style>

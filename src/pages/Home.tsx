@@ -1588,7 +1588,7 @@ function PricingSection() {
           ))}
         </div>
       </div>
-      <style>{`@media(max-width:820px){.pricing-grid{grid-template-columns:1fr !important}.pricing-grid>div{transform:none !important}}}`}</style>
+      <style>{`@media(max-width:820px){.pricing-grid{grid-template-columns:1fr !important}.pricing-grid>div{transform:none !important}}`}</style>
     </section>
   )
 }
