@@ -77,6 +77,9 @@ const router = createBrowserRouter([
       },
     ],
   },
-])
+], {
+  // Debe matchear el `base` de vite.config.ts (GITHUB_REPOSITORY en CI, "/" local).
+  basename: import.meta.env.BASE_URL,
+})
 
 export default router
