@@ -1,37 +1,37 @@
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { useState, useEffect, useRef } from "react"
+import { Link } from "react-router"
+import { useAuth } from "../hooks/useAuth"
 
 interface Espacio {
-  id: number;
-  nombre: string;
-  categoria: string;
-  capacidad: number;
-  tarifa: number;
-  disponibleHoy: boolean;
-  imagen: string;
-  descripcion: string;
-  horario: string;
-  reglas: string[];
-  deposito: number;
+  id: number
+  nombre: string
+  categoria: string
+  capacidad: number
+  tarifa: number
+  disponibleHoy: boolean
+  imagen: string
+  descripcion: string
+  horario: string
+  reglas: string[]
+  deposito: number
 }
 
 interface Filtros {
-  busqueda: string;
-  categoria: string;
-  capacidad: string;
-  soloDisponibles: boolean;
+  busqueda: string
+  categoria: string
+  capacidad: string
+  soloDisponibles: boolean
 }
 
 interface EspacioCardProps {
-  espacio: Espacio;
-  onVerDetalle: (espacio: Espacio) => void;
-  isAdmin?: boolean;
+  espacio: Espacio
+  onVerDetalle: (espacio: Espacio) => void
+  isAdmin?: boolean
 }
 
 interface DetalleModalProps {
-  espacio: Espacio;
-  onClose: () => void;
+  espacio: Espacio
+  onClose: () => void
 }
 
 const ESPACIOS: Espacio[] = [
@@ -42,7 +42,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 30,
     tarifa: 25000,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=600&h=400&fit=crop",
     descripcion:
       "Amplio quincho techado con parrilla de última generación y cocina equipada. Ideal para reuniones familiares y celebraciones. Cuenta con mesas, sillas y servicio de agua caliente.",
     horario: "Lunes a domingo, 10:00 – 22:00 hrs",
@@ -60,7 +61,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 20,
     tarifa: 18000,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop",
     descripcion:
       "Quincho más íntimo ubicado en el nivel inferior del conjunto, con vista al jardín. Perfecto para reuniones pequeñas. Dispone de parrilla a carbón y zona de lavado.",
     horario: "Lunes a domingo, 10:00 – 22:00 hrs",
@@ -78,7 +80,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 50,
     tarifa: 0,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=600&h=400&fit=crop",
     descripcion:
       "Piscina semiolímpica disponible exclusivamente para residentes del condominio y sus invitados. Cuenta con zona de piscina temperada para niños y solarium con reposeras.",
     horario: "Lunes a domingo, 09:00 – 20:00 hrs (temporada)",
@@ -96,7 +99,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 15,
     tarifa: 8000,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
     descripcion:
       "Sala equipada con proyector, pizarrón, wifi de alta velocidad y estaciones de trabajo individuales. Habilitada para reuniones de trabajo, talleres o clases particulares.",
     horario: "Lunes a viernes, 08:00 – 21:00 hrs. Sábado, 09:00 – 18:00 hrs.",
@@ -114,7 +118,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 10,
     tarifa: 5000,
     disponibleHoy: false,
-    imagen: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
     descripcion:
       "Sala recreativa con mesa de ping pong, futbolín, consolas de videojuegos y juegos de mesa. Pensada para el entretenimiento de residentes de todas las edades.",
     horario: "Lunes a domingo, 10:00 – 23:00 hrs",
@@ -132,7 +137,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 12,
     tarifa: 0,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
     descripcion:
       "Gimnasio completamente equipado con máquinas cardiovasculares, zona de pesas libres y área de estiramiento. Acceso gratuito para todos los residentes del condominio.",
     horario: "Todos los días, 06:00 – 23:00 hrs",
@@ -150,7 +156,8 @@ const ESPACIOS: Espacio[] = [
     capacidad: 22,
     tarifa: 12000,
     disponibleHoy: true,
-    imagen: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&h=400&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&h=400&fit=crop",
     descripcion:
       "Cancha techada habilitada para fútbol sala, básquetbol y volleyball. Superficie de piso flotante de alto rendimiento con iluminación LED para uso nocturno.",
     horario: "Lunes a domingo, 08:00 – 22:00 hrs",
@@ -161,28 +168,28 @@ const ESPACIOS: Espacio[] = [
     ],
     deposito: 24000,
   },
-];
+]
 
 function formatTarifa(tarifa: number): string {
-  if (tarifa === 0) return "Gratis para residentes";
-  return `$${tarifa.toLocaleString("es-CL")} / reserva`;
+  if (tarifa === 0) return "Gratis para residentes"
+  return `$${tarifa.toLocaleString("es-CL")} / reserva`
 }
 
 function formatDeposito(deposito: number): string {
-  if (deposito === 0) return "Sin depósito";
-  return `$${deposito.toLocaleString("es-CL")}`;
+  if (deposito === 0) return "Sin depósito"
+  return `$${deposito.toLocaleString("es-CL")}`
 }
 
 function DetalleModal({ espacio, onClose }: DetalleModalProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    dialogRef.current?.showModal();
-    closeRef.current?.focus();
-  }, []);
+    dialogRef.current?.showModal()
+    closeRef.current?.focus()
+  }, [])
 
-  const handleClose = () => dialogRef.current?.close();
+  const handleClose = () => dialogRef.current?.close()
 
   return (
     <dialog
@@ -227,7 +234,9 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
             }`}
           >
             <span
-              className={`w-1.5 h-1.5 rounded-full ${espacio.disponibleHoy ? "bg-emerald-500" : "bg-slate-400"}`}
+              className={`w-1.5 h-1.5 rounded-full ${
+                espacio.disponibleHoy ? "bg-emerald-500" : "bg-slate-400"
+              }`}
               aria-hidden="true"
             />
             {espacio.disponibleHoy ? "Disponible hoy" : "No disponible"}
@@ -279,7 +288,10 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
             </p>
             <ul className="space-y-1.5">
               {espacio.reglas.map((regla) => (
-                <li key={regla} className="flex items-start gap-2 text-sm text-text">
+                <li
+                  key={regla}
+                  className="flex items-start gap-2 text-sm text-text"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -347,7 +359,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
         </div>
       </div>
     </dialog>
-  );
+  )
 }
 
 function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
@@ -369,7 +381,9 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
           }`}
         >
           <span
-            className={`w-1.5 h-1.5 rounded-full ${espacio.disponibleHoy ? "bg-emerald-500" : "bg-slate-400"}`}
+            className={`w-1.5 h-1.5 rounded-full ${
+              espacio.disponibleHoy ? "bg-emerald-500" : "bg-slate-400"
+            }`}
             aria-hidden="true"
           />
           {espacio.disponibleHoy ? "Disponible hoy" : "No disponible"}
@@ -402,7 +416,9 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
             </svg>
             {espacio.capacidad} personas
           </span>
-          <span className="font-medium text-text">{formatTarifa(espacio.tarifa)}</span>
+          <span className="font-medium text-text">
+            {formatTarifa(espacio.tarifa)}
+          </span>
         </div>
 
         {/* Actions */}
@@ -439,42 +455,42 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
         </div>
       </div>
     </article>
-  );
+  )
 }
 
 export default function EspaciosComunes() {
-  const { role } = useAuth();
-  const isAdmin = role === 'admin';
+  const { role } = useAuth()
+  const isAdmin = role === "admin"
 
   const [filtros, setFiltros] = useState<Filtros>({
     busqueda: "",
     categoria: "Todos",
     capacidad: "Todos",
     soloDisponibles: false,
-  });
-  const [espacioDetalle, setEspacioDetalle] = useState<Espacio | null>(null);
+  })
+  const [espacioDetalle, setEspacioDetalle] = useState<Espacio | null>(null)
 
   const espaciosFiltrados = ESPACIOS.filter((e) => {
     if (
       filtros.busqueda &&
       !e.nombre.toLowerCase().includes(filtros.busqueda.toLowerCase())
     )
-      return false;
+      return false
     if (filtros.categoria !== "Todos" && e.categoria !== filtros.categoria)
-      return false;
+      return false
     if (filtros.capacidad !== "Todos") {
-      if (filtros.capacidad === "Hasta 10" && e.capacidad > 10) return false;
+      if (filtros.capacidad === "Hasta 10" && e.capacidad > 10) return false
       if (
         filtros.capacidad === "10-30" &&
         (e.capacidad < 10 || e.capacidad > 30)
       )
-        return false;
+        return false
       if (filtros.capacidad === "+30 personas" && e.capacidad <= 30)
-        return false;
+        return false
     }
-    if (filtros.soloDisponibles && !e.disponibleHoy) return false;
-    return true;
-  });
+    if (filtros.soloDisponibles && !e.disponibleHoy) return false
+    return true
+  })
 
   return (
     <>
@@ -530,7 +546,7 @@ export default function EspaciosComunes() {
                 <option key={c} value={c}>
                   {c === "Todos" ? "Categoría: Todos" : c}
                 </option>
-              )
+              ),
             )}
           </select>
 
@@ -585,7 +601,13 @@ export default function EspaciosComunes() {
               className="w-16 h-16 text-slate-300"
               aria-hidden="true"
             >
-              <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2" />
+              <circle
+                cx="24"
+                cy="24"
+                r="22"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
               <path
                 d="M16 24h16M24 16v16"
                 stroke="currentColor"
@@ -637,5 +659,5 @@ export default function EspaciosComunes() {
         />
       )}
     </>
-  );
+  )
 }

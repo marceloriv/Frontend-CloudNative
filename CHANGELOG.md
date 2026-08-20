@@ -5,6 +5,42 @@ Todas las modificaciones notables de este proyecto se documentan en este archivo
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.1.1] - 2026-08-20
+
+### Added
+
+- Error boundary (`RouteError.tsx`) en las 3 rutas raíz del router —
+  antes un error de render dejaba pantalla blanca.
+- Regla Mobile First documentada en `AGENTS.md` §5: todo layout nuevo se
+  diseña primero para mobile, se escala hacia arriba después.
+
+### Changed
+
+- Código formateado con `oxfmt` (29 archivos, cambios de estilo puros).
+  `oxfmt@0.2.0` tiene un bug reproducible que rompe la sintaxis de tipos
+  inline de una línea (`{ key: X; label: string }` pierde el `;`) —
+  corregido a mano en los archivos afectados; por eso no quedó como gate
+  obligatorio en `ci-develop.yml`.
+
+### Fixed
+
+- 91 de 93 warnings de `react-doctor` (accesibilidad y performance):
+  keys de array por campo real en vez de índice, labels sin `htmlFor`,
+  botones sin `aria-label`, `transition: all` por las propiedades reales
+  que cambian, valores/funciones estáticas movidas a scope de módulo,
+  contexto de `AuthProvider` envuelto en `useMemo`, `Dashboard` y
+  `ResidenteDashboard` cargando via `route.lazy()` (bundle principal
+  897KB → 502KB). Score subió de 51 a 75/100. Quedan 7 sin tocar,
+  documentados como ya resueltos en la práctica o falso positivo.
+- Sitio en GitHub Pages mostraba 404 en toda ruta: faltaba `basename`
+  en `createBrowserRouter`, no coincidía con el `base` de `vite.config.ts`.
+- Overflow horizontal en mobile (375px) en Home y EspaciosComunes:
+  grid del footer en `Layout.tsx` sin `className` ni media query,
+  a diferencia de cada otro grid del archivo. Verificado con Playwright
+  a 375px y 1280px, antes y después del fix.
+- Llave de más en el `<style>` del `.pricing-grid` en `Home.tsx`
+  (`}}}` en vez de `}}`) — CSS inválido.
+
 ## [0.1.0] - 2026-08-20
 
 ### Added
