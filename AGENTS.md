@@ -259,8 +259,8 @@ El componente `QRCode` en `src/pages/Visitas.tsx` genera un SVG con estética de
 ### Autenticación es mock — sin persistencia
 El rol se guarda solo en React state. Una recarga devuelve al usuario a `'residente'`. Reemplazar por Entra ID (ver §6) es deuda pendiente, no solo "agregar backend".
 
-### `useAuth.tsx` con extensión `.tsx`
-El archivo exporta `AuthProvider` que incluye JSX, por eso tiene extensión `.tsx` aunque sea principalmente un hook. Si se refactoriza para separar Provider y hook, el archivo del hook puede volver a `.ts`.
+### `AuthProvider` separado de `useAuth`
+`src/hooks/useAuth.ts` (sin JSX: `AuthContext`, `USERS`, hook `useAuth`) y `src/hooks/AuthProvider.tsx` (solo el componente `AuthProvider`) están en archivos separados — evita el error `react-refresh/only-export-components` de mezclar un componente con valores no-componente en el mismo archivo.
 
 ### `.codegraph/` NO existe
 Usar herramientas de archivos normales (Read/Grep/Glob), no codegraph.

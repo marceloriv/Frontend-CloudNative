@@ -102,8 +102,6 @@ const UBICACIONES = [
 ]
 const RESPONSABLES = ['Jorge Pizarro', 'Ana Vidal', 'Eduardo Mena', 'Verónica Lagos']
 
-const ESTADOS: EstadoIncidente[] = ['abierto', 'en_revision', 'en_progreso', 'resuelto', 'cerrado']
-
 // ─── Estado badge config ──────────────────────────────────────────────────────
 
 interface EstadoConfig {

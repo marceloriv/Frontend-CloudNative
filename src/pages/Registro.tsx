@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { registroFotos } from '../lib/data'
 import { FlipCard } from '../components/FlipCard'
 import {
-  IconCamera, IconTag, IconEye, IconDownload, IconCheck,
+  IconCamera, IconEye, IconDownload, IconCheck,
   IconDollar, IconCalendar, IconUsers, IconChevronRight,
 } from '../components/icons/Icons'
 

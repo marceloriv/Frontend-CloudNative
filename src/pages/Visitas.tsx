@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router'
+import React, { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 
 // ─── TypeScript interfaces ───────────────────────────────────────────────────
@@ -811,9 +810,11 @@ export default function Visitas() {
   const defaultTab: ActiveTab = canSeeResidente ? 'mis-visitas' : 'conserjeria'
   const [activeTab, setActiveTab] = useState<ActiveTab>(defaultTab)
 
-  useEffect(() => {
+  const [prevRole, setPrevRole] = useState(role)
+  if (role !== prevRole) {
+    setPrevRole(role)
     setActiveTab(canSeeResidente ? 'mis-visitas' : 'conserjeria')
-  }, [role])
+  }
 
   const [visitas, setVisitas] = useState<Visita[]>(SEED_VISITAS)
   const [showPreRegistro, setShowPreRegistro] = useState(false)

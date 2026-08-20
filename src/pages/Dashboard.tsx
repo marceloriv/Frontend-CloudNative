@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Cell,
 } from 'recharts'
 import { gastos } from '../lib/data'
@@ -54,8 +54,6 @@ const categorias = ['Todos', 'Jardinería', 'Pintura', 'Eléctrico', 'Limpieza',
 export default function Dashboard() {
   const [activeCategoria, setActiveCategoria] = useState('Todos')
   const filtered = registros.filter(r => activeCategoria === 'Todos' || r.categoria === activeCategoria)
-
-  const total = registros.reduce((acc, r) => acc + parseInt(r.monto.replace(/\D/g, '')), 0)
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8FAFB' }}>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { gastos } from '../lib/data'
 import { useAuth } from '../hooks/useAuth'
-import { IconDownload, IconCheck, IconAlertTriangle, IconDollar, IconBell, IconShield, IconHome, IconChevronRight } from '../components/icons/Icons'
+import { IconDownload, IconCheck, IconDollar, IconBell, IconShield, IconHome, IconChevronRight } from '../components/icons/Icons'
 import { FlipCard } from '../components/FlipCard'
 
 const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto']

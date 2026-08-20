@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Outlet, NavLink, useLocation, Link } from 'react-router'
 import {
   IconHome, IconDollar, IconMessage, IconCamera, IconShield,
-  IconCalendar, IconMenu, IconX, IconBell, IconTrendingUp, IconPhone, IconAlertTriangle,
+  IconCalendar, IconMenu, IconX, IconTrendingUp, IconPhone, IconAlertTriangle,
 } from './icons/Icons'
 import { useAuth } from '../hooks/useAuth'
 import type { Role } from '../types'
@@ -244,6 +244,12 @@ export default function Layout() {
   const location = useLocation()
   const isHome = location.pathname === '/'
 
+  const [prevPathname, setPrevPathname] = useState(location.pathname)
+  if (location.pathname !== prevPathname) {
+    setPrevPathname(location.pathname)
+    setMobileOpen(false)
+  }
+
   const navLinks = NAV_LINKS_BY_ROLE[role]
 
   const RIBBON_H = ribbonVisible ? 32 : 0
@@ -257,7 +263,6 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    setMobileOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
 
