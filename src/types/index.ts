@@ -1,4 +1,4 @@
-export type Role = 'residente' | 'conserje' | 'admin' | 'comite'
+export type Role = "residente" | "conserje" | "admin" | "comite"
 
 export interface User {
   nombre: string

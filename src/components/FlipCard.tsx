@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 interface FlipCardProps {
   front: React.ReactNode
@@ -13,30 +13,40 @@ export function FlipCard({ front, back, height = 180 }: FlipCardProps) {
     <div
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
-      style={{ perspective: '1000px', height, cursor: 'pointer' }}
+      style={{ perspective: "1000px", height, cursor: "pointer" }}
     >
-      <div style={{
-        position: 'relative', width: '100%', height: '100%',
-        transformStyle: 'preserve-3d',
-        transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        transition: 'transform 0.55s cubic-bezier(0.4,0,0.2,1)',
-      }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          transformStyle: "preserve-3d",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+        }}
+      >
         {/* Front */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+          }}
+        >
           {front}
         </div>
 
         {/* Back */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
+        >
           {back}
         </div>
       </div>
