@@ -1,31 +1,31 @@
-import { useState } from "react"
-import { Link } from "react-router"
-import { useAuth } from "../hooks/useAuth"
+import { useState } from "react";
+import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 interface Reserva {
-  id: string
-  espacio: string
-  categoria: string
-  imagen: string
-  fecha: string
-  fechaDisplay: string
-  hora: string
-  duracionHrs: number
-  precio: number
-  estado: "confirmada" | "pendiente" | "cancelada"
-  codigo: string
+  id: string;
+  espacio: string;
+  categoria: string;
+  imagen: string;
+  fecha: string;
+  fechaDisplay: string;
+  hora: string;
+  duracionHrs: number;
+  precio: number;
+  estado: "confirmada" | "pendiente" | "cancelada";
+  codigo: string;
 }
 
 interface EspacioOpcion {
-  nombre: string
-  tarifaHr: number
+  nombre: string;
+  tarifaHr: number;
 }
 
 interface CreateForm {
-  espacioIdx: number
-  fecha: string
-  hora: string
-  duracion: number
+  espacioIdx: number;
+  fecha: string;
+  hora: string;
+  duracion: number;
 }
 
 const ESPACIOS: EspacioOpcion[] = [
@@ -36,7 +36,7 @@ const ESPACIOS: EspacioOpcion[] = [
   { nombre: "Sala de Juegos", tarifaHr: 5000 },
   { nombre: "Gimnasio", tarifaHr: 0 },
   { nombre: "Cancha Multicancha", tarifaHr: 12000 },
-]
+];
 
 const HORAS = [
   "08:00",
@@ -54,16 +54,15 @@ const HORAS = [
   "20:00",
   "21:00",
   "22:00",
-]
-const DURACIONES = [1, 2, 3, 4]
+];
+const DURACIONES = [1, 2, 3, 4];
 
 const INITIAL_RESERVAS: Reserva[] = [
   {
     id: "R001",
     espacio: "Quincho Los Aromos",
     categoria: "Quincho",
-    imagen:
-      "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=300&h=200&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=300&h=200&fit=crop",
     fecha: "2026-08-23",
     fechaDisplay: "Sáb 23 ago 2026",
     hora: "18:00",
@@ -76,8 +75,7 @@ const INITIAL_RESERVAS: Reserva[] = [
     id: "R002",
     espacio: "Sala Multiuso",
     categoria: "Sala",
-    imagen:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop",
     fecha: "2026-08-20",
     fechaDisplay: "Mié 20 ago 2026",
     hora: "10:00",
@@ -90,8 +88,7 @@ const INITIAL_RESERVAS: Reserva[] = [
     id: "R003",
     espacio: "Gimnasio",
     categoria: "Gimnasio",
-    imagen:
-      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=200&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=200&fit=crop",
     fecha: "2026-08-15",
     fechaDisplay: "Sáb 15 ago 2026",
     hora: "08:00",
@@ -104,8 +101,7 @@ const INITIAL_RESERVAS: Reserva[] = [
     id: "R004",
     espacio: "Piscina",
     categoria: "Piscina",
-    imagen:
-      "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=300&h=200&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=300&h=200&fit=crop",
     fecha: "2026-08-10",
     fechaDisplay: "Lun 10 ago 2026",
     hora: "14:00",
@@ -118,8 +114,7 @@ const INITIAL_RESERVAS: Reserva[] = [
     id: "R005",
     espacio: "Cancha Multicancha",
     categoria: "Cancha",
-    imagen:
-      "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=300&h=200&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=300&h=200&fit=crop",
     fecha: "2026-08-30",
     fechaDisplay: "Dom 30 ago 2026",
     hora: "16:00",
@@ -128,21 +123,21 @@ const INITIAL_RESERVAS: Reserva[] = [
     estado: "pendiente",
     codigo: "CONV-2026-R005",
   },
-]
+];
 
 function formatPrecio(precio: number): string {
-  if (precio === 0) return "Gratis"
-  return `$${precio.toLocaleString("es-CL")}`
+  if (precio === 0) return "Gratis";
+  return `$${precio.toLocaleString("es-CL")}`;
 }
 
 function isCancelable(reserva: Reserva): boolean {
-  if (reserva.estado === "cancelada") return false
-  const [h] = reserva.hora.split(":").map(Number)
-  const reservaDate = new Date(reserva.fecha)
-  reservaDate.setHours(h, 0, 0, 0)
-  const now = new Date()
-  const diffMs = reservaDate.getTime() - now.getTime()
-  return diffMs > 24 * 60 * 60 * 1000
+  if (reserva.estado === "cancelada") return false;
+  const [h] = reserva.hora.split(":").map(Number);
+  const reservaDate = new Date(reserva.fecha);
+  reservaDate.setHours(h, 0, 0, 0);
+  const now = new Date();
+  const diffMs = reservaDate.getTime() - now.getTime();
+  return diffMs > 24 * 60 * 60 * 1000;
 }
 
 function StatusBadge({ estado }: { estado: Reserva["estado"] }) {
@@ -151,20 +146,20 @@ function StatusBadge({ estado }: { estado: Reserva["estado"] }) {
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
         <span aria-hidden="true">✓</span> Confirmada
       </span>
-    )
+    );
   }
   if (estado === "pendiente") {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-text">
         <span aria-hidden="true">⏳</span> Pendiente
       </span>
-    )
+    );
   }
   return (
     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-muted">
       <span aria-hidden="true">✗</span> Cancelada
     </span>
-  )
+  );
 }
 
 function StatusBar({ estado }: { estado: Reserva["estado"] }) {
@@ -173,25 +168,25 @@ function StatusBar({ estado }: { estado: Reserva["estado"] }) {
       ? "bg-green-600"
       : estado === "pendiente"
         ? "bg-alert-yellow"
-        : "bg-gray-300"
+        : "bg-gray-300";
   return (
     <div
       className={`w-1 self-stretch rounded-l-xl flex-shrink-0 ${colorClass}`}
       aria-hidden="true"
     />
-  )
+  );
 }
 
 interface ReservaCardProps {
-  reserva: Reserva
-  onCancel: (id: string) => void
-  onBlock?: (id: string) => void
+  reserva: Reserva;
+  onCancel: (id: string) => void;
+  onBlock?: (id: string) => void;
 }
 
 function ReservaCard({ reserva, onCancel, onBlock }: ReservaCardProps) {
-  const cancelable = isCancelable(reserva)
-  const endHour = parseInt(reserva.hora.split(":")[0]) + reserva.duracionHrs
-  const endTime = `${endHour.toString().padStart(2, "0")}:00`
+  const cancelable = isCancelable(reserva);
+  const endHour = parseInt(reserva.hora.split(":")[0]) + reserva.duracionHrs;
+  const endTime = `${endHour.toString().padStart(2, "0")}:00`;
 
   return (
     <div className="flex bg-white border border-border rounded-xl shadow-sm overflow-hidden">
@@ -204,9 +199,7 @@ function ReservaCard({ reserva, onCancel, onBlock }: ReservaCardProps) {
         />
         <div className="flex flex-1 flex-col gap-2 min-w-0">
           <div className="flex flex-wrap items-start gap-2">
-            <h3 className="font-display text-lg text-text leading-tight">
-              {reserva.espacio}
-            </h3>
+            <h3 className="font-display text-lg text-text leading-tight">{reserva.espacio}</h3>
             <span className="px-2 py-0.5 bg-gray-100 text-muted text-xs rounded-full">
               {reserva.categoria}
             </span>
@@ -226,11 +219,7 @@ function ReservaCard({ reserva, onCancel, onBlock }: ReservaCardProps) {
               <button
                 onClick={() => cancelable && onCancel(reserva.id)}
                 disabled={!cancelable}
-                title={
-                  !cancelable
-                    ? "No cancelable (menos de 24 hrs de anticipación)"
-                    : undefined
-                }
+                title={!cancelable ? "No cancelable (menos de 24 hrs de anticipación)" : undefined}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
                   cancelable
                     ? "border-alert-red text-alert-red hover:bg-red-50"
@@ -255,30 +244,30 @@ function ReservaCard({ reserva, onCancel, onBlock }: ReservaCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 interface CreateModalProps {
-  onClose: () => void
-  onConfirm: (reserva: Omit<Reserva, "id" | "codigo">) => void
+  onClose: () => void;
+  onConfirm: (reserva: Omit<Reserva, "id" | "codigo">) => void;
 }
 
 function CreateModal({ onClose, onConfirm }: CreateModalProps) {
-  const today = new Date().toISOString().split("T")[0]
+  const today = new Date().toISOString().split("T")[0];
   const [form, setForm] = useState<CreateForm>({
     espacioIdx: 0,
     fecha: today,
     hora: "10:00",
     duracion: 1,
-  })
+  });
 
-  const espacio = ESPACIOS[form.espacioIdx]
-  const total = espacio.tarifaHr * form.duracion
+  const espacio = ESPACIOS[form.espacioIdx];
+  const total = espacio.tarifaHr * form.duracion;
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const fechaDate = new Date(form.fecha + "T12:00:00")
-    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+    e.preventDefault();
+    const fechaDate = new Date(form.fecha + "T12:00:00");
+    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
     const monthNames = [
       "ene",
       "feb",
@@ -292,30 +281,25 @@ function CreateModal({ onClose, onConfirm }: CreateModalProps) {
       "oct",
       "nov",
       "dic",
-    ]
-    const fechaDisplay = `${dayNames[fechaDate.getDay()]} ${fechaDate.getDate()} ${monthNames[fechaDate.getMonth()]} ${fechaDate.getFullYear()}`
+    ];
+    const fechaDisplay = `${dayNames[fechaDate.getDay()]} ${fechaDate.getDate()} ${monthNames[fechaDate.getMonth()]} ${fechaDate.getFullYear()}`;
 
     onConfirm({
       espacio: espacio.nombre,
       categoria: espacio.nombre.split(" ")[0],
-      imagen:
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop",
+      imagen: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&h=200&fit=crop",
       fecha: form.fecha,
       fechaDisplay,
       hora: form.hora,
       duracionHrs: form.duracion,
       precio: espacio.tarifaHr,
       estado: "pendiente",
-    })
+    });
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
         <h2 className="font-display text-2xl text-text mb-5">Nueva reserva</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -326,17 +310,13 @@ function CreateModal({ onClose, onConfirm }: CreateModalProps) {
             <select
               id="espacio"
               value={form.espacioIdx}
-              onChange={(e) =>
-                setForm({ ...form, espacioIdx: Number(e.target.value) })
-              }
+              onChange={(e) => setForm({ ...form, espacioIdx: Number(e.target.value) })}
               className="border border-border rounded-lg px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary"
             >
               {ESPACIOS.map((esp, idx) => (
                 <option key={esp.nombre} value={idx}>
                   {esp.nombre} —{" "}
-                  {esp.tarifaHr === 0
-                    ? "Gratis"
-                    : `$${esp.tarifaHr.toLocaleString("es-CL")}/hr`}
+                  {esp.tarifaHr === 0 ? "Gratis" : `$${esp.tarifaHr.toLocaleString("es-CL")}/hr`}
                 </option>
               ))}
             </select>
@@ -376,18 +356,13 @@ function CreateModal({ onClose, onConfirm }: CreateModalProps) {
               </select>
             </div>
             <div className="flex flex-col gap-1">
-              <label
-                htmlFor="duracion"
-                className="text-sm font-medium text-text"
-              >
+              <label htmlFor="duracion" className="text-sm font-medium text-text">
                 Duración
               </label>
               <select
                 id="duracion"
                 value={form.duracion}
-                onChange={(e) =>
-                  setForm({ ...form, duracion: Number(e.target.value) })
-                }
+                onChange={(e) => setForm({ ...form, duracion: Number(e.target.value) })}
                 className="border border-border rounded-lg px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 {DURACIONES.map((d) => (
@@ -402,10 +377,7 @@ function CreateModal({ onClose, onConfirm }: CreateModalProps) {
           <div className="bg-gray-50 rounded-lg p-3 text-sm text-text">
             <span className="font-medium">Total: </span>
             {form.duracion} {form.duracion === 1 ? "hr" : "hrs"} &times;{" "}
-            {espacio.tarifaHr === 0
-              ? "Gratis"
-              : `$${espacio.tarifaHr.toLocaleString("es-CL")}`}{" "}
-            ={" "}
+            {espacio.tarifaHr === 0 ? "Gratis" : `$${espacio.tarifaHr.toLocaleString("es-CL")}`} ={" "}
             <span className="font-semibold text-primary">
               {total === 0 ? "Gratis" : `$${total.toLocaleString("es-CL")}`}
             </span>
@@ -431,34 +403,28 @@ function CreateModal({ onClose, onConfirm }: CreateModalProps) {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 interface CancelModalProps {
-  reserva: Reserva
-  onClose: () => void
-  onConfirm: () => void
+  reserva: Reserva;
+  onClose: () => void;
+  onConfirm: () => void;
 }
 
 function CancelModal({ reserva, onClose, onConfirm }: CancelModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
       <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
-        <h2 className="font-display text-xl text-text mb-2">
-          ¿Cancelar esta reserva?
-        </h2>
+        <h2 className="font-display text-xl text-text mb-2">¿Cancelar esta reserva?</h2>
         <p className="text-sm text-muted mb-1">
-          <span className="font-medium text-text">{reserva.espacio}</span> —{" "}
-          {reserva.fechaDisplay} a las {reserva.hora} hrs
+          <span className="font-medium text-text">{reserva.espacio}</span> — {reserva.fechaDisplay}{" "}
+          a las {reserva.hora} hrs
         </p>
         <p className="text-sm bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-text mt-3 mb-6">
-          ⚠️ Recuerda que las cancelaciones deben realizarse con al menos 24
-          horas de anticipación. Esta acción no se puede deshacer.
+          ⚠️ Recuerda que las cancelaciones deben realizarse con al menos 24 horas de anticipación.
+          Esta acción no se puede deshacer.
         </p>
         <div className="flex gap-3">
           <button
@@ -476,65 +442,55 @@ function CancelModal({ reserva, onClose, onConfirm }: CancelModalProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-type FilterTab = "todas" | "confirmada" | "pendiente" | "cancelada"
+type FilterTab = "todas" | "confirmada" | "pendiente" | "cancelada";
 
 const TABS: { key: FilterTab; label: string }[] = [
   { key: "todas", label: "Todas" },
   { key: "confirmada", label: "Confirmadas" },
   { key: "pendiente", label: "Pendientes" },
   { key: "cancelada", label: "Canceladas" },
-]
+];
 
 export default function Reservas() {
-  const { role } = useAuth()
-  const isAdmin = role === "admin"
+  const { role } = useAuth();
+  const isAdmin = role === "admin";
 
-  const [reservas, setReservas] = useState<Reserva[]>(INITIAL_RESERVAS)
-  const [activeTab, setActiveTab] = useState<FilterTab>("todas")
-  const [showCreate, setShowCreate] = useState(false)
-  const [cancelTarget, setCancelTarget] = useState<string | null>(null)
-  const [blockTarget, setBlockTarget] = useState<string | null>(null)
+  const [reservas, setReservas] = useState<Reserva[]>(INITIAL_RESERVAS);
+  const [activeTab, setActiveTab] = useState<FilterTab>("todas");
+  const [showCreate, setShowCreate] = useState(false);
+  const [cancelTarget, setCancelTarget] = useState<string | null>(null);
+  const [blockTarget, setBlockTarget] = useState<string | null>(null);
 
   const filtered =
-    activeTab === "todas"
-      ? reservas
-      : reservas.filter((r) => r.estado === activeTab)
+    activeTab === "todas" ? reservas : reservas.filter((r) => r.estado === activeTab);
   const cancelTargetReserva = cancelTarget
     ? (reservas.find((r) => r.id === cancelTarget) ?? null)
-    : null
+    : null;
 
   function handleCreateConfirm(data: Omit<Reserva, "id" | "codigo">) {
-    const newId = `R${String(reservas.length + 1).padStart(3, "0")}`
+    const newId = `R${String(reservas.length + 1).padStart(3, "0")}`;
     const newReserva: Reserva = {
       ...data,
       id: newId,
       codigo: `CONV-2026-${newId}`,
-    }
-    setReservas([newReserva, ...reservas])
-    setShowCreate(false)
+    };
+    setReservas([newReserva, ...reservas]);
+    setShowCreate(false);
   }
 
   function handleCancelConfirm() {
-    if (!cancelTarget) return
-    setReservas(
-      reservas.map((r) =>
-        r.id === cancelTarget ? { ...r, estado: "cancelada" } : r,
-      ),
-    )
-    setCancelTarget(null)
+    if (!cancelTarget) return;
+    setReservas(reservas.map((r) => (r.id === cancelTarget ? { ...r, estado: "cancelada" } : r)));
+    setCancelTarget(null);
   }
 
   function handleBlockConfirm() {
-    if (!blockTarget) return
-    setReservas(
-      reservas.map((r) =>
-        r.id === blockTarget ? { ...r, estado: "cancelada" } : r,
-      ),
-    )
-    setBlockTarget(null)
+    if (!blockTarget) return;
+    setReservas(reservas.map((r) => (r.id === blockTarget ? { ...r, estado: "cancelada" } : r)));
+    setBlockTarget(null);
   }
 
   return (
@@ -547,9 +503,7 @@ export default function Reservas() {
               {isAdmin ? "Reservas del condominio" : "Mis Reservas"}
             </h1>
             <p className="text-white/60 mt-1">
-              {isAdmin
-                ? "Gestión y bloqueo por mantenimiento"
-                : "Torres del Parque"}
+              {isAdmin ? "Gestión y bloqueo por mantenimiento" : "Torres del Parque"}
             </p>
           </div>
           {!isAdmin && (
@@ -586,12 +540,8 @@ export default function Reservas() {
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-muted">
               <p className="text-4xl mb-3">📅</p>
-              <p className="font-medium text-text">
-                No hay reservas en esta categoría
-              </p>
-              <p className="text-sm mt-1">
-                Crea una nueva reserva para comenzar.
-              </p>
+              <p className="font-medium text-text">No hay reservas en esta categoría</p>
+              <p className="text-sm mt-1">Crea una nueva reserva para comenzar.</p>
             </div>
           ) : (
             filtered.map((reserva) => (
@@ -609,9 +559,7 @@ export default function Reservas() {
       {/* CTA strip */}
       <div className="bg-text mt-12">
         <div className="max-w-3xl mx-auto px-6 py-6 flex items-center justify-between gap-4">
-          <p className="text-white/80 text-sm">
-            ¿Buscas un espacio disponible?
-          </p>
+          <p className="text-white/80 text-sm">¿Buscas un espacio disponible?</p>
           <Link
             to="/espacios"
             className="text-white font-medium text-sm hover:text-primary transition-colors flex items-center gap-1"
@@ -623,10 +571,7 @@ export default function Reservas() {
 
       {/* Modals */}
       {showCreate && (
-        <CreateModal
-          onClose={() => setShowCreate(false)}
-          onConfirm={handleCreateConfirm}
-        />
+        <CreateModal onClose={() => setShowCreate(false)} onConfirm={handleCreateConfirm} />
       )}
       {cancelTargetReserva && (
         <CancelModal
@@ -643,13 +588,10 @@ export default function Reservas() {
             aria-hidden="true"
           />
           <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
-            <h2 className="font-display text-xl text-text mb-2">
-              ¿Bloquear por mantenimiento?
-            </h2>
+            <h2 className="font-display text-xl text-text mb-2">¿Bloquear por mantenimiento?</h2>
             <p className="text-sm text-muted mb-6">
-              Esta reserva quedará cancelada y el espacio aparecerá no
-              disponible en el período correspondiente. La acción no se puede
-              deshacer.
+              Esta reserva quedará cancelada y el espacio aparecerá no disponible en el período
+              correspondiente. La acción no se puede deshacer.
             </p>
             <div className="flex gap-3">
               <button
@@ -669,5 +611,5 @@ export default function Reservas() {
         </div>
       )}
     </div>
-  )
+  );
 }

@@ -1,61 +1,59 @@
-import { useState } from "react"
-import { Link } from "react-router"
+import { useState } from "react";
+import { Link } from "react-router";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface StepUnitForm {
-  torre: string
-  piso: string
-  numero: string
+  torre: string;
+  piso: string;
+  numero: string;
 }
 
 interface StepAccountForm {
-  nombre: string
-  email: string
-  password: string
-  confirmPassword: string
+  nombre: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
-type Step = 1 | 2 | 3
-type StepErrors = Partial<Record<string, string>>
+type Step = 1 | 2 | 3;
+type StepErrors = Partial<Record<string, string>>;
 
 // ─── Validation ───────────────────────────────────────────────────────────────
 
 function validateUnit(f: StepUnitForm): StepErrors {
-  const e: StepErrors = {}
-  if (!f.torre) e.torre = "Selecciona una torre."
-  if (!f.piso) e.piso = "Selecciona un piso."
-  if (!f.numero.trim()) e.numero = "Ingresa el número de unidad."
-  return e
+  const e: StepErrors = {};
+  if (!f.torre) e.torre = "Selecciona una torre.";
+  if (!f.piso) e.piso = "Selecciona un piso.";
+  if (!f.numero.trim()) e.numero = "Ingresa el número de unidad.";
+  return e;
 }
 
 function validateAccount(f: StepAccountForm): StepErrors {
-  const e: StepErrors = {}
-  if (!f.nombre.trim()) e.nombre = "El nombre es obligatorio."
-  if (!f.email.trim()) e.email = "El correo es obligatorio."
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
-    e.email = "Correo no válido."
-  if (!f.password) e.password = "La contraseña es obligatoria."
-  else if (f.password.length < 8) e.password = "Mínimo 8 caracteres."
-  if (f.confirmPassword !== f.password)
-    e.confirmPassword = "Las contraseñas no coinciden."
-  return e
+  const e: StepErrors = {};
+  if (!f.nombre.trim()) e.nombre = "El nombre es obligatorio.";
+  if (!f.email.trim()) e.email = "El correo es obligatorio.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = "Correo no válido.";
+  if (!f.password) e.password = "La contraseña es obligatoria.";
+  else if (f.password.length < 8) e.password = "Mínimo 8 caracteres.";
+  if (f.confirmPassword !== f.password) e.confirmPassword = "Las contraseñas no coinciden.";
+  return e;
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 interface StepIndicatorProps {
-  current: Step
-  labels: string[]
+  current: Step;
+  labels: string[];
 }
 
 function StepIndicator({ current, labels }: StepIndicatorProps) {
   return (
     <div className="flex items-center mb-8" aria-label="Pasos del registro">
       {labels.map((label, i) => {
-        const s = (i + 1) as Step
-        const done = current > s
-        const active = current === s
+        const s = (i + 1) as Step;
+        const done = current > s;
+        const active = current === s;
         return (
           <div key={label} className="flex items-center flex-1 last:flex-none">
             <div className="flex flex-col items-center gap-1 shrink-0">
@@ -80,33 +78,26 @@ function StepIndicator({ current, labels }: StepIndicatorProps) {
               </span>
             </div>
             {i < labels.length - 1 && (
-              <div
-                className={`flex-1 h-0.5 mx-2 ${
-                  done ? "bg-primary" : "bg-border"
-                }`}
-              />
+              <div className={`flex-1 h-0.5 mx-2 ${done ? "bg-primary" : "bg-border"}`} />
             )}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 interface FieldProps {
-  label: string
-  id: string
-  error?: string
-  children: React.ReactNode
+  label: string;
+  id: string;
+  error?: string;
+  children: React.ReactNode;
 }
 
 function Field({ label, id, error, children }: FieldProps) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="block text-sm font-semibold text-text mb-1.5"
-      >
+      <label htmlFor={id} className="block text-sm font-semibold text-text mb-1.5">
         {label}
       </label>
       {children}
@@ -120,7 +111,7 @@ function Field({ label, id, error, children }: FieldProps) {
         </p>
       )}
     </div>
-  )
+  );
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -128,60 +119,56 @@ function Field({ label, id, error, children }: FieldProps) {
 function inputClass(err?: string) {
   return `w-full px-3.5 py-2.5 rounded-lg border text-sm text-text placeholder:text-muted/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${
     err ? "border-alert-red bg-red-50" : "border-border bg-white"
-  }`
+  }`;
 }
 
 export default function RegistroCuenta() {
-  const [step, setStep] = useState<Step>(1)
+  const [step, setStep] = useState<Step>(1);
   const [unitForm, setUnitForm] = useState<StepUnitForm>({
     torre: "",
     piso: "",
     numero: "",
-  })
+  });
   const [accountForm, setAccountForm] = useState<StepAccountForm>({
     nombre: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
-  const [accepted, setAccepted] = useState(false)
-  const [errors, setErrors] = useState<StepErrors>({})
-  const [reglamentoError, setReglamentoError] = useState("")
-  const [done, setDone] = useState(false)
+  });
+  const [accepted, setAccepted] = useState(false);
+  const [errors, setErrors] = useState<StepErrors>({});
+  const [reglamentoError, setReglamentoError] = useState("");
+  const [done, setDone] = useState(false);
 
-  function handleUnit(
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) {
-    setUnitForm((p) => ({ ...p, [e.target.name]: e.target.value }))
+  function handleUnit(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    setUnitForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   }
 
   function handleAccount(e: React.ChangeEvent<HTMLInputElement>) {
-    setAccountForm((p) => ({ ...p, [e.target.name]: e.target.value }))
+    setAccountForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   }
 
   function goNext() {
     if (step === 1) {
-      const e = validateUnit(unitForm)
-      setErrors(e)
+      const e = validateUnit(unitForm);
+      setErrors(e);
       if (!Object.keys(e).length) {
-        setErrors({})
-        setStep(2)
+        setErrors({});
+        setStep(2);
       }
     } else if (step === 2) {
-      const e = validateAccount(accountForm)
-      setErrors(e)
+      const e = validateAccount(accountForm);
+      setErrors(e);
       if (!Object.keys(e).length) {
-        setErrors({})
-        setStep(3)
+        setErrors({});
+        setStep(3);
       }
     } else {
       if (!accepted) {
-        setReglamentoError(
-          "Debes aceptar el Reglamento Interno para continuar.",
-        )
-        return
+        setReglamentoError("Debes aceptar el Reglamento Interno para continuar.");
+        return;
       }
-      setDone(true)
+      setDone(true);
     }
   }
 
@@ -192,12 +179,9 @@ export default function RegistroCuenta() {
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5 text-2xl text-primary">
             ✓
           </div>
-          <h2 className="font-display text-text text-2xl mb-2">
-            ¡Cuenta creada!
-          </h2>
+          <h2 className="font-display text-text text-2xl mb-2">¡Cuenta creada!</h2>
           <p className="text-muted text-sm leading-relaxed mb-6">
-            Tu solicitud está en revisión. El comité la aprobará en las próximas
-            24 horas hábiles.
+            Tu solicitud está en revisión. El comité la aprobará en las próximas 24 horas hábiles.
           </p>
           <Link
             to="/login"
@@ -207,7 +191,7 @@ export default function RegistroCuenta() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -249,14 +233,9 @@ export default function RegistroCuenta() {
           </div>
 
           <h2 className="font-display text-text text-3xl mb-1">Crear cuenta</h2>
-          <p className="text-muted text-sm mb-6">
-            Registro de residente — Torres del Parque
-          </p>
+          <p className="text-muted text-sm mb-6">Registro de residente — Torres del Parque</p>
 
-          <StepIndicator
-            current={step}
-            labels={["Unidad", "Cuenta", "Reglamento"]}
-          />
+          <StepIndicator current={step} labels={["Unidad", "Cuenta", "Reglamento"]} />
 
           {/* ── Step 1: Unit validation ── */}
           {step === 1 && (
@@ -354,9 +333,7 @@ export default function RegistroCuenta() {
                   placeholder="Mínimo 8 caracteres"
                   autoComplete="new-password"
                   aria-invalid={!!errors.password}
-                  aria-describedby={
-                    errors.password ? "password-error" : undefined
-                  }
+                  aria-describedby={errors.password ? "password-error" : undefined}
                   className={inputClass(errors.password)}
                 />
               </Field>
@@ -374,9 +351,7 @@ export default function RegistroCuenta() {
                   placeholder="Repite la contraseña"
                   autoComplete="new-password"
                   aria-invalid={!!errors.confirmPassword}
-                  aria-describedby={
-                    errors.confirmPassword ? "confirmPassword-error" : undefined
-                  }
+                  aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
                   className={inputClass(errors.confirmPassword)}
                 />
               </Field>
@@ -411,14 +386,8 @@ export default function RegistroCuenta() {
                     "4. Estacionamientos.",
                     "Cada unidad tiene asignado su estacionamiento. Prohibido ocupar los de visitas permanentemente.",
                   ],
-                  [
-                    "5. Basura.",
-                    "Solo en contenedores designados y en los horarios establecidos.",
-                  ],
-                  [
-                    "6. Visitas.",
-                    "Deben pre-registrarse con al menos 30 minutos de anticipación.",
-                  ],
+                  ["5. Basura.", "Solo en contenedores designados y en los horarios establecidos."],
+                  ["6. Visitas.", "Deben pre-registrarse con al menos 30 minutos de anticipación."],
                   [
                     "7. Sanciones.",
                     "El incumplimiento puede resultar en amonestaciones y multas según el Acta de Asamblea 2024.",
@@ -443,15 +412,15 @@ export default function RegistroCuenta() {
                   type="checkbox"
                   checked={accepted}
                   onChange={(e) => {
-                    setAccepted(e.target.checked)
-                    if (e.target.checked) setReglamentoError("")
+                    setAccepted(e.target.checked);
+                    if (e.target.checked) setReglamentoError("");
                   }}
                   className="mt-0.5 w-4 h-4 accent-primary"
                   aria-describedby={reglamentoError ? "reg-error" : undefined}
                 />
                 <span className="text-sm text-text leading-snug">
-                  He leído y acepto el <strong>Reglamento Interno</strong> del
-                  condominio Torres del Parque.
+                  He leído y acepto el <strong>Reglamento Interno</strong> del condominio Torres del
+                  Parque.
                 </span>
               </label>
               {reglamentoError && (
@@ -496,5 +465,5 @@ export default function RegistroCuenta() {
         </div>
       </div>
     </div>
-  )
+  );
 }

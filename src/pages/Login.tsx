@@ -1,42 +1,42 @@
-import { useState, useRef } from "react"
-import { Link } from "react-router"
+import { useState, useRef } from "react";
+import { Link } from "react-router";
 
 interface FormState {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 interface FieldError {
-  email?: string
-  password?: string
+  email?: string;
+  password?: string;
 }
 
 function validate(form: FormState): FieldError {
-  const errors: FieldError = {}
-  if (!form.email.trim()) errors.email = "El correo es obligatorio."
+  const errors: FieldError = {};
+  if (!form.email.trim()) errors.email = "El correo es obligatorio.";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-    errors.email = "Ingresa un correo válido."
-  if (!form.password) errors.password = "La contraseña es obligatoria."
-  else if (form.password.length < 6) errors.password = "Mínimo 6 caracteres."
-  return errors
+    errors.email = "Ingresa un correo válido.";
+  if (!form.password) errors.password = "La contraseña es obligatoria.";
+  else if (form.password.length < 6) errors.password = "Mínimo 6 caracteres.";
+  return errors;
 }
 
 export default function Login() {
-  const [form, setForm] = useState<FormState>({ email: "", password: "" })
-  const [errors, setErrors] = useState<FieldError>({})
-  const submitted = useRef(false)
+  const [form, setForm] = useState<FormState>({ email: "", password: "" });
+  const [errors, setErrors] = useState<FieldError>({});
+  const submitted = useRef(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
-    if (submitted.current) setErrors(validate({ ...form, [name]: value }))
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (submitted.current) setErrors(validate({ ...form, [name]: value }));
   }
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    submitted.current = true
-    const errs = validate(form)
-    setErrors(errs)
+    e.preventDefault();
+    submitted.current = true;
+    const errs = validate(form);
+    setErrors(errs);
     if (Object.keys(errs).length === 0) {
       // auth logic goes here
     }
@@ -56,21 +56,18 @@ export default function Login() {
             conectado.
           </h1>
           <p className="text-white/60 text-base leading-relaxed">
-            Plataforma digital de gestión para comunidades residenciales en
-            Chile.
+            Plataforma digital de gestión para comunidades residenciales en Chile.
           </p>
         </div>
         <div className="flex gap-3 flex-wrap">
-          {["150+ comunidades", "98% satisfacción", "Soporte en español"].map(
-            (b) => (
-              <span
-                key={b}
-                className="text-xs text-white/50 border border-white/15 rounded-full px-3 py-1"
-              >
-                {b}
-              </span>
-            ),
-          )}
+          {["150+ comunidades", "98% satisfacción", "Soporte en español"].map((b) => (
+            <span
+              key={b}
+              className="text-xs text-white/50 border border-white/15 rounded-full px-3 py-1"
+            >
+              {b}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -83,17 +80,12 @@ export default function Login() {
           </div>
 
           <h2 className="font-display text-text text-3xl mb-1">Bienvenido</h2>
-          <p className="text-muted text-sm mb-8">
-            Ingresa a tu cuenta de residente
-          </p>
+          <p className="text-muted text-sm mb-8">Ingresa a tu cuenta de residente</p>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-5">
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-text mb-1.5"
-              >
+              <label htmlFor="email" className="block text-sm font-semibold text-text mb-1.5">
                 Correo electrónico
               </label>
               <input
@@ -106,9 +98,7 @@ export default function Login() {
                 aria-describedby={errors.email ? "email-error" : undefined}
                 aria-invalid={!!errors.email}
                 className={`w-full px-3.5 py-2.5 rounded-lg border text-sm text-text placeholder:text-muted/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${
-                  errors.email
-                    ? "border-alert-red bg-red-50"
-                    : "border-border bg-white"
+                  errors.email ? "border-alert-red bg-red-50" : "border-border bg-white"
                 }`}
                 placeholder="nombre@correo.cl"
               />
@@ -126,16 +116,10 @@ export default function Login() {
             {/* Password */}
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-semibold text-text"
-                >
+                <label htmlFor="password" className="block text-sm font-semibold text-text">
                   Contraseña
                 </label>
-                <a
-                  href="#"
-                  className="text-xs text-primary hover:text-accent transition-colors"
-                >
+                <a href="#" className="text-xs text-primary hover:text-accent transition-colors">
                   ¿Olvidaste la contraseña?
                 </a>
               </div>
@@ -146,14 +130,10 @@ export default function Login() {
                 autoComplete="current-password"
                 value={form.password}
                 onChange={handleChange}
-                aria-describedby={
-                  errors.password ? "password-error" : undefined
-                }
+                aria-describedby={errors.password ? "password-error" : undefined}
                 aria-invalid={!!errors.password}
                 className={`w-full px-3.5 py-2.5 rounded-lg border text-sm text-text placeholder:text-muted/60 outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 ${
-                  errors.password
-                    ? "border-alert-red bg-red-50"
-                    : "border-border bg-white"
+                  errors.password ? "border-alert-red bg-red-50" : "border-border bg-white"
                 }`}
                 placeholder="••••••••"
               />
@@ -197,5 +177,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }

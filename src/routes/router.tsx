@@ -1,19 +1,19 @@
-import { createBrowserRouter } from "react-router"
-import ProtectedRoute from "./ProtectedRoute"
-import Layout from "../components/Layout"
-import RouteError from "../components/RouteError"
-import Home from "../pages/Home"
-import Reservas from "../pages/Reservas"
-import Gastos from "../pages/Gastos"
-import Tablon from "../pages/Tablon"
-import Canales from "../pages/Canales"
-import Registro from "../pages/Registro"
-import Precios from "../pages/Precios"
-import Login from "../pages/Login"
-import RegistroCuenta from "../pages/RegistroCuenta"
-import EspaciosComunes from "../pages/EspaciosComunes"
-import Visitas from "../pages/Visitas"
-import Incidentes from "../pages/Incidentes"
+import { createBrowserRouter } from "react-router";
+import ProtectedRoute from "./ProtectedRoute";
+import Layout from "../components/Layout";
+import RouteError from "../components/RouteError";
+import Home from "../pages/Home";
+import Reservas from "../pages/Reservas";
+import Gastos from "../pages/Gastos";
+import Tablon from "../pages/Tablon";
+import Canales from "../pages/Canales";
+import Registro from "../pages/Registro";
+import Precios from "../pages/Precios";
+import Login from "../pages/Login";
+import RegistroCuenta from "../pages/RegistroCuenta";
+import EspaciosComunes from "../pages/EspaciosComunes";
+import Visitas from "../pages/Visitas";
+import Incidentes from "../pages/Incidentes";
 
 const router = createBrowserRouter(
   [
@@ -70,9 +70,7 @@ const router = createBrowserRouter(
 
         // Conserje + Admin + Comité
         {
-          element: (
-            <ProtectedRoute allowedRoles={["conserje", "admin", "comite"]} />
-          ),
+          element: <ProtectedRoute allowedRoles={["conserje", "admin", "comite"]} />,
           children: [{ path: "registro", Component: Registro }],
         },
 
@@ -97,6 +95,6 @@ const router = createBrowserRouter(
     // Debe matchear el `base` de vite.config.ts (GITHUB_REPOSITORY en CI, "/" local).
     basename: import.meta.env.BASE_URL,
   },
-)
+);
 
-export default router
+export default router;

@@ -134,7 +134,7 @@ Secciones no aplicables a este proyecto: N/A (todas son relevantes).
 └── .github/workflows/
     ├── deploy.yml                  # protegido, ver §11
     ├── react-doctor.yml            # protegido, ver §11
-    └── ci-develop.yml              # lint + typecheck + build en push/PR a develop
+    └── ci-develop.yml              # format check + lint + typecheck + build en push/PR a develop
 ```
 
 ---
@@ -317,12 +317,12 @@ Conventional Commits v1.0.0. Formato: `:emoji: <tipo>(<alcance>)?(!)?: <sujeto>`
 
 - `.github/workflows/react-doctor.yml` — React Doctor en CI (advisory; no bloquea PRs).
 - `.github/workflows/deploy.yml` — build + lint + deploy a GitHub Pages en push a `main`. Requiere Settings → Pages → Source: GitHub Actions. `vite.config.ts` usa `base` dinámico vía `GITHUB_REPOSITORY` — no hardcodear el nombre del repo.
-- `.github/workflows/ci-develop.yml` — **no está protegido**, se puede editar libremente. Corre lint + typecheck + build en push/PR a `develop`.
+- `.github/workflows/ci-develop.yml` — **no está protegido**, se puede editar libremente. Corre format check + lint + typecheck + build en push/PR a `develop`.
 - N/A: resto de workflows (lighthouse/bundle-size/CodeQL — evaluados y descartados por ahora, ver Deuda pendiente §7), DB y `.env`.
 
 ## 12. Enforcement
 
-Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint` + `npm run typecheck`. El CI refuerza en dos puntos: `ci-develop.yml` (lint + typecheck + build en cada push/PR a `develop`) y `deploy.yml` (lint + build en `main`, más `react-doctor` advisory en PRs) — no hay pre-commit hooks.
+Orientativo, no forzado mecánicamente. Gate real del agente: `npm run lint` + `npm run typecheck`. El CI refuerza en dos puntos: `ci-develop.yml` (format check + lint + typecheck + build en cada push/PR a `develop`) y `deploy.yml` (lint + build en `main`, más `react-doctor` advisory en PRs) — no hay pre-commit hooks.
 
 ## 13. Mantenimiento
 

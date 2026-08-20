@@ -16,11 +16,17 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Changed
 
-- Código formateado con `oxfmt` (29 archivos, cambios de estilo puros).
-  `oxfmt@0.2.0` tiene un bug reproducible que rompe la sintaxis de tipos
+- Código formateado con `oxfmt`. `oxfmt@0.2.0` (versión con la que arrancó
+  el proyecto) tiene un bug reproducible que rompe la sintaxis de tipos
   inline de una línea (`{ key: X; label: string }` pierde el `;`) —
-  corregido a mano en los archivos afectados; por eso no quedó como gate
-  obligatorio en `ci-develop.yml`.
+  corregido a mano mientras tanto. Actualizado a `oxfmt@0.64.0`, que no
+  tiene el bug — confirmado corriendo el formateo de nuevo sobre todo el
+  código. Ahora sí es gate obligatorio: `npm run format:check` en
+  `ci-develop.yml`.
+- Script `format` acotado a `src eslint.config.js vite.config.ts` — sin
+  el scope explícito, `oxfmt@0.64.0` reformatea todo el cwd, incluyendo
+  `.claude/skills`/`.agents/skills` (contenido de terceros, no del
+  proyecto).
 
 ### Fixed
 

@@ -1,10 +1,10 @@
-import { createContext, useContext } from "react"
-import type { Role, User } from "../types"
+import { createContext, useContext } from "react";
+import type { Role, User } from "../types";
 
 export interface AuthContextValue {
-  user: User
-  role: Role
-  setRole: (r: Role) => void
+  user: User;
+  role: Role;
+  setRole: (r: Role) => void;
 }
 
 export const USERS: Record<Role, User> = {
@@ -28,12 +28,12 @@ export const USERS: Record<Role, User> = {
     unidad: "Comité de Administración",
     role: "comite",
   },
-}
+};
 
-export const AuthContext = createContext<AuthContextValue | null>(null)
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error("useAuth must be used inside AuthProvider")
-  return ctx
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
 }
