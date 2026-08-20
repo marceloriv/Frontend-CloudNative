@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router'
 import ProtectedRoute from './ProtectedRoute'
 import Layout from '../components/Layout'
+import RouteError from '../components/RouteError'
 import Home from '../pages/Home'
 import Reservas from '../pages/Reservas'
 import Gastos from '../pages/Gastos'
@@ -18,13 +19,14 @@ import Incidentes from '../pages/Incidentes'
 
 const router = createBrowserRouter([
   // Auth routes (no Layout wrapper)
-  { path: '/login',        Component: Login },
-  { path: '/crear-cuenta', Component: RegistroCuenta },
+  { path: '/login',        Component: Login, errorElement: <RouteError /> },
+  { path: '/crear-cuenta', Component: RegistroCuenta, errorElement: <RouteError /> },
 
   // App routes (with Layout)
   {
     path: '/',
     Component: Layout,
+    errorElement: <RouteError />,
     children: [
       // Public / all roles
       { index: true,     Component: Home },
