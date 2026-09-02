@@ -51,6 +51,8 @@ Modelo de 3 capas — evita hardcodear hex en componentes:
 
 **Formato de intercambio**: tokens solo en código (`src/index.css` vía Tailwind v4 `@theme inline`). No hay archivo JSON DTCG separado — si se adopta Figma o Tokens Studio en el futuro, exportar desde los tokens CSS.
 
+**Estado actual del código — el modelo de arriba es el objetivo, no lo implementado.** `src/index.css` define tokens de color (`--color-*`) y tipografía (`--font-*`) dentro de `@theme inline`; `src/components/Layout.tsx` aún tiene valores hardcodeados (colores inline, breakpoints en `<style>`) que son deuda técnica conocida. Los colores de §2.1 se usan como clases de Tailwind generadas de los tokens CSS — verificar que no haya hex sueltos fuera de `src/index.css`.
+
 ### 2.1 Tokens base (global + alias)
 
 | Token | Hex | RGB | CMYK | Uso |
@@ -319,7 +321,7 @@ Accesibilidad y usabilidad son el atributo "Usabilidad" de ISO/IEC 25010 visto d
 ## 10. Gobierno y mantenimiento
 
 - **Fuente de verdad**: código (tokens en `src/index.css`, valores hardcodeados en `src/components/Layout.tsx`). Los tokens Tailwind v4 en `@theme inline` son la fuente primaria; los valores en Layout.tsx (colores inline, breakpoints en `<style>`) son deuda técnica conocida. Si se adopta un archivo DTCG JSON para Figma/Tokens Studio en el futuro, la dirección de sincronización es Figma → código (diseño manda, código consume). Exportar desde los tokens CSS, no inventar un formato propio.
-- **Dueño**: marceloriv, mantenedor del repositorio. Aprueba cambios de token y la revisión de contraste antes del merge.
+- **Dueño**: equipo de desarrollo Convivo. Aprueba cambios de token y la revisión de contraste antes del merge.
 - **Cómo proponer un cambio**: PR a este archivo + revisión de contraste (§2.5) antes de mergear.
 - **Qué cambio de token es breaking**: renombrar o eliminar un alias rompe a todo consumidor; cambiar el valor de un alias no rompe la API pero **sí puede romper el contraste** (§2.5) — cualquier cambio de valor de color exige recalcular los ratios antes de mergear, no después.
 - **Versionado**: sin versionado formal del design system aún. Cuando se adopte, registrar semver del design system o versión del archivo de tokens, y changelog de cambios de token — un equipo de frontend no puede adoptar una versión que no puede nombrar.
