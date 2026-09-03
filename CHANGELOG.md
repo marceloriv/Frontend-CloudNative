@@ -5,6 +5,15 @@ Todas las modificaciones notables de este proyecto se documentan en este archivo
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.2.1] - 2026-09-03
+
+### Fixed
+
+- 404 real de GitHub Pages en cualquier ruta de React Router (`/login`,
+  `/auth/callback`, etc.) — rompía en producción el redirect de Cognito
+  tras el login con Google. Fix estándar `public/404.html` +
+  decodificador en `index.html` (rafgraph/spa-github-pages).
+
 ## [0.2.0] - 2026-09-03
 
 ### Added
