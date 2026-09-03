@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router";
+import { IconGoogle } from "../components/icons/Icons";
+import { buildGoogleAuthorizeUrl } from "../lib/cognitoAuth";
 
 interface FormState {
   email: string;
@@ -40,6 +42,10 @@ export default function Login() {
     if (Object.keys(errs).length === 0) {
       // auth logic goes here
     }
+  }
+
+  async function handleGoogleLogin() {
+    window.location.assign(await buildGoogleAuthorizeUrl());
   }
 
   return (
@@ -155,6 +161,21 @@ export default function Login() {
               Ingresar
             </button>
           </form>
+
+          <div className="mt-5 flex items-center gap-3">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted">o continúa con</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="mt-5 w-full flex items-center justify-center gap-2 bg-white border border-border text-text font-semibold text-sm py-3 rounded-lg transition-colors hover:bg-primary/5 hover:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          >
+            <IconGoogle className="w-4 h-4" />
+            Continuar con Google
+          </button>
 
           <p className="mt-6 text-center text-sm text-muted">
             ¿Eres nuevo?{" "}
