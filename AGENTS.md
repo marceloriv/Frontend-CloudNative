@@ -26,7 +26,7 @@ Cuando dos reglas de este archivo entran en conflicto, se resuelven en este orde
 
 ## 1. Resumen del proyecto
 
-Convivo — SPA de gestión para condominios residenciales en Chile. Roles: residente, conserje, admin, comité. Frontend demo con datos hardcodeados, sin backend real. Desplegado en GitHub Pages.
+Convivo — SPA de gestión para condominios residenciales en Chile. Roles: residente, conserje, admin, comité. Login de residentes con Google vía AWS Cognito Hosted UI (Authorization Code + PKCE) es **real y desplegado** (`src/lib/cognitoAuth.ts`, `terraform/cognito.tf` aplicado en AWS) — el resto de las pantallas sigue siendo demo con datos hardcodeados, sin backend real detrás. Desplegado en GitHub Pages.
 
 ## 2. Stack técnico
 
@@ -44,12 +44,16 @@ Convivo — SPA de gestión para condominios residenciales en Chile. Roles: resi
 
 ```text
 src/
-  components/     # Layout, FloatingSidebar, AnnouncementRibbon, Icons, ProtectedRoute, RouteError
-  pages/          # Home, Reservas, Gastos, Tablon, Canales, Registro, Precios, Login, etc.
-  hooks/          # useAuth
-  lib/            # utilidades
+  components/     # Layout (incluye sub-componentes internos FloatingSidebar,
+                  # AnnouncementRibbon — no son archivos separados), FlipCard,
+                  # RouteError, icons/Icons.tsx
+  pages/          # Home, Login, AuthCallback, NotFound, RegistroCuenta,
+                  # EspaciosComunes, ResidenteDashboard, Dashboard, Reservas,
+                  # Gastos, Tablon, Canales, Registro, Precios, Visitas, Incidentes
+  hooks/          # useAuth, AuthProvider
+  lib/            # cognitoAuth (login real Cognito+Google, con test propio), data (mock)
   types/          # tipos TypeScript (Role, etc.)
-  routes/         # router.tsx, ProtectedRoute
+  routes/         # router.tsx, ProtectedRoute (con test propio)
   test/           # setup de Vitest
 ```
 
@@ -207,10 +211,12 @@ Los controles de esta sección son la implementación técnica de ISO/IEC 27001 
 - A09 Fallos de logging y alertado: eventos de seguridad (login fallido, cambio de permisos) quedan loggeados y generan alerta, sin datos sensibles en el log.
 - A10 Manejo indebido de condiciones excepcionales: errores no filtran stack trace/info interna al cliente, fallos no dejan el sistema en estado inseguro (fail-open).
 
-Alcance real en este proyecto — frontend demo sin backend, sin DB y sin auth real:
+Alcance real en este proyecto — frontend demo sin backend ni DB, pero **con un flujo de autenticación real** (login de residentes con Google vía Cognito Hosted UI, Authorization Code + PKCE, `src/lib/cognitoAuth.ts`):
 
 - Aplican: **A02** (configuración del build y del deploy a GitHub Pages), **A03** (dependencias npm, lockfile committeado), **A08** (integridad del pipeline de GitHub Actions).
-- **A01, A04, A05, A06, A07, A09, A10**: `(no aplica: sin backend, sin DB y sin auth real — el rol que expone `useAuth` es de demo y no protege ningún recurso)`. Reevaluar en el momento en que se conecte un backend: ahí vuelven a aplicar todas.
+- **A07 aplica parcialmente** desde que el login con Google es real: revisar el flujo OAuth en sí (redirect_uri exacto registrado en Cognito, manejo de `code`/`code_verifier`, expiración de `id_token`/`access_token`) en cualquier PR que toque `cognitoAuth.ts`/`AuthCallback.tsx`. No hay rate limiting ni gestión de sesión server-side propia (eso lo resuelve Cognito), así que el alcance real es "no romper el flujo PKCE", no "implementar autenticación".
+- **A01 sigue sin aplicar en la práctica, aunque el login sea real**: `useAuth`/`AuthProvider` asignan el rol desde un mapa mock (`USERS[role]`), no desde un claim/grupo de Cognito — `AuthCallback.tsx` hardcodea `role: "residente"` sin leer nada del token para eso. El día que el rol se derive de un claim real, A01 pasa a aplicar de lleno (ownership de recursos, roles no falsificables desde el cliente) — anotarlo ahí, no antes.
+- **A04, A05, A06, A09, A10**: `(no aplica: sin backend ni DB — nada de crypto propia más allá de PKCE (S256, estándar), sin queries, sin threat model de features con DB, sin logging centralizado, sin manejo de excepciones server-side)`. Reevaluar cuando se conecte un backend real: ahí vuelven a aplicar todas.
 
 Antes de mergear cambios con superficie de seguridad (auth, input externo, permisos, deploy), correr `security-review` (skill) o el agente `auditor-seguridad` si están disponibles — no depender solo de revisión manual.
 
@@ -416,11 +422,33 @@ Este bloque es el que un agente debe poder aplicar sin interpretar: si una acci�
 ```bash
 # build de producción
 npm run build
-# deploy a producción (requiere aprobación explícita — ver sección 12)
-git push origin main  # trigger automático de GitHub Actions → GitHub Pages
+# deploy a producción: main está protegida (PR + 1 review + check en
+# verde, sin push directo — §11.3), así que el trigger real es un PR de
+# release/*  o hotfix/* mergeado a main, no un push directo. Requiere
+# aprobación explícita — ver sección 12.
+# merge a main → trigger automático de GitHub Actions (deploy.yml) → GitHub Pages
 # rollback
-git revert -m 1 <hash-del-merge> && git push origin main
+git revert -m 1 <hash-del-merge>  # vía PR, mismas reglas de protección que un deploy normal
 ```
+
+Dos detalles que rompen el login si se pierden (ver también `deploy.yml`):
+
+- `VITE_COGNITO_DOMAIN`, `VITE_COGNITO_CLIENT_ID`, `VITE_COGNITO_REDIRECT_URI`
+  viven como **Actions Variables** del repo (Settings → Secrets and
+  variables → Actions → Variables) — no son secrets, quedan públicas en la
+  URL de authorize igual. El paso `Build` de `deploy.yml` las inyecta;
+  Vite las hornea en el bundle en tiempo de build. Si faltan, el deploy
+  compila pero el login sale roto en producción sin ningún error visible
+  en CI.
+- `public/404.html` no es decorativo. GitHub Pages sirve estáticos: toda
+  ruta de React Router que no sea la raíz (incluida `/auth/callback`, a
+  donde Cognito redirige tras el login con Google) da 404 real del
+  hosting. Ese archivo reescribe la ruta en un query param y `index.html`
+  la restaura con `history.replaceState` antes de que monte el router
+  (rafgraph/spa-github-pages). No borrarlo ni "simplificarlo" a un 404
+  genérico — ver `src/pages/NotFound.tsx` para el catch-all real dentro
+  de la SPA (rutas que de verdad no existen), que es un archivo distinto
+  con un propósito distinto.
 
 ## 14. Monorepo (opcional — solo si el repo tiene múltiples subproyectos)
 
