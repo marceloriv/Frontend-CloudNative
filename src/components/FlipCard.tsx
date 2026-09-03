@@ -1,13 +1,13 @@
-import { useState } from "react"
+import { useState } from "react";
 
 interface FlipCardProps {
-  front: React.ReactNode
-  back: React.ReactNode
-  height?: number
+  front: React.ReactNode;
+  back: React.ReactNode;
+  height?: number;
 }
 
 export function FlipCard({ front, back, height = 180 }: FlipCardProps) {
-  const [flipped, setFlipped] = useState(false)
+  const [flipped, setFlipped] = useState(false);
 
   return (
     <div
@@ -51,5 +51,5 @@ export function FlipCard({ front, back, height = 180 }: FlipCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

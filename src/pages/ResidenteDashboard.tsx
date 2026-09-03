@@ -1,56 +1,56 @@
-import { useState } from "react"
-import { Link } from "react-router"
-import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts"
-import { useAuth } from "../hooks/useAuth"
+import { useState } from "react";
+import { Link } from "react-router";
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
+import { useAuth } from "../hooks/useAuth";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface SparkPoint {
-  v: number
+  v: number;
 }
 
 interface KpiCardProps {
-  icon: string
-  title: string
-  value: string
-  subtitle: string
+  icon: string;
+  title: string;
+  value: string;
+  subtitle: string;
   badge: {
-    label: string
-    variant: "green" | "yellow" | "blue"
-  }
-  spark?: SparkPoint[]
-  sparkColor?: string
+    label: string;
+    variant: "green" | "yellow" | "blue";
+  };
+  spark?: SparkPoint[];
+  sparkColor?: string;
 }
 
 interface NoticeCard {
-  id: number
-  title: string
-  date: string
-  category: string
-  excerpt: string
+  id: number;
+  title: string;
+  date: string;
+  category: string;
+  excerpt: string;
 }
 
 interface Visit {
-  id: number
-  nombre: string
-  fecha: string
-  estado: "Confirmada" | "Pendiente QR"
+  id: number;
+  nombre: string;
+  fecha: string;
+  estado: "Confirmada" | "Pendiente QR";
 }
 
 interface ActivityItem {
-  id: number
-  icon: string
-  description: string
-  timestamp: string
-  color: string
+  id: number;
+  icon: string;
+  description: string;
+  timestamp: string;
+  color: string;
 }
 
 interface QuickLink {
-  label: string
-  icon: string
-  to: string
-  bg: string
-  iconColor: string
+  label: string;
+  icon: string;
+  to: string;
+  bg: string;
+  iconColor: string;
 }
 
 // ── Sub-components ───────────────────────────────────────────────────────────
@@ -59,30 +59,22 @@ const BADGE_STYLES: Record<string, string> = {
   green: "bg-primary/15 text-primary",
   yellow: "bg-alert-yellow/20 text-text",
   blue: "bg-blue-100 text-blue-700",
-}
+};
 
-function Badge({
-  label,
-  variant,
-}: {
-  label: string
-  variant: "green" | "yellow" | "blue"
-}) {
-  const styles = BADGE_STYLES
+function Badge({ label, variant }: { label: string; variant: "green" | "yellow" | "blue" }) {
+  const styles = BADGE_STYLES;
 
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${styles[variant]}`}
     >
-      {variant === "green" && (
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" />
-      )}
+      {variant === "green" && <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary" />}
       {variant === "yellow" && (
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-alert-yellow" />
       )}
       {label}
     </span>
-  )
+  );
 }
 
 function KpiCard({
@@ -101,21 +93,14 @@ function KpiCard({
         <Badge label={badge.label} variant={badge.variant} />
       </div>
       <div>
-        <p className="font-body text-xs font-medium uppercase tracking-wide text-muted">
-          {title}
-        </p>
-        <p className="mt-1 font-display text-xl font-semibold text-text">
-          {value}
-        </p>
+        <p className="font-body text-xs font-medium uppercase tracking-wide text-muted">{title}</p>
+        <p className="mt-1 font-display text-xl font-semibold text-text">{value}</p>
         <p className="mt-0.5 font-body text-sm text-muted">{subtitle}</p>
       </div>
       {spark && (
         <div className="h-10 -mx-5 -mb-5 mt-1">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={spark}
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-            >
+            <AreaChart data={spark} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id={`sg-${title}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={sparkColor} stopOpacity={0.18} />
@@ -154,7 +139,7 @@ function KpiCard({
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function NoticeTile({ notice }: { notice: NoticeCard }) {
@@ -166,14 +151,10 @@ function NoticeTile({ notice }: { notice: NoticeCard }) {
         </span>
         <span className="font-body text-xs text-muted">{notice.date}</span>
       </div>
-      <h3 className="font-display text-base font-semibold text-text">
-        {notice.title}
-      </h3>
-      <p className="font-body text-sm leading-relaxed text-muted line-clamp-2">
-        {notice.excerpt}
-      </p>
+      <h3 className="font-display text-base font-semibold text-text">{notice.title}</h3>
+      <p className="font-body text-sm leading-relaxed text-muted line-clamp-2">{notice.excerpt}</p>
     </div>
-  )
+  );
 }
 
 // ── Static data ───────────────────────────────────────────────────────────────
@@ -203,7 +184,7 @@ const notices: NoticeCard[] = [
     excerpt:
       "Ya están abiertas las inscripciones para el torneo de tenis interno del condominio. Plazas limitadas, inscríbete antes del 25 de agosto.",
   },
-]
+];
 
 const visits: Visit[] = [
   {
@@ -218,7 +199,7 @@ const visits: Visit[] = [
     fecha: "Sáb 23 ago, 10:00–14:00",
     estado: "Pendiente QR",
   },
-]
+];
 
 const quickLinks: QuickLink[] = [
   {
@@ -263,7 +244,7 @@ const quickLinks: QuickLink[] = [
     bg: "bg-slate-100",
     iconColor: "text-slate-600",
   },
-]
+];
 
 const activity: ActivityItem[] = [
   {
@@ -294,14 +275,14 @@ const activity: ActivityItem[] = [
     timestamp: "Hace 5 días",
     color: "bg-slate-400 text-white",
   },
-]
+];
 
 // ── Page component ────────────────────────────────────────────────────────────
 
 export default function ResidenteDashboard() {
-  const { user } = useAuth()
-  const [notifDismissed, setNotifDismissed] = useState(false)
-  const unreadCount = 3
+  const { user } = useAuth();
+  const [notifDismissed, setNotifDismissed] = useState(false);
+  const unreadCount = 3;
 
   return (
     <div className="flex flex-col gap-0 font-body">
@@ -472,9 +453,7 @@ export default function ResidenteDashboard() {
               {/* Visitas próximas */}
               <section id="incidentes">
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="font-display text-xl font-semibold text-text">
-                    Visitas próximas
-                  </h2>
+                  <h2 className="font-display text-xl font-semibold text-text">Visitas próximas</h2>
                   <Link
                     to="/visitas"
                     className="font-body text-sm font-medium text-primary hover:underline"
@@ -486,36 +465,20 @@ export default function ResidenteDashboard() {
                   <table className="w-full font-body text-sm">
                     <thead>
                       <tr className="border-b border-border bg-slate-50 text-left">
-                        <th className="px-4 py-3 font-semibold text-muted">
-                          Nombre
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-muted">
-                          Fecha
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-muted">
-                          Estado
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-muted">
-                          Acción
-                        </th>
+                        <th className="px-4 py-3 font-semibold text-muted">Nombre</th>
+                        <th className="px-4 py-3 font-semibold text-muted">Fecha</th>
+                        <th className="px-4 py-3 font-semibold text-muted">Estado</th>
+                        <th className="px-4 py-3 font-semibold text-muted">Acción</th>
                       </tr>
                     </thead>
                     <tbody>
                       {visits.map((visit, i) => (
                         <tr
                           key={visit.id}
-                          className={
-                            i < visits.length - 1
-                              ? "border-b border-border"
-                              : ""
-                          }
+                          className={i < visits.length - 1 ? "border-b border-border" : ""}
                         >
-                          <td className="px-4 py-3 font-medium text-text">
-                            {visit.nombre}
-                          </td>
-                          <td className="px-4 py-3 text-muted">
-                            {visit.fecha}
-                          </td>
+                          <td className="px-4 py-3 font-medium text-text">{visit.nombre}</td>
+                          <td className="px-4 py-3 text-muted">{visit.fecha}</td>
                           <td className="px-4 py-3">
                             {visit.estado === "Confirmada" ? (
                               <Badge label="Confirmada" variant="green" />
@@ -581,9 +544,7 @@ export default function ResidenteDashboard() {
                           <p className="font-body text-sm leading-snug text-text">
                             {item.description}
                           </p>
-                          <p className="font-body text-xs text-muted">
-                            {item.timestamp}
-                          </p>
+                          <p className="font-body text-xs text-muted">{item.timestamp}</p>
                         </div>
                         {i < activity.length - 1 && (
                           <span className="absolute" aria-hidden="true" />
@@ -603,8 +564,7 @@ export default function ResidenteDashboard() {
                 ¿Tienes dudas sobre los gastos?
               </h3>
               <p className="mt-0.5 font-body text-sm text-muted">
-                Revisa el detalle de gastos comunes y el registro de
-                mantenciones.
+                Revisa el detalle de gastos comunes y el registro de mantenciones.
               </p>
             </div>
             <Link
@@ -617,5 +577,5 @@ export default function ResidenteDashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }

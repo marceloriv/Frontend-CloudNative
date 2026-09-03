@@ -5,6 +5,16 @@ Todas las modificaciones notables de este proyecto se documentan en este archivo
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.2.0] - 2026-09-03
+
+### Added
+
+- Login de residentes con Google vía AWS Cognito Hosted UI (Authorization
+  Code + PKCE) — `src/lib/cognitoAuth.ts`, `src/pages/AuthCallback.tsx`.
+  Backend (`terraform/cognito.tf`) desplegado en AWS real.
+- `.github/workflows/deploy.yml` inyecta `VITE_COGNITO_*` (GitHub Actions
+  Variables) en el build de producción.
+
 ## [0.1.1] - 2026-08-20
 
 ### Added
@@ -16,11 +26,17 @@ y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Changed
 
-- Código formateado con `oxfmt` (29 archivos, cambios de estilo puros).
-  `oxfmt@0.2.0` tiene un bug reproducible que rompe la sintaxis de tipos
+- Código formateado con `oxfmt`. `oxfmt@0.2.0` (versión con la que arrancó
+  el proyecto) tiene un bug reproducible que rompe la sintaxis de tipos
   inline de una línea (`{ key: X; label: string }` pierde el `;`) —
-  corregido a mano en los archivos afectados; por eso no quedó como gate
-  obligatorio en `ci-develop.yml`.
+  corregido a mano mientras tanto. Actualizado a `oxfmt@0.64.0`, que no
+  tiene el bug — confirmado corriendo el formateo de nuevo sobre todo el
+  código. Ahora sí es gate obligatorio: `npm run format:check` en
+  `ci-develop.yml`.
+- Script `format` acotado a `src eslint.config.js vite.config.ts` — sin
+  el scope explícito, `oxfmt@0.64.0` reformatea todo el cwd, incluyendo
+  `.claude/skills`/`.agents/skills` (contenido de terceros, no del
+  proyecto).
 
 ### Fixed
 

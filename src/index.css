@@ -1,57 +1,95 @@
-@import url('https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@300;400;500;600;700&display=swap');
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
 
 @theme inline {
-  --color-primary: #0D9488;
+  --color-primary: #0d9488;
   --color-accent: #005047;
-  --color-surface: #FFFFFF;
-  --color-border: #E2E8F0;
-  --color-text: #00201B;
-  --color-muted: #64748B;
-  --color-alert-red: #E11D48;
-  --color-alert-yellow: #EAB308;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #00201b;
+  --color-muted: #64748b;
+  --color-alert-red: #e11d48;
+  --color-alert-yellow: #eab308;
 
-  --font-display: 'Gloock', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: "Gloock", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
 }
 
 /* ── Hero entrance animations ─────────────────────────────────────── */
 @keyframes cvFadeSlideUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes cvBlobDrift {
-  0%,100% { transform: translate(0,    0)    scale(1);    }
-  33%      { transform: translate(34px, -24px) scale(1.06); }
-  66%      { transform: translate(-22px, 14px) scale(0.96); }
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(34px, -24px) scale(1.06);
+  }
+  66% {
+    transform: translate(-22px, 14px) scale(0.96);
+  }
 }
 
 @keyframes cvGradientPan {
-  0%,100% { background-position: 0% 50%;   }
-  50%      { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Staggered hero elements */
-.cv-hero-badge    { animation: cvFadeSlideUp 0.5s ease-out 0.0s both; }
-.cv-hero-h1       { animation: cvFadeSlideUp 0.5s ease-out 0.15s both; }
-.cv-hero-subtitle { animation: cvFadeSlideUp 0.5s ease-out 0.28s both; }
-.cv-hero-ctas     { animation: cvFadeSlideUp 0.5s ease-out 0.40s both; }
-.cv-hero-badges   { animation: cvFadeSlideUp 0.5s ease-out 0.52s both; }
-.cv-hero-card     { animation: cvFadeSlideUp 0.55s ease-out 0.30s both; }
+.cv-hero-badge {
+  animation: cvFadeSlideUp 0.5s ease-out 0s both;
+}
+.cv-hero-h1 {
+  animation: cvFadeSlideUp 0.5s ease-out 0.15s both;
+}
+.cv-hero-subtitle {
+  animation: cvFadeSlideUp 0.5s ease-out 0.28s both;
+}
+.cv-hero-ctas {
+  animation: cvFadeSlideUp 0.5s ease-out 0.4s both;
+}
+.cv-hero-badges {
+  animation: cvFadeSlideUp 0.5s ease-out 0.52s both;
+}
+.cv-hero-card {
+  animation: cvFadeSlideUp 0.55s ease-out 0.3s both;
+}
 
 /* Floating blobs */
-.cv-blob          { animation: cvBlobDrift var(--drift-dur, 12s) ease-in-out infinite; }
+.cv-blob {
+  animation: cvBlobDrift var(--drift-dur, 12s) ease-in-out infinite;
+}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .cv-hero-badge, .cv-hero-h1, .cv-hero-subtitle,
-  .cv-hero-ctas, .cv-hero-badges, .cv-hero-card {
+  .cv-hero-badge,
+  .cv-hero-h1,
+  .cv-hero-subtitle,
+  .cv-hero-ctas,
+  .cv-hero-badges,
+  .cv-hero-card {
     animation: none;
     opacity: 1;
     transform: none;
   }
-  .cv-blob { animation: none; }
+  .cv-blob {
+    animation: none;
+  }
 }
 
 * {
@@ -64,8 +102,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: #00201B;
-  background: #FFFFFF;
+  color: #00201b;
+  background: #ffffff;
 }
 
 ::-webkit-scrollbar {
@@ -75,6 +113,6 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #cbd5e1;
   border-radius: 3px;
 }

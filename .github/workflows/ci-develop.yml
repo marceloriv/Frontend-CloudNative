@@ -1,6 +1,7 @@
 # CI — develop
-# Valida lint + typecheck + build en PRs hacia `develop` y en cada push directo
-# a `develop` (sin paso de deploy). Tapa el gap: hoy nada corre en esta rama.
+# Valida format + lint + typecheck + build en PRs hacia `develop` y en cada
+# push directo a `develop` (sin paso de deploy). Tapa el gap: hoy nada corre
+# en esta rama.
 
 name: CI — develop
 
@@ -29,6 +30,9 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - name: Format check
+        run: npm run format:check
 
       - name: Lint
         run: npm run lint

@@ -1,24 +1,31 @@
-import React, { useState } from "react"
-import { useAuth } from "../hooks/useAuth"
+import React, { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type EstadoIncidente = "abierto" | "en_revision" | "en_progreso" | "resuelto" | "cerrado"
-type Prioridad = "alta" | "media" | "baja"
-type Categoria = "Mantención" | "Seguridad" | "Limpieza" | "Gasfitería" | "Eléctrico" | "Ascensor" | "Otro"
+type EstadoIncidente = "abierto" | "en_revision" | "en_progreso" | "resuelto" | "cerrado";
+type Prioridad = "alta" | "media" | "baja";
+type Categoria =
+  | "Mantención"
+  | "Seguridad"
+  | "Limpieza"
+  | "Gasfitería"
+  | "Eléctrico"
+  | "Ascensor"
+  | "Otro";
 
 interface Incidente {
-  id: string
-  titulo: string
-  descripcion: string
-  categoria: Categoria
-  prioridad: Prioridad
-  ubicacion: string
-  estado: EstadoIncidente
-  fechaCreacion: string
-  reportadoPor: string
-  responsable: string | null
-  unidad: string
+  id: string;
+  titulo: string;
+  descripcion: string;
+  categoria: Categoria;
+  prioridad: Prioridad;
+  ubicacion: string;
+  estado: EstadoIncidente;
+  fechaCreacion: string;
+  reportadoPor: string;
+  responsable: string | null;
+  unidad: string;
 }
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
@@ -41,8 +48,7 @@ const SEED: Incidente[] = [
   {
     id: "2",
     titulo: "Lámpara fundida en estacionamiento subterráneo B2",
-    descripcion:
-      "Zona sin iluminación entre columnas 14 y 17. Riesgo de accidente.",
+    descripcion: "Zona sin iluminación entre columnas 14 y 17. Riesgo de accidente.",
     categoria: "Eléctrico",
     prioridad: "media",
     ubicacion: "Estacionamiento · Nivel B2",
@@ -69,8 +75,7 @@ const SEED: Incidente[] = [
   {
     id: "4",
     titulo: "Basura acumulada en acceso peatonal norte",
-    descripcion:
-      "Bolsas de basura dejadas fuera del horario de retiro, llevan 2 días ahí.",
+    descripcion: "Bolsas de basura dejadas fuera del horario de retiro, llevan 2 días ahí.",
     categoria: "Limpieza",
     prioridad: "baja",
     ubicacion: "Acceso peatonal norte",
@@ -94,7 +99,7 @@ const SEED: Incidente[] = [
     responsable: "Ana Vidal",
     unidad: "Administración",
   },
-]
+];
 
 const CATEGORIAS: Categoria[] = [
   "Mantención",
@@ -104,7 +109,7 @@ const CATEGORIAS: Categoria[] = [
   "Eléctrico",
   "Ascensor",
   "Otro",
-]
+];
 const UBICACIONES = [
   "Torre A · Lobby",
   "Torre A · Piso 1",
@@ -121,21 +126,16 @@ const UBICACIONES = [
   "Área común · Quincho",
   "Acceso peatonal norte",
   "Acceso vehicular sur",
-]
-const RESPONSABLES = [
-  "Jorge Pizarro",
-  "Ana Vidal",
-  "Eduardo Mena",
-  "Verónica Lagos",
-]
+];
+const RESPONSABLES = ["Jorge Pizarro", "Ana Vidal", "Eduardo Mena", "Verónica Lagos"];
 
 // ─── Estado badge config ──────────────────────────────────────────────────────
 
 interface EstadoConfig {
-  label: string
-  icon: string // inline SVG path command or emoji-style
-  bg: string
-  text: string
+  label: string;
+  icon: string; // inline SVG path command or emoji-style
+  bg: string;
+  text: string;
 }
 
 const ESTADO_MAP: Record<EstadoIncidente, EstadoConfig> = {
@@ -169,13 +169,13 @@ const ESTADO_MAP: Record<EstadoIncidente, EstadoConfig> = {
     bg: "bg-slate-100",
     text: "text-muted",
   },
-}
+};
 
 const PRIORIDAD_MAP: Record<Prioridad, { label: string; dot: string }> = {
   alta: { label: "Alta", dot: "bg-alert-red" },
   media: { label: "Media", dot: "bg-alert-yellow" },
   baja: { label: "Baja", dot: "bg-primary" },
-}
+};
 
 // ─── Icon components ──────────────────────────────────────────────────────────
 
@@ -194,7 +194,7 @@ function IconAlert() {
       <line x1="12" y1="9" x2="12" y2="13" />
       <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
-  )
+  );
 }
 function IconClock() {
   return (
@@ -210,7 +210,7 @@ function IconClock() {
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
     </svg>
-  )
+  );
 }
 function IconRefresh() {
   return (
@@ -226,7 +226,7 @@ function IconRefresh() {
       <polyline points="23 4 23 10 17 10" />
       <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
     </svg>
-  )
+  );
 }
 function IconCheck() {
   return (
@@ -241,7 +241,7 @@ function IconCheck() {
     >
       <polyline points="20 6 9 17 4 12" />
     </svg>
-  )
+  );
 }
 function IconX() {
   return (
@@ -257,7 +257,7 @@ function IconX() {
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
-  )
+  );
 }
 
 const ICON_COMPONENTS: Record<string, () => React.ReactElement> = {
@@ -266,13 +266,13 @@ const ICON_COMPONENTS: Record<string, () => React.ReactElement> = {
   refresh: IconRefresh,
   check: IconCheck,
   x: IconX,
-}
+};
 
 // ─── EstadoBadge ──────────────────────────────────────────────────────────────
 
 function EstadoBadge({ estado }: { estado: EstadoIncidente }) {
-  const cfg = ESTADO_MAP[estado]
-  const Icon = ICON_COMPONENTS[cfg.icon]
+  const cfg = ESTADO_MAP[estado];
+  const Icon = ICON_COMPONENTS[cfg.icon];
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${cfg.bg} ${cfg.text}`}
@@ -280,43 +280,38 @@ function EstadoBadge({ estado }: { estado: EstadoIncidente }) {
       <Icon />
       {cfg.label}
     </span>
-  )
+  );
 }
 
 // ─── Nuevo incidente modal ────────────────────────────────────────────────────
 
 interface NuevoFormState {
-  titulo: string
-  descripcion: string
-  categoria: Categoria
-  prioridad: Prioridad
-  ubicacion: string
+  titulo: string;
+  descripcion: string;
+  categoria: Categoria;
+  prioridad: Prioridad;
+  ubicacion: string;
 }
 
 interface NuevoModalProps {
-  onClose: () => void
-  onCreated: (inc: Incidente) => void
-  reportadoPor: string
-  unidad: string
+  onClose: () => void;
+  onCreated: (inc: Incidente) => void;
+  reportadoPor: string;
+  unidad: string;
 }
 
-function NuevoModal({
-  onClose,
-  onCreated,
-  reportadoPor,
-  unidad,
-}: NuevoModalProps) {
+function NuevoModal({ onClose, onCreated, reportadoPor, unidad }: NuevoModalProps) {
   const [form, setForm] = useState<NuevoFormState>({
     titulo: "",
     descripcion: "",
     categoria: "Mantención",
     prioridad: "media",
     ubicacion: UBICACIONES[0],
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const now = new Date()
+    e.preventDefault();
+    const now = new Date();
     const meses = [
       "ene",
       "feb",
@@ -330,8 +325,8 @@ function NuevoModal({
       "oct",
       "nov",
       "dic",
-    ]
-    const fecha = `${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}`
+    ];
+    const fecha = `${now.getDate()} ${meses[now.getMonth()]} ${now.getFullYear()}`;
     onCreated({
       id: Date.now().toString(),
       titulo: form.titulo,
@@ -344,9 +339,9 @@ function NuevoModal({
       reportadoPor,
       responsable: null,
       unidad,
-    })
-    onClose()
-  }
+    });
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -365,11 +360,7 @@ function NuevoModal({
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -403,9 +394,7 @@ function NuevoModal({
               <select
                 id="incidente-categoria"
                 value={form.categoria}
-                onChange={(e) =>
-                  setForm({ ...form, categoria: e.target.value as Categoria })
-                }
+                onChange={(e) => setForm({ ...form, categoria: e.target.value as Categoria })}
                 className="w-full rounded-lg border border-border px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary/40"
               >
                 {CATEGORIAS.map((c) => (
@@ -423,9 +412,7 @@ function NuevoModal({
               <select
                 id="incidente-prioridad"
                 value={form.prioridad}
-                onChange={(e) =>
-                  setForm({ ...form, prioridad: e.target.value as Prioridad })
-                }
+                onChange={(e) => setForm({ ...form, prioridad: e.target.value as Prioridad })}
                 className="w-full rounded-lg border border-border px-3 py-2 text-text bg-white focus:outline-none focus:ring-2 focus:ring-primary/40"
               >
                 <option value="alta">Alta</option>
@@ -464,9 +451,7 @@ function NuevoModal({
             <textarea
               id="incidente-descripcion"
               value={form.descripcion}
-              onChange={(e) =>
-                setForm({ ...form, descripcion: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
               rows={3}
               className="w-full rounded-lg border border-border px-3 py-2 text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none"
               placeholder="Detalla lo que ocurrió, cuándo lo notaste y cualquier información útil..."
@@ -493,18 +478,18 @@ function NuevoModal({
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── Asignar responsable (admin only) ────────────────────────────────────────
 
 interface AsignarDropdownProps {
-  current: string | null
-  onAsignar: (nombre: string) => void
+  current: string | null;
+  onAsignar: (nombre: string) => void;
 }
 
 function AsignarDropdown({ current, onAsignar }: AsignarDropdownProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   return (
     <div className="relative">
       <button
@@ -533,8 +518,8 @@ function AsignarDropdown({ current, onAsignar }: AsignarDropdownProps) {
             <button
               key={r}
               onClick={() => {
-                onAsignar(r)
-                setOpen(false)
+                onAsignar(r);
+                setOpen(false);
               }}
               className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
                 r === current ? "font-semibold text-primary" : "text-text"
@@ -546,17 +531,17 @@ function AsignarDropdown({ current, onAsignar }: AsignarDropdownProps) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 // ─── Incidente card ───────────────────────────────────────────────────────────
 
 interface IncidenteCardProps {
-  inc: Incidente
-  onAsignar: (id: string, responsable: string) => void
-  onCambiarEstado: (id: string, estado: EstadoIncidente) => void
-  isAdmin: boolean
-  isConserje: boolean
+  inc: Incidente;
+  onAsignar: (id: string, responsable: string) => void;
+  onCambiarEstado: (id: string, estado: EstadoIncidente) => void;
+  isAdmin: boolean;
+  isConserje: boolean;
 }
 
 function IncidenteCard({
@@ -566,7 +551,7 @@ function IncidenteCard({
   isAdmin,
   isConserje,
 }: IncidenteCardProps) {
-  const prioridadCfg = PRIORIDAD_MAP[inc.prioridad]
+  const prioridadCfg = PRIORIDAD_MAP[inc.prioridad];
 
   return (
     <div className="bg-white rounded-xl border border-border p-5 flex flex-col gap-3 hover:shadow-sm transition-shadow">
@@ -583,9 +568,7 @@ function IncidenteCard({
                     : "bg-primary/10 text-primary"
               }`}
             >
-              <span
-                className={`w-1.5 h-1.5 rounded-full ${prioridadCfg.dot}`}
-              />
+              <span className={`w-1.5 h-1.5 rounded-full ${prioridadCfg.dot}`} />
               {prioridadCfg.label}
             </span>
             <span className="text-xs text-muted bg-slate-50 border border-border rounded-full px-2 py-0.5">
@@ -599,9 +582,7 @@ function IncidenteCard({
 
       {/* Description */}
       {inc.descripcion && (
-        <p className="text-sm text-muted leading-relaxed line-clamp-2">
-          {inc.descripcion}
-        </p>
+        <p className="text-sm text-muted leading-relaxed line-clamp-2">{inc.descripcion}</p>
       )}
 
       {/* Meta */}
@@ -653,39 +634,32 @@ function IncidenteCard({
           {/* Assign — admin only */}
           {isAdmin && (
             <div className="ml-auto">
-              <AsignarDropdown
-                current={inc.responsable}
-                onAsignar={(r) => onAsignar(inc.id, r)}
-              />
+              <AsignarDropdown current={inc.responsable} onAsignar={(r) => onAsignar(inc.id, r)} />
             </div>
           )}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Incidentes() {
-  const { role, user } = useAuth()
-  const isAdmin = role === "admin"
-  const isConserje = role === "conserje"
+  const { role, user } = useAuth();
+  const isAdmin = role === "admin";
+  const isConserje = role === "conserje";
 
-  const [incidentes, setIncidentes] = useState<Incidente[]>(SEED)
-  const [filtroEstado, setFiltroEstado] = useState<EstadoIncidente | "todos">(
-    "todos",
-  )
-  const [filtroPrioridad, setFiltroPrioridad] = useState<Prioridad | "todas">(
-    "todas",
-  )
-  const [showNuevo, setShowNuevo] = useState(false)
+  const [incidentes, setIncidentes] = useState<Incidente[]>(SEED);
+  const [filtroEstado, setFiltroEstado] = useState<EstadoIncidente | "todos">("todos");
+  const [filtroPrioridad, setFiltroPrioridad] = useState<Prioridad | "todas">("todas");
+  const [showNuevo, setShowNuevo] = useState(false);
 
   const filtrados = incidentes.filter(
     (i) =>
       (filtroEstado === "todos" || i.estado === filtroEstado) &&
       (filtroPrioridad === "todas" || i.prioridad === filtroPrioridad),
-  )
+  );
 
   const counts: Record<EstadoIncidente | "todos", number> = {
     todos: incidentes.length,
@@ -694,17 +668,13 @@ export default function Incidentes() {
     en_progreso: incidentes.filter((i) => i.estado === "en_progreso").length,
     resuelto: incidentes.filter((i) => i.estado === "resuelto").length,
     cerrado: incidentes.filter((i) => i.estado === "cerrado").length,
-  }
+  };
 
   const handleAsignar = (id: string, responsable: string) =>
-    setIncidentes((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, responsable } : i)),
-    )
+    setIncidentes((prev) => prev.map((i) => (i.id === id ? { ...i, responsable } : i)));
 
   const handleCambiarEstado = (id: string, estado: EstadoIncidente) =>
-    setIncidentes((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, estado } : i)),
-    )
+    setIncidentes((prev) => prev.map((i) => (i.id === id ? { ...i, estado } : i)));
 
   const FILTER_TABS: { key: EstadoIncidente | "todos"; label: string }[] = [
     { key: "todos", label: `Todos (${counts.todos})` },
@@ -713,7 +683,7 @@ export default function Incidentes() {
     { key: "en_progreso", label: `Progreso (${counts.en_progreso})` },
     { key: "resuelto", label: `Resueltos (${counts.resuelto})` },
     { key: "cerrado", label: `Cerrados (${counts.cerrado})` },
-  ]
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 font-body">
@@ -756,9 +726,7 @@ export default function Incidentes() {
                   : "border-transparent text-muted hover:text-text"
               }`}
             >
-              {key !== "todos" && (
-                <EstadoBadge estado={key as EstadoIncidente} />
-              )}
+              {key !== "todos" && <EstadoBadge estado={key as EstadoIncidente} />}
               {key === "todos" && label}
             </button>
           ))}
@@ -805,9 +773,7 @@ export default function Incidentes() {
               />
             </svg>
             <p className="font-semibold">Sin incidentes para este filtro</p>
-            <p className="text-sm mt-1">
-              Cambia el filtro o reporta uno nuevo.
-            </p>
+            <p className="text-sm mt-1">Cambia el filtro o reporta uno nuevo.</p>
           </div>
         ) : (
           <div className="flex flex-col gap-4">
@@ -834,5 +800,5 @@ export default function Incidentes() {
         />
       )}
     </div>
-  )
+  );
 }

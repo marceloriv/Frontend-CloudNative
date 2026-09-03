@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { Link } from "react-router"
-import { useAuth } from "../hooks/useAuth"
-import { avisos } from "../lib/data"
-import { FlipCard } from "../components/FlipCard"
+import { useState } from "react";
+import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
+import { avisos } from "../lib/data";
+import { FlipCard } from "../components/FlipCard";
 import {
   IconPlus,
   IconBell,
@@ -12,16 +12,19 @@ import {
   IconMessage,
   IconHome,
   IconChevronRight,
-} from "../components/icons/Icons"
+} from "../components/icons/Icons";
 
-const tipos = ["Todos", "Asamblea", "Mantención", "Aviso"]
+const tipos = ["Todos", "Asamblea", "Mantención", "Aviso"];
 
-type BadgeKey = "primary" | "accent" | "warning"
-const badgeClasses: Record<BadgeKey, {
-  border: string
-  label: string
-  text: string
-}> = {
+type BadgeKey = "primary" | "accent" | "warning";
+const badgeClasses: Record<
+  BadgeKey,
+  {
+    border: string;
+    label: string;
+    text: string;
+  }
+> = {
   primary: {
     border: "border-l-primary",
     label: "bg-primary/10 text-primary",
@@ -37,12 +40,12 @@ const badgeClasses: Record<BadgeKey, {
     label: "bg-alert-yellow/20 text-text",
     text: "text-text",
   },
-}
+};
 
 interface FlipCardData {
-  title: string
-  desc: string
-  icon: React.ReactNode
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
 }
 
 const flipCards: FlipCardData[] = [
@@ -66,43 +69,39 @@ const flipCards: FlipCardData[] = [
     desc: "Cada aviso nuevo llega a tu teléfono automáticamente.",
     icon: <IconHome style={{ width: 28, height: 28, color: "#0D9488" }} />,
   },
-]
+];
 
 interface AltSection {
-  title: string
-  body: string
-  imgUrl: string
-  imgLeft: boolean
+  title: string;
+  body: string;
+  imgUrl: string;
+  imgLeft: boolean;
 }
 
 const altSections: AltSection[] = [
   {
     title: "Comunicación efectiva",
     body: "El tablón digital garantiza que cada aviso llegue a todos los residentes al mismo tiempo. Sin carteles deteriorados, sin información desactualizada. La comunidad siempre informada.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=700&h=500&fit=crop",
     imgLeft: true,
   },
   {
     title: "Sin papel",
     body: "Adiós a las impresiones y las hojas pegadas en el ascensor. Cada publicación queda almacenada con fecha, autor y tipo, disponible para consultar en cualquier momento desde cualquier dispositivo.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&h=500&fit=crop",
     imgLeft: false,
   },
-]
+];
 
 export default function Tablon() {
-  const { role } = useAuth()
-  const canPublishDirect = role === "admin" || role === "comite"
+  const { role } = useAuth();
+  const canPublishDirect = role === "admin" || role === "comite";
 
-  const [activeTipo, setActiveTipo] = useState("Todos")
-  const [confirmados, setConfirmados] = useState<Record<number, boolean>>({})
-  const [showNew, setShowNew] = useState(false)
+  const [activeTipo, setActiveTipo] = useState("Todos");
+  const [confirmados, setConfirmados] = useState<Record<number, boolean>>({});
+  const [showNew, setShowNew] = useState(false);
 
-  const filtered = avisos.filter(
-    (a) => activeTipo === "Todos" || a.tipo === activeTipo,
-  )
+  const filtered = avisos.filter((a) => activeTipo === "Todos" || a.tipo === activeTipo);
 
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
@@ -199,8 +198,8 @@ export default function Tablon() {
                 lineHeight: 1.65,
               }}
             >
-              Cartelera digital comunitaria con avisos, asambleas y comunicados
-              del comité — en tiempo real.
+              Cartelera digital comunitaria con avisos, asambleas y comunicados del comité — en
+              tiempo real.
             </p>
           </div>
           <button
@@ -228,9 +227,7 @@ export default function Tablon() {
       </div>
 
       {/* Main notices content */}
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* Filters & stats */}
         <div
           style={{
@@ -257,17 +254,14 @@ export default function Tablon() {
                   borderColor: activeTipo === t ? "#0D9488" : "#E2E8F0",
                   background: activeTipo === t ? "#0D9488" : "#fff",
                   color: activeTipo === t ? "#fff" : "#64748B",
-                  transition:
-                    "border-color 0.15s, background 0.15s, color 0.15s",
+                  transition: "border-color 0.15s, background 0.15s, color 0.15s",
                 }}
               >
                 {t}
               </button>
             ))}
           </div>
-          <div style={{ fontSize: 13, color: "#94A3B8" }}>
-            {filtered.length} publicaciones
-          </div>
+          <div style={{ fontSize: 13, color: "#94A3B8" }}>{filtered.length} publicaciones</div>
         </div>
 
         {/* Cards */}
@@ -279,10 +273,9 @@ export default function Tablon() {
           }}
         >
           {filtered.map((a) => {
-            const idx = avisos.indexOf(a)
-            const yaConfirmado = confirmados[idx]
-            const bc =
-              badgeClasses[(a.badge as BadgeKey)] ?? badgeClasses.primary
+            const idx = avisos.indexOf(a);
+            const yaConfirmado = confirmados[idx];
+            const bc = badgeClasses[a.badge as BadgeKey] ?? badgeClasses.primary;
             return (
               <div
                 key={a.titulo}
@@ -302,9 +295,7 @@ export default function Tablon() {
                     >
                       {a.tipo}
                     </span>
-                    <span style={{ fontSize: 12, color: "#94A3B8" }}>
-                      {a.fecha}
-                    </span>
+                    <span style={{ fontSize: 12, color: "#94A3B8" }}>{a.fecha}</span>
                   </div>
                   <h3
                     style={{
@@ -338,8 +329,8 @@ export default function Tablon() {
                       marginBottom: 16,
                     }}
                   >
-                    <IconBell style={{ width: 12, height: 12 }} /> Publicado
-                    por: <strong style={{ color: "#64748B" }}>{a.autor}</strong>
+                    <IconBell style={{ width: 12, height: 12 }} /> Publicado por:{" "}
+                    <strong style={{ color: "#64748B" }}>{a.autor}</strong>
                   </div>
                 </div>
                 {a.confirmacion && (
@@ -381,8 +372,7 @@ export default function Tablon() {
                         borderRadius: 8,
                         border: "1px solid",
                         cursor: "pointer",
-                        transition:
-                          "border-color 0.15s, background 0.15s, color 0.15s",
+                        transition: "border-color 0.15s, background 0.15s, color 0.15s",
                         borderColor: yaConfirmado ? "#0D9488" : "#E2E8F0",
                         background: yaConfirmado ? "#F0FDFA" : "#fff",
                         color: yaConfirmado ? "#0D9488" : "#64748B",
@@ -394,7 +384,7 @@ export default function Tablon() {
                   </div>
                 )}
               </div>
-            )
+            );
           })}
         </div>
       </div>
@@ -478,9 +468,7 @@ export default function Tablon() {
                       textAlign: "center",
                     }}
                   >
-                    <span
-                      style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}
-                    >
+                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
                       {card.desc}
                     </span>
                   </div>
@@ -622,8 +610,7 @@ export default function Tablon() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
           >
-            Ver los avisos{" "}
-            <IconChevronRight style={{ width: 16, height: 16 }} />
+            Ver los avisos <IconChevronRight style={{ width: 16, height: 16 }} />
           </Link>
           <button
             onClick={() => setShowNew(true)}
@@ -642,12 +629,12 @@ export default function Tablon() {
               transition: "border-color 0.2s, background 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff"
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)"
+              e.currentTarget.style.borderColor = "#fff";
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"
-              e.currentTarget.style.background = "transparent"
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+              e.currentTarget.style.background = "transparent";
             }}
           >
             {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}{" "}
@@ -768,12 +755,8 @@ export default function Tablon() {
                     outline: "none",
                     boxSizing: "border-box",
                   }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = "#0D9488")
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = "#E2E8F0")
-                  }
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#0D9488")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E2E8F0")}
                 />
               </div>
               <div>
@@ -805,12 +788,8 @@ export default function Tablon() {
                     fontFamily: "inherit",
                     boxSizing: "border-box",
                   }}
-                  onFocus={(e) =>
-                    (e.currentTarget.style.borderColor = "#0D9488")
-                  }
-                  onBlur={(e) =>
-                    (e.currentTarget.style.borderColor = "#E2E8F0")
-                  }
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "#0D9488")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E2E8F0")}
                 />
               </div>
             </div>
@@ -852,5 +831,5 @@ export default function Tablon() {
         </div>
       )}
     </div>
-  )
+  );
 }

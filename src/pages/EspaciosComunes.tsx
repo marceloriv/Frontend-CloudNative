@@ -1,37 +1,37 @@
-import { useState, useEffect, useRef } from "react"
-import { Link } from "react-router"
-import { useAuth } from "../hooks/useAuth"
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 interface Espacio {
-  id: number
-  nombre: string
-  categoria: string
-  capacidad: number
-  tarifa: number
-  disponibleHoy: boolean
-  imagen: string
-  descripcion: string
-  horario: string
-  reglas: string[]
-  deposito: number
+  id: number;
+  nombre: string;
+  categoria: string;
+  capacidad: number;
+  tarifa: number;
+  disponibleHoy: boolean;
+  imagen: string;
+  descripcion: string;
+  horario: string;
+  reglas: string[];
+  deposito: number;
 }
 
 interface Filtros {
-  busqueda: string
-  categoria: string
-  capacidad: string
-  soloDisponibles: boolean
+  busqueda: string;
+  categoria: string;
+  capacidad: string;
+  soloDisponibles: boolean;
 }
 
 interface EspacioCardProps {
-  espacio: Espacio
-  onVerDetalle: (espacio: Espacio) => void
-  isAdmin?: boolean
+  espacio: Espacio;
+  onVerDetalle: (espacio: Espacio) => void;
+  isAdmin?: boolean;
 }
 
 interface DetalleModalProps {
-  espacio: Espacio
-  onClose: () => void
+  espacio: Espacio;
+  onClose: () => void;
 }
 
 const ESPACIOS: Espacio[] = [
@@ -42,8 +42,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 30,
     tarifa: 25000,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1622714384717-3f60c04d7c73?w=600&h=400&fit=crop",
     descripcion:
       "Amplio quincho techado con parrilla de última generación y cocina equipada. Ideal para reuniones familiares y celebraciones. Cuenta con mesas, sillas y servicio de agua caliente.",
     horario: "Lunes a domingo, 10:00 – 22:00 hrs",
@@ -61,8 +60,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 20,
     tarifa: 18000,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop",
     descripcion:
       "Quincho más íntimo ubicado en el nivel inferior del conjunto, con vista al jardín. Perfecto para reuniones pequeñas. Dispone de parrilla a carbón y zona de lavado.",
     horario: "Lunes a domingo, 10:00 – 22:00 hrs",
@@ -80,8 +78,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 50,
     tarifa: 0,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=600&h=400&fit=crop",
     descripcion:
       "Piscina semiolímpica disponible exclusivamente para residentes del condominio y sus invitados. Cuenta con zona de piscina temperada para niños y solarium con reposeras.",
     horario: "Lunes a domingo, 09:00 – 20:00 hrs (temporada)",
@@ -99,8 +96,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 15,
     tarifa: 8000,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
     descripcion:
       "Sala equipada con proyector, pizarrón, wifi de alta velocidad y estaciones de trabajo individuales. Habilitada para reuniones de trabajo, talleres o clases particulares.",
     horario: "Lunes a viernes, 08:00 – 21:00 hrs. Sábado, 09:00 – 18:00 hrs.",
@@ -118,8 +114,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 10,
     tarifa: 5000,
     disponibleHoy: false,
-    imagen:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
     descripcion:
       "Sala recreativa con mesa de ping pong, futbolín, consolas de videojuegos y juegos de mesa. Pensada para el entretenimiento de residentes de todas las edades.",
     horario: "Lunes a domingo, 10:00 – 23:00 hrs",
@@ -137,8 +132,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 12,
     tarifa: 0,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop",
     descripcion:
       "Gimnasio completamente equipado con máquinas cardiovasculares, zona de pesas libres y área de estiramiento. Acceso gratuito para todos los residentes del condominio.",
     horario: "Todos los días, 06:00 – 23:00 hrs",
@@ -156,8 +150,7 @@ const ESPACIOS: Espacio[] = [
     capacidad: 22,
     tarifa: 12000,
     disponibleHoy: true,
-    imagen:
-      "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&h=400&fit=crop",
+    imagen: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&h=400&fit=crop",
     descripcion:
       "Cancha techada habilitada para fútbol sala, básquetbol y volleyball. Superficie de piso flotante de alto rendimiento con iluminación LED para uso nocturno.",
     horario: "Lunes a domingo, 08:00 – 22:00 hrs",
@@ -168,28 +161,28 @@ const ESPACIOS: Espacio[] = [
     ],
     deposito: 24000,
   },
-]
+];
 
 function formatTarifa(tarifa: number): string {
-  if (tarifa === 0) return "Gratis para residentes"
-  return `$${tarifa.toLocaleString("es-CL")} / reserva`
+  if (tarifa === 0) return "Gratis para residentes";
+  return `$${tarifa.toLocaleString("es-CL")} / reserva`;
 }
 
 function formatDeposito(deposito: number): string {
-  if (deposito === 0) return "Sin depósito"
-  return `$${deposito.toLocaleString("es-CL")}`
+  if (deposito === 0) return "Sin depósito";
+  return `$${deposito.toLocaleString("es-CL")}`;
 }
 
 function DetalleModal({ espacio, onClose }: DetalleModalProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null)
-  const closeRef = useRef<HTMLButtonElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    dialogRef.current?.showModal()
-    closeRef.current?.focus()
-  }, [])
+    dialogRef.current?.showModal();
+    closeRef.current?.focus();
+  }, []);
 
-  const handleClose = () => dialogRef.current?.close()
+  const handleClose = () => dialogRef.current?.close();
 
   return (
     <dialog
@@ -249,10 +242,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
             <span className="inline-block bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 rounded-full mb-2">
               {espacio.categoria}
             </span>
-            <h2
-              id="modal-title"
-              className="font-display text-2xl text-text leading-tight"
-            >
+            <h2 id="modal-title" className="font-display text-2xl text-text leading-tight">
               {espacio.nombre}
             </h2>
             <p className="text-muted text-sm mt-1">{espacio.descripcion}</p>
@@ -274,9 +264,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
               />
             </svg>
             <div>
-              <p className="text-xs font-semibold text-muted uppercase tracking-wide">
-                Horario
-              </p>
+              <p className="text-xs font-semibold text-muted uppercase tracking-wide">Horario</p>
               <p className="text-sm text-text">{espacio.horario}</p>
             </div>
           </div>
@@ -288,10 +276,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
             </p>
             <ul className="space-y-1.5">
               {espacio.reglas.map((regla) => (
-                <li
-                  key={regla}
-                  className="flex items-start gap-2 text-sm text-text"
-                >
+                <li key={regla} className="flex items-start gap-2 text-sm text-text">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -314,20 +299,12 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
           {/* Tarifa + Depósito */}
           <div className="bg-slate-50 rounded-xl p-4 flex flex-wrap gap-6">
             <div>
-              <p className="text-xs font-semibold text-muted uppercase tracking-wide">
-                Tarifa
-              </p>
-              <p className="text-lg font-semibold text-text">
-                {formatTarifa(espacio.tarifa)}
-              </p>
+              <p className="text-xs font-semibold text-muted uppercase tracking-wide">Tarifa</p>
+              <p className="text-lg font-semibold text-text">{formatTarifa(espacio.tarifa)}</p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-muted uppercase tracking-wide">
-                Depósito
-              </p>
-              <p className="text-lg font-semibold text-text">
-                {formatDeposito(espacio.deposito)}
-              </p>
+              <p className="text-xs font-semibold text-muted uppercase tracking-wide">Depósito</p>
+              <p className="text-lg font-semibold text-text">{formatDeposito(espacio.deposito)}</p>
             </div>
           </div>
 
@@ -359,7 +336,7 @@ function DetalleModal({ espacio, onClose }: DetalleModalProps) {
         </div>
       </div>
     </dialog>
-  )
+  );
 }
 
 function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
@@ -398,9 +375,7 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
         </span>
 
         {/* Name */}
-        <h3 className="font-display text-lg text-text leading-snug">
-          {espacio.nombre}
-        </h3>
+        <h3 className="font-display text-lg text-text leading-snug">{espacio.nombre}</h3>
 
         {/* Capacity + Tarifa */}
         <div className="flex items-center justify-between text-sm text-muted">
@@ -416,9 +391,7 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
             </svg>
             {espacio.capacidad} personas
           </span>
-          <span className="font-medium text-text">
-            {formatTarifa(espacio.tarifa)}
-          </span>
+          <span className="font-medium text-text">{formatTarifa(espacio.tarifa)}</span>
         </div>
 
         {/* Actions */}
@@ -455,51 +428,40 @@ function EspacioCard({ espacio, onVerDetalle, isAdmin }: EspacioCardProps) {
         </div>
       </div>
     </article>
-  )
+  );
 }
 
 export default function EspaciosComunes() {
-  const { role } = useAuth()
-  const isAdmin = role === "admin"
+  const { role } = useAuth();
+  const isAdmin = role === "admin";
 
   const [filtros, setFiltros] = useState<Filtros>({
     busqueda: "",
     categoria: "Todos",
     capacidad: "Todos",
     soloDisponibles: false,
-  })
-  const [espacioDetalle, setEspacioDetalle] = useState<Espacio | null>(null)
+  });
+  const [espacioDetalle, setEspacioDetalle] = useState<Espacio | null>(null);
 
   const espaciosFiltrados = ESPACIOS.filter((e) => {
-    if (
-      filtros.busqueda &&
-      !e.nombre.toLowerCase().includes(filtros.busqueda.toLowerCase())
-    )
-      return false
-    if (filtros.categoria !== "Todos" && e.categoria !== filtros.categoria)
-      return false
+    if (filtros.busqueda && !e.nombre.toLowerCase().includes(filtros.busqueda.toLowerCase()))
+      return false;
+    if (filtros.categoria !== "Todos" && e.categoria !== filtros.categoria) return false;
     if (filtros.capacidad !== "Todos") {
-      if (filtros.capacidad === "Hasta 10" && e.capacidad > 10) return false
-      if (
-        filtros.capacidad === "10-30" &&
-        (e.capacidad < 10 || e.capacidad > 30)
-      )
-        return false
-      if (filtros.capacidad === "+30 personas" && e.capacidad <= 30)
-        return false
+      if (filtros.capacidad === "Hasta 10" && e.capacidad > 10) return false;
+      if (filtros.capacidad === "10-30" && (e.capacidad < 10 || e.capacidad > 30)) return false;
+      if (filtros.capacidad === "+30 personas" && e.capacidad <= 30) return false;
     }
-    if (filtros.soloDisponibles && !e.disponibleHoy) return false
-    return true
-  })
+    if (filtros.soloDisponibles && !e.disponibleHoy) return false;
+    return true;
+  });
 
   return (
     <>
       {/* Page header */}
       <header className="bg-text px-6 py-8">
         <h1 className="font-display text-3xl text-white">Espacios Comunes</h1>
-        <p className="text-slate-300 text-sm mt-1">
-          7 espacios disponibles en Torres del Parque
-        </p>
+        <p className="text-slate-300 text-sm mt-1">7 espacios disponibles en Torres del Parque</p>
       </header>
 
       {/* Filter bar */}
@@ -525,9 +487,7 @@ export default function EspaciosComunes() {
               aria-label="Buscar espacio"
               placeholder="Buscar espacio..."
               value={filtros.busqueda}
-              onChange={(e) =>
-                setFiltros((f) => ({ ...f, busqueda: e.target.value }))
-              }
+              onChange={(e) => setFiltros((f) => ({ ...f, busqueda: e.target.value }))}
               className="w-full pl-9 pr-3 py-2 border border-border rounded-lg text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
@@ -535,27 +495,21 @@ export default function EspaciosComunes() {
           {/* Categoria */}
           <select
             value={filtros.categoria}
-            onChange={(e) =>
-              setFiltros((f) => ({ ...f, categoria: e.target.value }))
-            }
+            onChange={(e) => setFiltros((f) => ({ ...f, categoria: e.target.value }))}
             className="border border-border rounded-lg text-sm text-text py-2 pl-3 pr-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
             aria-label="Filtrar por categoría"
           >
-            {["Todos", "Quincho", "Piscina", "Gimnasio", "Sala", "Cancha"].map(
-              (c) => (
-                <option key={c} value={c}>
-                  {c === "Todos" ? "Categoría: Todos" : c}
-                </option>
-              ),
-            )}
+            {["Todos", "Quincho", "Piscina", "Gimnasio", "Sala", "Cancha"].map((c) => (
+              <option key={c} value={c}>
+                {c === "Todos" ? "Categoría: Todos" : c}
+              </option>
+            ))}
           </select>
 
           {/* Capacidad */}
           <select
             value={filtros.capacidad}
-            onChange={(e) =>
-              setFiltros((f) => ({ ...f, capacidad: e.target.value }))
-            }
+            onChange={(e) => setFiltros((f) => ({ ...f, capacidad: e.target.value }))}
             className="border border-border rounded-lg text-sm text-text py-2 pl-3 pr-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
             aria-label="Filtrar por capacidad"
           >
@@ -583,9 +537,7 @@ export default function EspaciosComunes() {
               <div className="w-10 h-5 bg-slate-200 peer-checked:bg-primary rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-primary peer-focus:ring-offset-1" />
               <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5" />
             </div>
-            <span className="text-sm text-text whitespace-nowrap">
-              Solo disponibles hoy
-            </span>
+            <span className="text-sm text-text whitespace-nowrap">Solo disponibles hoy</span>
           </label>
         </div>
       </div>
@@ -601,13 +553,7 @@ export default function EspaciosComunes() {
               className="w-16 h-16 text-slate-300"
               aria-hidden="true"
             >
-              <circle
-                cx="24"
-                cy="24"
-                r="22"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
+              <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2" />
               <path
                 d="M16 24h16M24 16v16"
                 stroke="currentColor"
@@ -653,11 +599,8 @@ export default function EspaciosComunes() {
 
       {/* Detail modal */}
       {espacioDetalle && (
-        <DetalleModal
-          espacio={espacioDetalle}
-          onClose={() => setEspacioDetalle(null)}
-        />
+        <DetalleModal espacio={espacioDetalle} onClose={() => setEspacioDetalle(null)} />
       )}
     </>
-  )
+  );
 }

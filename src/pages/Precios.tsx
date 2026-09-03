@@ -1,27 +1,27 @@
-import { Fragment, useState } from "react"
-import { IconCheck, IconX } from "../components/icons/Icons"
+import { Fragment, useState } from "react";
+import { IconCheck, IconX } from "../components/icons/Icons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface PlanTier {
-  id: string
-  name: string
-  monthlyPrice: number | null
-  annualPrice: number | null
-  badge?: string
-  highlight: boolean
-  desc: string
-  cta: string
+  id: string;
+  name: string;
+  monthlyPrice: number | null;
+  annualPrice: number | null;
+  badge?: string;
+  highlight: boolean;
+  desc: string;
+  cta: string;
 }
 
 interface FeatureRow {
-  category: string
+  category: string;
   features: {
-    label: string
-    basico: boolean | string
-    comunidad: boolean | string
-    enterprise: boolean | string
-  }[]
+    label: string;
+    basico: boolean | string;
+    comunidad: boolean | string;
+    enterprise: boolean | string;
+  }[];
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -55,7 +55,7 @@ const PLANS: PlanTier[] = [
     desc: "Para conjuntos multi-torre con miles de residentes.",
     cta: "Hablar con ventas",
   },
-]
+];
 
 const FEATURE_ROWS: FeatureRow[] = [
   {
@@ -302,7 +302,7 @@ const FEATURE_ROWS: FeatureRow[] = [
       },
     ],
   },
-]
+];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -324,7 +324,7 @@ function FeatureCell({ value }: { value: boolean | string }) {
           <IconCheck style={{ width: 12, height: 12, color: "#005047" }} />
         </div>
       </td>
-    )
+    );
   if (value === false)
     return (
       <td style={{ padding: "12px 20px", textAlign: "center" }}>
@@ -342,7 +342,7 @@ function FeatureCell({ value }: { value: boolean | string }) {
           <IconX style={{ width: 12, height: 12, color: "#CBD5E1" }} />
         </div>
       </td>
-    )
+    );
   return (
     <td
       style={{
@@ -355,20 +355,20 @@ function FeatureCell({ value }: { value: boolean | string }) {
     >
       {value}
     </td>
-  )
+  );
 }
 
 function formatPrice(p: number | null, isAnnual: boolean) {
-  if (p === null) return "A medida"
-  if (p === 0) return "Gratis"
-  const val = isAnnual ? p - 5000 : p
-  return `$${val.toLocaleString("es-CL")}`
+  if (p === null) return "A medida";
+  if (p === 0) return "Gratis";
+  const val = isAnnual ? p - 5000 : p;
+  return `$${val.toLocaleString("es-CL")}`;
 }
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
 export default function Precios() {
-  const [annual, setAnnual] = useState(false)
+  const [annual, setAnnual] = useState(false);
 
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
@@ -413,8 +413,8 @@ export default function Precios() {
             maxWidth: 480,
           }}
         >
-          Sin costos ocultos ni instalaciones. Empieza gratis y escala cuando tu
-          comunidad lo necesite.
+          Sin costos ocultos ni instalaciones. Empieza gratis y escala cuando tu comunidad lo
+          necesite.
         </p>
 
         {/* Toggle mensual/anual */}
@@ -509,7 +509,7 @@ export default function Precios() {
           className="price-cards"
         >
           {PLANS.map((plan) => {
-            const price = formatPrice(plan.monthlyPrice, annual)
+            const price = formatPrice(plan.monthlyPrice, annual);
             const period =
               plan.monthlyPrice === null
                 ? ""
@@ -517,7 +517,7 @@ export default function Precios() {
                   ? ""
                   : annual
                     ? "/mes facturado anual"
-                    : "/mes"
+                    : "/mes";
             return (
               <div
                 key={plan.id}
@@ -559,9 +559,7 @@ export default function Precios() {
                   style={{
                     fontSize: 13,
                     fontWeight: 700,
-                    color: plan.highlight
-                      ? "rgba(255,255,255,0.75)"
-                      : "#94A3B8",
+                    color: plan.highlight ? "rgba(255,255,255,0.75)" : "#94A3B8",
                     marginBottom: 8,
                     letterSpacing: "0.04em",
                   }}
@@ -583,9 +581,7 @@ export default function Precios() {
                     <span
                       style={{
                         fontSize: 13,
-                        color: plan.highlight
-                          ? "rgba(255,255,255,0.55)"
-                          : "#94A3B8",
+                        color: plan.highlight ? "rgba(255,255,255,0.55)" : "#94A3B8",
                         marginLeft: 4,
                       }}
                     >
@@ -623,15 +619,13 @@ export default function Precios() {
                   {plan.cta}
                 </button>
               </div>
-            )
+            );
           })}
         </div>
       </div>
 
       {/* Feature comparison table */}
-      <div
-        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 100px" }}
-      >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 100px" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <h2
             style={{
@@ -775,8 +769,7 @@ export default function Precios() {
             margin: "0 0 32px",
           }}
         >
-          Nuestro equipo te ayuda a elegir el plan ideal para tu condominio —
-          sin compromiso.
+          Nuestro equipo te ayuda a elegir el plan ideal para tu condominio — sin compromiso.
         </p>
         <button
           style={{
@@ -791,12 +784,12 @@ export default function Precios() {
             transition: "transform 0.15s, box-shadow 0.15s",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)"
-            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)"
+            e.currentTarget.style.transform = "translateY(-2px)";
+            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "none"
-            e.currentTarget.style.boxShadow = "none"
+            e.currentTarget.style.transform = "none";
+            e.currentTarget.style.boxShadow = "none";
           }}
         >
           Hablar con ventas
@@ -807,5 +800,5 @@ export default function Precios() {
         @media(max-width:820px){.price-cards{grid-template-columns:1fr !important}.price-cards>div{transform:none !important}}
       `}</style>
     </div>
-  )
+  );
 }

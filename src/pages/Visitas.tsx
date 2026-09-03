@@ -1,127 +1,125 @@
-import React, { useState } from "react"
-import { useAuth } from "../hooks/useAuth"
+import React, { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 // ─── TypeScript interfaces ───────────────────────────────────────────────────
 
-type EstadoVisita = "pendiente_qr" | "confirmada" | "en_progreso" | "rechazada" | "completada"
+type EstadoVisita = "pendiente_qr" | "confirmada" | "en_progreso" | "rechazada" | "completada";
 
 interface Visita {
-  id: string
-  nombre: string
-  documento: string
-  fecha: string
-  fechaDisplay: string
-  hora: string
-  motivo: string
-  estado: EstadoVisita
-  codigo: string
-  unidad: string
+  id: string;
+  nombre: string;
+  documento: string;
+  fecha: string;
+  fechaDisplay: string;
+  hora: string;
+  motivo: string;
+  estado: EstadoVisita;
+  codigo: string;
+  unidad: string;
 }
 
 interface RegistroForm {
-  nombre: string
-  documento: string
-  fecha: string
-  hora: string
-  motivo: string
-  observaciones: string
+  nombre: string;
+  documento: string;
+  fecha: string;
+  hora: string;
+  motivo: string;
+  observaciones: string;
 }
 
 interface LogEntry {
-  hora: string
-  visitante: string
-  unidad: string
-  accion: string
-  estado: EstadoVisita
+  hora: string;
+  visitante: string;
+  unidad: string;
+  accion: string;
+  estado: EstadoVisita;
 }
 
 // ─── QRCode component ────────────────────────────────────────────────────────
 
 interface QRCodeProps {
-  code: string
-  size?: number
+  code: string;
+  size?: number;
 }
 
 // Regions to skip (finder + quiet + timing + alignment)
 function isReserved(r: number, c: number) {
   // Top-left finder + separator
-  if (r <= 7 && c <= 7) return true
+  if (r <= 7 && c <= 7) return true;
   // Top-right finder + separator
-  if (r <= 7 && c >= 13) return true
+  if (r <= 7 && c >= 13) return true;
   // Bottom-left finder + separator
-  if (r >= 13 && c <= 7) return true
+  if (r >= 13 && c <= 7) return true;
   // Timing
-  if (r === 6 || c === 6) return true
+  if (r === 6 || c === 6) return true;
   // Alignment
-  if (r >= 14 && r <= 18 && c >= 14 && c <= 18) return true
-  return false
+  if (r >= 14 && r <= 18 && c >= 14 && c <= 18) return true;
+  return false;
 }
 
 function QRCode({ code, size = 200 }: QRCodeProps) {
-  const GRID = 21
-  const QUIET = 4
-  const TOTAL = GRID + QUIET * 2
-  const CELL = 240 / TOTAL
+  const GRID = 21;
+  const QUIET = 4;
+  const TOTAL = GRID + QUIET * 2;
+  const CELL = 240 / TOTAL;
 
   // Generate deterministic grid
-  const grid: boolean[][] = Array.from({ length: GRID }, () =>
-    Array(GRID).fill(false),
-  )
+  const grid: boolean[][] = Array.from({ length: GRID }, () => Array(GRID).fill(false));
 
   // Finder pattern helper: 7×7 square with hollow center
   const setFinder = (row: number, col: number) => {
     for (let r = 0; r < 7; r++) {
       for (let c = 0; c < 7; c++) {
-        const onBorder = r === 0 || r === 6 || c === 0 || c === 6
-        const onInner = r >= 2 && r <= 4 && c >= 2 && c <= 4
+        const onBorder = r === 0 || r === 6 || c === 0 || c === 6;
+        const onInner = r >= 2 && r <= 4 && c >= 2 && c <= 4;
         if (row + r < GRID && col + c < GRID) {
-          grid[row + r][col + c] = onBorder || onInner
+          grid[row + r][col + c] = onBorder || onInner;
         }
       }
     }
-  }
+  };
 
   // Three finder patterns
-  setFinder(0, 0) // top-left
-  setFinder(0, 14) // top-right
-  setFinder(14, 0) // bottom-left
+  setFinder(0, 0); // top-left
+  setFinder(0, 14); // top-right
+  setFinder(14, 0); // bottom-left
 
   // Separator rows/cols (light) — already false by default
 
   // Timing patterns (row 6 and col 6, from 8 to 12)
   for (let i = 8; i <= 12; i++) {
-    grid[6][i] = i % 2 === 0
-    grid[i][6] = i % 2 === 0
+    grid[6][i] = i % 2 === 0;
+    grid[i][6] = i % 2 === 0;
   }
 
   // Alignment pattern (col 16, row 16) — 5×5
   for (let r = 14; r <= 18; r++) {
     for (let c = 14; c <= 18; c++) {
-      const onBorder = r === 14 || r === 18 || c === 14 || c === 18
-      const isCenter = r === 16 && c === 16
-      grid[r][c] = onBorder || isCenter
+      const onBorder = r === 14 || r === 18 || c === 14 || c === 18;
+      const isCenter = r === 16 && c === 16;
+      grid[r][c] = onBorder || isCenter;
     }
   }
 
   // Data region: fill with bits derived from code charCodes
-  const charCodes = Array.from(code).map((ch) => ch.charCodeAt(0))
-  let bitIdx = 0
+  const charCodes = Array.from(code).map((ch) => ch.charCodeAt(0));
+  let bitIdx = 0;
   const nextBit = () => {
-    const idx = bitIdx % charCodes.length
-    const bitPos = Math.floor(bitIdx / charCodes.length) % 8
-    bitIdx++
-    return ((charCodes[idx] >> bitPos) & 1) === 1
-  }
+    const idx = bitIdx % charCodes.length;
+    const bitPos = Math.floor(bitIdx / charCodes.length) % 8;
+    bitIdx++;
+    return ((charCodes[idx] >> bitPos) & 1) === 1;
+  };
 
   for (let r = 0; r < GRID; r++) {
     for (let c = 0; c < GRID; c++) {
       if (!isReserved(r, c)) {
-        grid[r][c] = nextBit()
+        grid[r][c] = nextBit();
       }
     }
   }
 
-  const cells: React.ReactElement[] = []
+  const cells: React.ReactElement[] = [];
   for (let r = 0; r < GRID; r++) {
     for (let c = 0; c < GRID; c++) {
       cells.push(
@@ -133,7 +131,7 @@ function QRCode({ code, size = 200 }: QRCodeProps) {
           height={CELL}
           fill={grid[r][c] ? "#00201B" : "white"}
         />,
-      )
+      );
     }
   }
 
@@ -148,14 +146,14 @@ function QRCode({ code, size = 200 }: QRCodeProps) {
       <rect width="240" height="240" fill="white" />
       {cells}
     </svg>
-  )
+  );
 }
 
 // ─── QRModal ─────────────────────────────────────────────────────────────────
 
 interface QRModalProps {
-  visita: Visita
-  onClose: () => void
+  visita: Visita;
+  onClose: () => void;
 }
 
 function QRModal({ visita, onClose }: QRModalProps) {
@@ -169,12 +167,9 @@ function QRModal({ visita, onClose }: QRModalProps) {
         <div className="border-4 border-text rounded-xl p-2">
           <QRCode code={visita.codigo} size={200} />
         </div>
-        <p className="font-mono text-lg font-bold text-text tracking-widest">
-          {visita.codigo}
-        </p>
+        <p className="font-mono text-lg font-bold text-text tracking-widest">{visita.codigo}</p>
         <p className="text-muted text-xs text-center">
-          Comparte este código con tu visita. La conserjería lo validará en el
-          acceso.
+          Comparte este código con tu visita. La conserjería lo validará en el acceso.
         </p>
         <div className="flex gap-3 w-full mt-2">
           <button
@@ -192,20 +187,20 @@ function QRModal({ visita, onClose }: QRModalProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── PreRegistroModal ─────────────────────────────────────────────────────────
 
 interface PreRegistroModalProps {
-  onClose: () => void
-  onCreated: (v: Visita) => void
+  onClose: () => void;
+  onCreated: (v: Visita) => void;
 }
 
 const HORAS = Array.from({ length: 15 }, (_, i) => {
-  const h = i + 8
-  return `${String(h).padStart(2, "0")}:00`
-})
+  const h = i + 8;
+  return `${String(h).padStart(2, "0")}:00`;
+});
 
 const MOTIVOS = [
   "Visita personal",
@@ -213,30 +208,26 @@ const MOTIVOS = [
   "Técnico / Servicio",
   "Mudanza",
   "Otro",
-]
+];
 
 function todayStr() {
-  return new Date().toISOString().split("T")[0]
+  return new Date().toISOString().split("T")[0];
 }
 
 function generateCode(fecha: string) {
-  const compact = fecha.replace(/-/g, "")
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-  let seed =
-    fecha.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0) + Date.now()
+  const compact = fecha.replace(/-/g, "");
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let seed = fecha.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0) + Date.now();
   const rand = (n: number) => {
-    seed = (seed * 1664525 + 1013904223) & 0xffffffff
-    return Math.abs(seed) % n
-  }
-  const suffix = Array.from(
-    { length: 4 },
-    () => chars[rand(chars.length)],
-  ).join("")
-  return `CONV-VIS-${compact}-${suffix}`
+    seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+    return Math.abs(seed) % n;
+  };
+  const suffix = Array.from({ length: 4 }, () => chars[rand(chars.length)]).join("");
+  return `CONV-VIS-${compact}-${suffix}`;
 }
 
 function displayFecha(fecha: string) {
-  const [y, m, d] = fecha.split("-")
+  const [y, m, d] = fecha.split("-");
   const meses = [
     "ene",
     "feb",
@@ -250,14 +241,14 @@ function displayFecha(fecha: string) {
     "oct",
     "nov",
     "dic",
-  ]
-  return `${d} ${meses[parseInt(m) - 1]} ${y}`
+  ];
+  return `${d} ${meses[parseInt(m) - 1]} ${y}`;
 }
 
 function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
-  const [step, setStep] = useState<"form" | "qr">("form")
-  const [createdVisita, setCreatedVisita] = useState<Visita | null>(null)
-  const [charCount, setCharCount] = useState(0)
+  const [step, setStep] = useState<"form" | "qr">("form");
+  const [createdVisita, setCreatedVisita] = useState<Visita | null>(null);
+  const [charCount, setCharCount] = useState(0);
   const [form, setForm] = useState<RegistroForm>({
     nombre: "",
     documento: "",
@@ -265,11 +256,11 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
     hora: "12:00",
     motivo: "Visita personal",
     observaciones: "",
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    const codigo = generateCode(form.fecha)
+    e.preventDefault();
+    const codigo = generateCode(form.fecha);
     const visita: Visita = {
       id: Date.now().toString(),
       nombre: form.nombre,
@@ -281,11 +272,11 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
       estado: "pendiente_qr",
       codigo,
       unidad: "Torre A · Piso 12 · Unidad 1204",
-    }
-    setCreatedVisita(visita)
-    setStep("qr")
-    onCreated(visita)
-  }
+    };
+    setCreatedVisita(visita);
+    setStep("qr");
+    onCreated(visita);
+  };
 
   if (step === "qr" && createdVisita) {
     return (
@@ -299,19 +290,12 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="font-display text-2xl text-text">
-            ¡Visita registrada!
-          </h2>
+          <h2 className="font-display text-2xl text-text">¡Visita registrada!</h2>
           <p className="text-muted text-sm text-center">
-            {createdVisita.nombre} · {createdVisita.fechaDisplay} ·{" "}
-            {createdVisita.hora}
+            {createdVisita.nombre} · {createdVisita.fechaDisplay} · {createdVisita.hora}
           </p>
           <div className="border-4 border-text rounded-xl p-2">
             <QRCode code={createdVisita.codigo} size={200} />
@@ -320,8 +304,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
             {createdVisita.codigo}
           </p>
           <p className="text-muted text-xs text-center">
-            Comparte este código con tu visita. La conserjería lo validará en el
-            acceso.
+            Comparte este código con tu visita. La conserjería lo validará en el acceso.
           </p>
           <div className="flex gap-3 w-full mt-2">
             <button
@@ -339,7 +322,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -359,20 +342,14 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
           {/* Unidad destino (read-only) */}
           <div>
-            <p className="block text-sm font-semibold text-text mb-1">
-              Unidad destino
-            </p>
+            <p className="block text-sm font-semibold text-text mb-1">Unidad destino</p>
             <div className="rounded-lg border border-border bg-gray-50 px-3 py-2 text-muted text-sm">
               Torre A · Piso 12 · Unidad 1204
             </div>
@@ -380,10 +357,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Nombre */}
           <div>
-            <label
-              htmlFor="visita-nombre"
-              className="block text-sm font-semibold text-text mb-1"
-            >
+            <label htmlFor="visita-nombre" className="block text-sm font-semibold text-text mb-1">
               Nombre del visitante <span className="text-alert-red">*</span>
             </label>
             <input
@@ -417,10 +391,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Fecha */}
           <div>
-            <label
-              htmlFor="visita-fecha"
-              className="block text-sm font-semibold text-text mb-1"
-            >
+            <label htmlFor="visita-fecha" className="block text-sm font-semibold text-text mb-1">
               Fecha de visita <span className="text-alert-red">*</span>
             </label>
             <input
@@ -436,10 +407,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Hora */}
           <div>
-            <label
-              htmlFor="visita-hora"
-              className="block text-sm font-semibold text-text mb-1"
-            >
+            <label htmlFor="visita-hora" className="block text-sm font-semibold text-text mb-1">
               Hora estimada de llegada
             </label>
             <select
@@ -458,10 +426,7 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
 
           {/* Motivo */}
           <div>
-            <label
-              htmlFor="visita-motivo"
-              className="block text-sm font-semibold text-text mb-1"
-            >
+            <label htmlFor="visita-motivo" className="block text-sm font-semibold text-text mb-1">
               Motivo
             </label>
             <select
@@ -492,17 +457,15 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
               value={form.observaciones}
               onChange={(e) => {
                 if (e.target.value.length <= 200) {
-                  setForm({ ...form, observaciones: e.target.value })
-                  setCharCount(e.target.value.length)
+                  setForm({ ...form, observaciones: e.target.value });
+                  setCharCount(e.target.value.length);
                 }
               }}
               rows={3}
               className="w-full rounded-lg border border-border px-3 py-2 text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none"
               placeholder="Información adicional para conserjería..."
             />
-            <p className="text-muted text-xs text-right mt-0.5">
-              {charCount}/200
-            </p>
+            <p className="text-muted text-xs text-right mt-0.5">{charCount}/200</p>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -523,16 +486,19 @@ function PreRegistroModal({ onClose, onCreated }: PreRegistroModalProps) {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── StatusBadge ──────────────────────────────────────────────────────────────
 
-const STATUS_BADGE_MAP: Record<EstadoVisita, {
-  label: string
-  icon: string
-  className: string
-}> = {
+const STATUS_BADGE_MAP: Record<
+  EstadoVisita,
+  {
+    label: string;
+    icon: string;
+    className: string;
+  }
+> = {
   pendiente_qr: {
     label: "Pendiente QR",
     icon: "⏳",
@@ -558,10 +524,10 @@ const STATUS_BADGE_MAP: Record<EstadoVisita, {
     icon: "",
     className: "bg-gray-100 text-muted",
   },
-}
+};
 
 function StatusBadge({ estado }: { estado: EstadoVisita }) {
-  const { label, icon, className } = STATUS_BADGE_MAP[estado]
+  const { label, icon, className } = STATUS_BADGE_MAP[estado];
   return (
     <span
       className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${className}`}
@@ -569,14 +535,14 @@ function StatusBadge({ estado }: { estado: EstadoVisita }) {
       {icon && <span>{icon}</span>}
       {label}
     </span>
-  )
+  );
 }
 
 // ─── VisitaCard ───────────────────────────────────────────────────────────────
 
 interface VisitaCardProps {
-  visita: Visita
-  onVerQR: (v: Visita) => void
+  visita: Visita;
+  onVerQR: (v: Visita) => void;
 }
 
 function VisitaCard({ visita, onVerQR }: VisitaCardProps) {
@@ -585,9 +551,7 @@ function VisitaCard({ visita, onVerQR }: VisitaCardProps) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="font-semibold text-text">{visita.nombre}</p>
-          {visita.documento && (
-            <p className="text-muted text-sm">{visita.documento}</p>
-          )}
+          {visita.documento && <p className="text-muted text-sm">{visita.documento}</p>}
         </div>
         <StatusBadge estado={visita.estado} />
       </div>
@@ -605,18 +569,18 @@ function VisitaCard({ visita, onVerQR }: VisitaCardProps) {
         </button>
       )}
     </div>
-  )
+  );
 }
 
 // ─── RechazoModal ─────────────────────────────────────────────────────────────
 
 interface RechazoModalProps {
-  onConfirm: (motivo: string) => void
-  onCancel: () => void
+  onConfirm: (motivo: string) => void;
+  onCancel: () => void;
 }
 
 function RechazoModal({ onConfirm, onCancel }: RechazoModalProps) {
-  const [motivo, setMotivo] = useState("")
+  const [motivo, setMotivo] = useState("");
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 flex flex-col gap-4">
@@ -647,14 +611,14 @@ function RechazoModal({ onConfirm, onCancel }: RechazoModalProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ─── ConserjeriaPanel ────────────────────────────────────────────────────────
 
 interface ConserjeriaPanelProps {
-  visitas: Visita[]
-  onUpdateEstado: (id: string, estado: EstadoVisita) => void
+  visitas: Visita[];
+  onUpdateEstado: (id: string, estado: EstadoVisita) => void;
 }
 
 const LOG_ENTRIES: LogEntry[] = [
@@ -693,53 +657,51 @@ const LOG_ENTRIES: LogEntry[] = [
     accion: "Entrada",
     estado: "en_progreso",
   },
-]
+];
 
 function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
-  const [searchCode, setSearchCode] = useState("")
-  const [foundVisita, setFoundVisita] = useState<Visita | null>(null)
-  const [notFound, setNotFound] = useState(false)
-  const [showRechazo, setShowRechazo] = useState(false)
+  const [searchCode, setSearchCode] = useState("");
+  const [foundVisita, setFoundVisita] = useState<Visita | null>(null);
+  const [notFound, setNotFound] = useState(false);
+  const [showRechazo, setShowRechazo] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    const code = searchCode.trim().toUpperCase()
-    const match = visitas.find((v) => v.codigo === code)
+    e.preventDefault();
+    const code = searchCode.trim().toUpperCase();
+    const match = visitas.find((v) => v.codigo === code);
     if (match) {
-      setFoundVisita(match)
-      setNotFound(false)
+      setFoundVisita(match);
+      setNotFound(false);
     } else {
-      setFoundVisita(null)
-      setNotFound(true)
+      setFoundVisita(null);
+      setNotFound(true);
     }
-  }
+  };
 
   // Keep foundVisita in sync when visitas update (estado changes)
-  const currentFound = foundVisita
-    ? (visitas.find((v) => v.id === foundVisita.id) ?? null)
-    : null
+  const currentFound = foundVisita ? (visitas.find((v) => v.id === foundVisita.id) ?? null) : null;
 
   const handleEntrada = () => {
     if (currentFound) {
-      onUpdateEstado(currentFound.id, "en_progreso")
-      setFoundVisita({ ...currentFound, estado: "en_progreso" })
+      onUpdateEstado(currentFound.id, "en_progreso");
+      setFoundVisita({ ...currentFound, estado: "en_progreso" });
     }
-  }
+  };
 
   const handleSalida = () => {
     if (currentFound) {
-      onUpdateEstado(currentFound.id, "completada")
-      setFoundVisita({ ...currentFound, estado: "completada" })
+      onUpdateEstado(currentFound.id, "completada");
+      setFoundVisita({ ...currentFound, estado: "completada" });
     }
-  }
+  };
 
   const handleRechazo = (_motivo: string) => {
     if (currentFound) {
-      onUpdateEstado(currentFound.id, "rechazada")
-      setFoundVisita({ ...currentFound, estado: "rechazada" })
+      onUpdateEstado(currentFound.id, "rechazada");
+      setFoundVisita({ ...currentFound, estado: "rechazada" });
     }
-    setShowRechazo(false)
-  }
+    setShowRechazo(false);
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -752,8 +714,8 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
             aria-label="Código de acceso"
             value={searchCode}
             onChange={(e) => {
-              setSearchCode(e.target.value)
-              setNotFound(false)
+              setSearchCode(e.target.value);
+              setNotFound(false);
             }}
             placeholder="CONV-VIS-..."
             className="flex-1 rounded-lg border border-border px-3 py-2 text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40 font-mono text-sm"
@@ -776,9 +738,7 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
           <div className="flex flex-col gap-4 pt-2 border-t border-border">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold text-text text-lg">
-                  {currentFound.nombre}
-                </p>
+                <p className="font-semibold text-text text-lg">{currentFound.nombre}</p>
                 {currentFound.documento && (
                   <p className="text-muted text-sm">{currentFound.documento}</p>
                 )}
@@ -787,29 +747,19 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
             </div>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
-                <p className="text-muted text-xs uppercase tracking-wide">
-                  Unidad
-                </p>
+                <p className="text-muted text-xs uppercase tracking-wide">Unidad</p>
                 <p className="text-text font-medium">{currentFound.unidad}</p>
               </div>
               <div>
-                <p className="text-muted text-xs uppercase tracking-wide">
-                  Fecha
-                </p>
-                <p className="text-text font-medium">
-                  {currentFound.fechaDisplay}
-                </p>
+                <p className="text-muted text-xs uppercase tracking-wide">Fecha</p>
+                <p className="text-text font-medium">{currentFound.fechaDisplay}</p>
               </div>
               <div>
-                <p className="text-muted text-xs uppercase tracking-wide">
-                  Hora
-                </p>
+                <p className="text-muted text-xs uppercase tracking-wide">Hora</p>
                 <p className="text-text font-medium">{currentFound.hora}</p>
               </div>
               <div>
-                <p className="text-muted text-xs uppercase tracking-wide">
-                  Motivo
-                </p>
+                <p className="text-muted text-xs uppercase tracking-wide">Motivo</p>
                 <p className="text-text font-medium">{currentFound.motivo}</p>
               </div>
             </div>
@@ -832,15 +782,14 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
                   Registrar salida
                 </button>
               )}
-              {currentFound.estado !== "rechazada" &&
-                currentFound.estado !== "completada" && (
-                  <button
-                    onClick={() => setShowRechazo(true)}
-                    className="w-full bg-alert-red text-white rounded-lg py-2.5 font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    Rechazar
-                  </button>
-                )}
+              {currentFound.estado !== "rechazada" && currentFound.estado !== "completada" && (
+                <button
+                  onClick={() => setShowRechazo(true)}
+                  className="w-full bg-alert-red text-white rounded-lg py-2.5 font-semibold hover:opacity-90 transition-opacity"
+                >
+                  Rechazar
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -849,24 +798,20 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
       {/* Recent entries log */}
       <div className="bg-white rounded-2xl border border-border overflow-hidden">
         <div className="px-6 py-4 border-b border-border">
-          <h3 className="font-display text-lg text-text">
-            Últimos registros de hoy
-          </h3>
+          <h3 className="font-display text-lg text-text">Últimos registros de hoy</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-border">
               <tr>
-                {["Hora", "Visitante", "Unidad", "Acción", "Estado"].map(
-                  (col) => (
-                    <th
-                      key={col}
-                      className="text-left px-4 py-3 text-muted font-semibold text-xs uppercase tracking-wide"
-                    >
-                      {col}
-                    </th>
-                  ),
-                )}
+                {["Hora", "Visitante", "Unidad", "Acción", "Estado"].map((col) => (
+                  <th
+                    key={col}
+                    className="text-left px-4 py-3 text-muted font-semibold text-xs uppercase tracking-wide"
+                  >
+                    {col}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -875,19 +820,13 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
                   key={`${entry.hora}-${entry.visitante}-${entry.accion}`}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-4 py-3 font-mono text-text">
-                    {entry.hora}
-                  </td>
-                  <td className="px-4 py-3 text-text font-medium">
-                    {entry.visitante}
-                  </td>
+                  <td className="px-4 py-3 font-mono text-text">{entry.hora}</td>
+                  <td className="px-4 py-3 text-text font-medium">{entry.visitante}</td>
                   <td className="px-4 py-3 text-muted">{entry.unidad}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`font-semibold ${
-                        entry.accion === "Entrada"
-                          ? "text-primary"
-                          : "text-muted"
+                        entry.accion === "Entrada" ? "text-primary" : "text-muted"
                       }`}
                     >
                       {entry.accion === "Entrada" ? "↓ Entrada" : "↑ Salida"}
@@ -904,13 +843,10 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
       </div>
 
       {showRechazo && (
-        <RechazoModal
-          onConfirm={handleRechazo}
-          onCancel={() => setShowRechazo(false)}
-        />
+        <RechazoModal onConfirm={handleRechazo} onCancel={() => setShowRechazo(false)} />
       )}
     </div>
-  )
+  );
 }
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
@@ -952,37 +888,37 @@ const SEED_VISITAS: Visita[] = [
     codigo: "CONV-VIS-20260822-A7K9",
     unidad: "Torre A · Piso 12 · Unidad 1204",
   },
-]
+];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-type ActiveTab = "mis-visitas" | "conserjeria"
+type ActiveTab = "mis-visitas" | "conserjeria";
 
 export default function Visitas() {
-  const { role } = useAuth()
+  const { role } = useAuth();
 
   // Admin can switch between both views; residente and conserje only see their own
-  const canSeeConserjeria = role === "conserje" || role === "admin"
-  const canSeeResidente = role === "residente" || role === "admin"
+  const canSeeConserjeria = role === "conserje" || role === "admin";
+  const canSeeResidente = role === "residente" || role === "admin";
 
-  const defaultTab: ActiveTab = canSeeResidente ? "mis-visitas" : "conserjeria"
-  const [activeTab, setActiveTab] = useState<ActiveTab>(defaultTab)
+  const defaultTab: ActiveTab = canSeeResidente ? "mis-visitas" : "conserjeria";
+  const [activeTab, setActiveTab] = useState<ActiveTab>(defaultTab);
 
-  const [prevRole, setPrevRole] = useState(role)
+  const [prevRole, setPrevRole] = useState(role);
   if (role !== prevRole) {
-    setPrevRole(role)
-    setActiveTab(canSeeResidente ? "mis-visitas" : "conserjeria")
+    setPrevRole(role);
+    setActiveTab(canSeeResidente ? "mis-visitas" : "conserjeria");
   }
 
-  const [visitas, setVisitas] = useState<Visita[]>(SEED_VISITAS)
-  const [showPreRegistro, setShowPreRegistro] = useState(false)
-  const [qrVisita, setQrVisita] = useState<Visita | null>(null)
+  const [visitas, setVisitas] = useState<Visita[]>(SEED_VISITAS);
+  const [showPreRegistro, setShowPreRegistro] = useState(false);
+  const [qrVisita, setQrVisita] = useState<Visita | null>(null);
 
-  const handleCreated = (v: Visita) => setVisitas((prev) => [v, ...prev])
+  const handleCreated = (v: Visita) => setVisitas((prev) => [v, ...prev]);
   const handleUpdateEstado = (id: string, estado: EstadoVisita) =>
-    setVisitas((prev) => prev.map((v) => (v.id === id ? { ...v, estado } : v)))
+    setVisitas((prev) => prev.map((v) => (v.id === id ? { ...v, estado } : v)));
 
-  const showingResidente = activeTab === "mis-visitas"
+  const showingResidente = activeTab === "mis-visitas";
 
   return (
     <div className="min-h-screen bg-gray-50 font-body">
@@ -1015,10 +951,12 @@ export default function Visitas() {
       {role === "admin" && (
         <div className="bg-white border-b border-border sticky top-0 z-10">
           <div className="max-w-2xl mx-auto flex">
-            {([
-              { key: "mis-visitas", label: "Mis visitas" },
-              { key: "conserjeria", label: "Conserjería" },
-            ] as { key: ActiveTab; label: string }[]).map(({ key, label }) => (
+            {(
+              [
+                { key: "mis-visitas", label: "Mis visitas" },
+                { key: "conserjeria", label: "Conserjería" },
+              ] as { key: ActiveTab; label: string }[]
+            ).map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
@@ -1038,23 +976,16 @@ export default function Visitas() {
       {/* Content */}
       <main className="max-w-2xl mx-auto px-4 py-6">
         {canSeeConserjeria && !showingResidente ? (
-          <ConserjeriaPanel
-            visitas={visitas}
-            onUpdateEstado={handleUpdateEstado}
-          />
+          <ConserjeriaPanel visitas={visitas} onUpdateEstado={handleUpdateEstado} />
         ) : (
           <div className="flex flex-col gap-4">
             {visitas.length === 0 ? (
               <div className="text-center py-16 text-muted">
                 <p className="text-lg font-semibold">Sin visitas registradas</p>
-                <p className="text-sm mt-1">
-                  Registra tu primera visita con el botón de arriba.
-                </p>
+                <p className="text-sm mt-1">Registra tu primera visita con el botón de arriba.</p>
               </div>
             ) : (
-              visitas.map((v) => (
-                <VisitaCard key={v.id} visita={v} onVerQR={setQrVisita} />
-              ))
+              visitas.map((v) => <VisitaCard key={v.id} visita={v} onVerQR={setQrVisita} />)
             )}
           </div>
         )}
@@ -1062,14 +993,9 @@ export default function Visitas() {
 
       {/* Modals */}
       {showPreRegistro && (
-        <PreRegistroModal
-          onClose={() => setShowPreRegistro(false)}
-          onCreated={handleCreated}
-        />
+        <PreRegistroModal onClose={() => setShowPreRegistro(false)} onCreated={handleCreated} />
       )}
-      {qrVisita && (
-        <QRModal visita={qrVisita} onClose={() => setQrVisita(null)} />
-      )}
+      {qrVisita && <QRModal visita={qrVisita} onClose={() => setQrVisita(null)} />}
     </div>
-  )
+  );
 }
