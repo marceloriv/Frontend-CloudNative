@@ -13,6 +13,10 @@ interface FieldError {
   password?: string;
 }
 
+async function handleGoogleLogin() {
+  window.location.assign(await buildGoogleAuthorizeUrl());
+}
+
 function validate(form: FormState): FieldError {
   const errors: FieldError = {};
   if (!form.email.trim()) errors.email = "El correo es obligatorio.";
@@ -42,10 +46,6 @@ export default function Login() {
     if (Object.keys(errs).length === 0) {
       // auth logic goes here
     }
-  }
-
-  async function handleGoogleLogin() {
-    window.location.assign(await buildGoogleAuthorizeUrl());
   }
 
   return (
