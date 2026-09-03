@@ -12,6 +12,7 @@ function renderConRol(role: Role, allowedRoles: Role[]) {
         user: { nombre: "Test", unidad: "Unidad de prueba", role },
         role,
         setRole: () => {},
+        setUser: () => {},
       }}
     >
       <MemoryRouter initialEntries={["/privado"]}>

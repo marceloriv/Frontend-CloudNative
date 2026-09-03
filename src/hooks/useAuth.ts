@@ -5,6 +5,7 @@ export interface AuthContextValue {
   user: User;
   role: Role;
   setRole: (r: Role) => void;
+  setUser: (u: User) => void;
 }
 
 export const USERS: Record<Role, User> = {
