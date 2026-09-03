@@ -5,6 +5,15 @@ Todas las modificaciones notables de este proyecto se documentan en este archivo
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.3.0] - 2026-09-03
+
+### Added
+
+- Página 404 propia: catch-all `path: "*"` en `router.tsx`
+  (`src/pages/NotFound.tsx`) para rutas que no existen en la SPA, y marca
+  Convivo en el interstitial `public/404.html` (antes `<body></body>`
+  vacío) mientras corre el redirect de GitHub Pages.
+
 ## [0.2.1] - 2026-09-03
 
 ### Fixed
