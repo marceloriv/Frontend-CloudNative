@@ -5,6 +5,16 @@ Todas las modificaciones notables de este proyecto se documentan en este archivo
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [0.2.0] - 2026-09-03
+
+### Added
+
+- Login de residentes con Google vía AWS Cognito Hosted UI (Authorization
+  Code + PKCE) — `src/lib/cognitoAuth.ts`, `src/pages/AuthCallback.tsx`.
+  Backend (`terraform/cognito.tf`) desplegado en AWS real.
+- `.github/workflows/deploy.yml` inyecta `VITE_COGNITO_*` (GitHub Actions
+  Variables) en el build de producción.
+
 ## [0.1.1] - 2026-08-20
 
 ### Added
