@@ -49,7 +49,10 @@ describe("decodeIdToken", () => {
   it("decodifica el payload de un JWT, incluyendo tildes (UTF-8)", () => {
     const payload = { sub: "abc123", name: "María González", email: "maria@example.com" };
     const base64url = (s: string) =>
-      btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      btoa(unescape(encodeURIComponent(s)))
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
     const fakeJwt = `${base64url(JSON.stringify({ alg: "RS256" }))}.${base64url(JSON.stringify(payload))}.signature`;
 
     expect(decodeIdToken(fakeJwt)).toEqual(payload);

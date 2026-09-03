@@ -50,7 +50,9 @@ export interface CognitoTokens {
 export async function exchangeCodeForTokens(code: string): Promise<CognitoTokens> {
   const verifier = sessionStorage.getItem(PKCE_VERIFIER_KEY);
   if (!verifier) {
-    throw new Error("No hay code_verifier guardado — el flujo de login expiró o se abrió en otra pestaña.");
+    throw new Error(
+      "No hay code_verifier guardado — el flujo de login expiró o se abrió en otra pestaña.",
+    );
   }
 
   const response = await fetch(`https://${import.meta.env.VITE_COGNITO_DOMAIN}/oauth2/token`, {
