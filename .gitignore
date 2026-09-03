@@ -26,3 +26,6 @@ vite.config.*.timestamp-*
 .DS_Store
 Thumbs.db
 *.sw?
+
+# Índice local de CodeGraph — herramienta de desarrollo, no versionar
+.codegraph/

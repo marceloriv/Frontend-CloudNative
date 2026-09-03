@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { gastos } from "../lib/data"
-import { useAuth } from "../hooks/useAuth"
+import { useState } from "react";
+import { gastos } from "../lib/data";
+import { useAuth } from "../hooks/useAuth";
 import {
   IconDownload,
   IconCheck,
@@ -9,40 +9,31 @@ import {
   IconShield,
   IconHome,
   IconChevronRight,
-} from "../components/icons/Icons"
-import { FlipCard } from "../components/FlipCard"
+} from "../components/icons/Icons";
+import { FlipCard } from "../components/FlipCard";
 
-const meses = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-]
+const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"];
 
 interface HistorialEntry {
-  mes: string
-  total: string
-  estado: string
-  estadoColor: string
+  mes: string;
+  total: string;
+  estado: string;
+  estadoColor: string;
 }
 
 interface UnidadEntry {
-  unidad: string
-  estado: string
-  monto: string
-  color: string
-  bg: string
+  unidad: string;
+  estado: string;
+  monto: string;
+  color: string;
+  bg: string;
 }
 
 interface AlternatingSection {
-  title: string
-  body: string
-  imgUrl: string
-  imgRight: boolean
+  title: string;
+  body: string;
+  imgUrl: string;
+  imgRight: boolean;
 }
 
 const historial: HistorialEntry[] = [
@@ -82,7 +73,7 @@ const historial: HistorialEntry[] = [
     estado: "Pagado",
     estadoColor: "#0D9488",
   },
-]
+];
 
 const unidades: UnidadEntry[] = [
   {
@@ -120,25 +111,22 @@ const unidades: UnidadEntry[] = [
     color: "#0D9488",
     bg: "#F0FDFA",
   },
-]
+];
 
 const FLIP_CARD_DATA = [
   {
     title: "Desglose mensual",
-    description:
-      "Cada peso desglosado por categoría — portería, limpieza, jardín y más.",
+    description: "Cada peso desglosado por categoría — portería, limpieza, jardín y más.",
     Icon: IconDollar,
   },
   {
     title: "Pago seguro",
-    description:
-      "WebPay, transferencia o tarjeta. Pagos procesados en segundos.",
+    description: "WebPay, transferencia o tarjeta. Pagos procesados en segundos.",
     Icon: IconShield,
   },
   {
     title: "Alertas automáticas",
-    description:
-      "Notificación 5 días antes del vencimiento para nunca atrasarte.",
+    description: "Notificación 5 días antes del vencimiento para nunca atrasarte.",
     Icon: IconBell,
   },
   {
@@ -146,32 +134,30 @@ const FLIP_CARD_DATA = [
     description: "Descarga tu historial de pagos en PDF en cualquier momento.",
     Icon: IconDownload,
   },
-]
+];
 
 const alternatingSections: AlternatingSection[] = [
   {
     title: "Transparencia",
     body: "Cada gasto común se desglosa en categorías claras: portería, limpieza, jardín, mantenimiento y más. Sin letra chica ni cobros sorpresa. Tú y el comité tienen acceso a los mismos datos en tiempo real.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&h=500&fit=crop",
     imgRight: true,
   },
   {
     title: "Sin morosidad",
     body: "Recibe alertas automáticas antes del vencimiento y paga en segundos desde tu teléfono o computador. Historial de pagos siempre disponible para descargar en PDF. Mantente al día sin esfuerzo.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=700&h=500&fit=crop",
     imgRight: false,
   },
-]
+];
 
 export default function Gastos() {
-  const { role } = useAuth()
-  const isAdmin = role === "admin"
+  const { role } = useAuth();
+  const isAdmin = role === "admin";
 
-  const [selectedMes, setSelectedMes] = useState("Agosto")
-  const [showPayModal, setShowPayModal] = useState(false)
-  const [paid, setPaid] = useState(false)
+  const [selectedMes, setSelectedMes] = useState("Agosto");
+  const [showPayModal, setShowPayModal] = useState(false);
+  const [paid, setPaid] = useState(false);
 
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
@@ -218,9 +204,7 @@ export default function Gastos() {
         </div>
       </div>
 
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* Mi situación — solo residente */}
         {!isAdmin && (
           <div
@@ -294,9 +278,7 @@ export default function Gastos() {
                 }}
               >
                 <div style={{ textAlign: "right" }}>
-                  <div
-                    style={{ fontSize: 12, color: "#94A3B8", marginBottom: 2 }}
-                  >
+                  <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 2 }}>
                     Mes de agosto
                   </div>
                   <div
@@ -308,9 +290,7 @@ export default function Gastos() {
                   >
                     $600.000
                   </div>
-                  <div style={{ fontSize: 12, color: "#94A3B8" }}>
-                    CLP · Vence el 15 sep 2026
-                  </div>
+                  <div style={{ fontSize: 12, color: "#94A3B8" }}>CLP · Vence el 15 sep 2026</div>
                 </div>
                 {!paid && (
                   <button
@@ -329,12 +309,8 @@ export default function Gastos() {
                       gap: 8,
                       transition: "background 0.2s",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.background = "#005047")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.background = "#0D9488")
-                    }
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
                   >
                     <IconDollar style={{ width: 16, height: 16 }} /> Pagar ahora
                   </button>
@@ -473,9 +449,7 @@ export default function Gastos() {
                 justifyContent: "space-between",
               }}
             >
-              <span style={{ fontSize: 14, color: "#64748B", fontWeight: 500 }}>
-                Total mensual
-              </span>
+              <span style={{ fontSize: 14, color: "#64748B", fontWeight: 500 }}>Total mensual</span>
               <span
                 style={{
                   fontFamily: "Gloock, Georgia, serif",
@@ -509,9 +483,7 @@ export default function Gastos() {
               >
                 Estado por unidad
               </h3>
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: 10 }}
-              >
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {unidades.map((u) => (
                   <div
                     key={u.unidad}
@@ -536,9 +508,7 @@ export default function Gastos() {
                         {u.unidad}
                       </div>
                       <div style={{ fontSize: 12, color: "#94A3B8" }}>
-                        {u.estado === "Al día"
-                          ? "Sin deuda"
-                          : `Deuda: ${u.monto}`}
+                        {u.estado === "Al día" ? "Sin deuda" : `Deuda: ${u.monto}`}
                       </div>
                     </div>
                     <span
@@ -633,8 +603,7 @@ export default function Gastos() {
                   <tr
                     key={h.mes}
                     style={{
-                      borderBottom:
-                        i < historial.length - 1 ? "1px solid #F1F5F9" : "none",
+                      borderBottom: i < historial.length - 1 ? "1px solid #F1F5F9" : "none",
                     }}
                   >
                     <td
@@ -685,8 +654,7 @@ export default function Gastos() {
                           fontWeight: 500,
                         }}
                       >
-                        <IconDownload style={{ width: 12, height: 12 }} />{" "}
-                        Descargar
+                        <IconDownload style={{ width: 12, height: 12 }} /> Descargar
                       </button>
                     </td>
                   </tr>
@@ -895,16 +863,10 @@ export default function Gastos() {
               maxWidth: 380,
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(255,255,255,0.10)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "rgba(255,255,255,0.06)")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.10)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.06)")}
           >
-            <IconHome
-              style={{ width: 28, height: 28, color: "#5EEAD4", flexShrink: 0 }}
-            />
+            <IconHome style={{ width: 28, height: 28, color: "#5EEAD4", flexShrink: 0 }} />
             <div>
               <div
                 style={{
@@ -915,9 +877,7 @@ export default function Gastos() {
               >
                 ¿Eres residente?
               </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>
-                Paga tus gastos
-              </div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>Paga tus gastos</div>
             </div>
             <IconChevronRight
               style={{
@@ -943,16 +903,10 @@ export default function Gastos() {
               maxWidth: 380,
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(13,148,136,0.25)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "rgba(13,148,136,0.15)")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(13,148,136,0.25)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(13,148,136,0.15)")}
           >
-            <IconShield
-              style={{ width: 28, height: 28, color: "#5EEAD4", flexShrink: 0 }}
-            />
+            <IconShield style={{ width: 28, height: 28, color: "#5EEAD4", flexShrink: 0 }} />
             <div>
               <div
                 style={{
@@ -963,9 +917,7 @@ export default function Gastos() {
               >
                 ¿Eres del comité?
               </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>
-                Ir al dashboard
-              </div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>Ir al dashboard</div>
             </div>
             <IconChevronRight
               style={{
@@ -1045,20 +997,14 @@ export default function Gastos() {
                   marginBottom: 8,
                 }}
               >
-                <span style={{ fontSize: 14, color: "#64748B" }}>
-                  Total a pagar
-                </span>
-                <span
-                  style={{ fontSize: 18, fontWeight: 700, color: "#00201B" }}
-                >
+                <span style={{ fontSize: 14, color: "#64748B" }}>Total a pagar</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: "#00201B" }}>
                   $600.000 CLP
                 </span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontSize: 13, color: "#94A3B8" }}>Vence el</span>
-                <span style={{ fontSize: 13, color: "#94A3B8" }}>
-                  15 sep 2026
-                </span>
+                <span style={{ fontSize: 13, color: "#94A3B8" }}>15 sep 2026</span>
               </div>
             </div>
             <div style={{ marginBottom: 20 }}>
@@ -1072,11 +1018,7 @@ export default function Gastos() {
               >
                 Método de pago
               </div>
-              {[
-                "Tarjeta de crédito/débito",
-                "Transferencia bancaria",
-                "WebPay",
-              ].map((m) => (
+              {["Tarjeta de crédito/débito", "Transferencia bancaria", "WebPay"].map((m) => (
                 <label
                   key={m}
                   style={{
@@ -1102,8 +1044,8 @@ export default function Gastos() {
             </div>
             <button
               onClick={() => {
-                setPaid(true)
-                setShowPayModal(false)
+                setPaid(true);
+                setShowPayModal(false);
               }}
               style={{
                 width: "100%",
@@ -1117,12 +1059,8 @@ export default function Gastos() {
                 cursor: "pointer",
                 transition: "background 0.2s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#005047")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#0D9488")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
               data-cuelume-press="tick"
               data-cuelume-release="chime"
             >
@@ -1138,5 +1076,5 @@ export default function Gastos() {
         }
       `}</style>
     </div>
-  )
+  );
 }

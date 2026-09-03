@@ -1,7 +1,7 @@
-import React from "react"
-import { Link } from "react-router"
-import { channels } from "../lib/data"
-import { FlipCard } from "../components/FlipCard"
+import React from "react";
+import { Link } from "react-router";
+import { channels } from "../lib/data";
+import { FlipCard } from "../components/FlipCard";
 import {
   IconPhone,
   IconMail,
@@ -12,17 +12,20 @@ import {
   IconDollar,
   IconUsers,
   IconChevronRight,
-} from "../components/icons/Icons"
+} from "../components/icons/Icons";
 
-const urgenciaBadge: Record<string, {
-  label: string
-  color: string
-  bg: string
-}> = {
+const urgenciaBadge: Record<
+  string,
+  {
+    label: string;
+    color: string;
+    bg: string;
+  }
+> = {
   alta: { label: "Prioridad alta", color: "#EAB308", bg: "#FEFCE8" },
   media: { label: "Prioridad media", color: "#0D9488", bg: "#F0FDFA" },
   critica: { label: "Emergencia", color: "#E11D48", bg: "#FFF1F2" },
-}
+};
 
 const iconMap: Record<string, React.ReactNode> = {
   Conserjería: <IconBell style={{ width: 22, height: 22 }} />,
@@ -30,12 +33,12 @@ const iconMap: Record<string, React.ReactNode> = {
   Administración: <IconDollar style={{ width: 22, height: 22 }} />,
   "Seguridad del sector": <IconShield style={{ width: 22, height: 22 }} />,
   Emergencias: <IconAlertTriangle style={{ width: 22, height: 22 }} />,
-}
+};
 
 interface FlipCardData {
-  title: string
-  desc: string
-  icon: React.ReactNode
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
 }
 
 const flipCards: FlipCardData[] = [
@@ -57,35 +60,31 @@ const flipCards: FlipCardData[] = [
   {
     title: "Bomberos y SAMU",
     desc: "Botones de acceso rápido: 133, 132 y 131.",
-    icon: (
-      <IconAlertTriangle style={{ width: 28, height: 28, color: "#0D9488" }} />
-    ),
+    icon: <IconAlertTriangle style={{ width: 28, height: 28, color: "#0D9488" }} />,
   },
-]
+];
 
 interface AltSection {
-  title: string
-  body: string
-  imgUrl: string
-  imgLeft: boolean
+  title: string;
+  body: string;
+  imgUrl: string;
+  imgLeft: boolean;
 }
 
 const altSections: AltSection[] = [
   {
     title: "Respuesta rápida",
     body: "En situaciones de emergencia, cada segundo cuenta. Los canales integrados de la plataforma permiten contactar a conserjería, comité o servicios de emergencia con un solo clic, sin buscar números guardados.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1651514645933-c26e0eb4ace3?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1651514645933-c26e0eb4ace3?w=700&h=500&fit=crop",
     imgLeft: true,
   },
   {
     title: "Red de contactos",
     body: "Toda la información de contacto del condominio centralizada y siempre actualizada: conserjería, comité, administración, Plan Cuadrante y servicios de emergencia. Sin papel, sin listas desactualizadas.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1584467735867-4297ae2ebcee?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1584467735867-4297ae2ebcee?w=700&h=500&fit=crop",
     imgLeft: false,
   },
-]
+];
 
 export default function Canales() {
   return (
@@ -172,16 +171,14 @@ export default function Canales() {
               lineHeight: 1.65,
             }}
           >
-            Toda la información de contacto del condominio en un solo lugar,
-            siempre actualizada. Un clic para emergencias.
+            Toda la información de contacto del condominio en un solo lugar, siempre actualizada. Un
+            clic para emergencias.
           </p>
         </div>
       </div>
 
       {/* Main channel content */}
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* Emergency banner */}
         <div
           style={{
@@ -211,8 +208,7 @@ export default function Canales() {
               ¿Es una emergencia?
             </div>
             <div style={{ fontSize: 13, color: "#9F1239" }}>
-              Llama directamente a Carabineros (133), Bomberos (132) o
-              Ambulancia SAMU (131)
+              Llama directamente a Carabineros (133), Bomberos (132) o Ambulancia SAMU (131)
             </div>
           </div>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -235,12 +231,8 @@ export default function Canales() {
                   textDecoration: "none",
                   transition: "background 0.2s",
                 }}
-                onMouseEnter={(el) =>
-                  (el.currentTarget.style.background = "#9F1239")
-                }
-                onMouseLeave={(el) =>
-                  (el.currentTarget.style.background = "#E11D48")
-                }
+                onMouseEnter={(el) => (el.currentTarget.style.background = "#9F1239")}
+                onMouseLeave={(el) => (el.currentTarget.style.background = "#E11D48")}
               >
                 <span
                   style={{
@@ -251,9 +243,7 @@ export default function Canales() {
                 >
                   {e.num}
                 </span>
-                <span style={{ fontSize: 11, opacity: 0.85, marginTop: 2 }}>
-                  {e.label}
-                </span>
+                <span style={{ fontSize: 11, opacity: 0.85, marginTop: 2 }}>{e.label}</span>
               </a>
             ))}
           </div>
@@ -269,7 +259,7 @@ export default function Canales() {
           }}
         >
           {channels.map((c) => {
-            const badge = urgenciaBadge[c.urgencia]
+            const badge = urgenciaBadge[c.urgencia];
             return (
               <div
                 key={c.area}
@@ -285,13 +275,12 @@ export default function Canales() {
                   transition: "box-shadow 0.2s, border-color 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow =
-                    "0 6px 24px rgba(0,0,0,0.07)"
-                  e.currentTarget.style.borderColor = "#CBD5E1"
+                  e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.07)";
+                  e.currentTarget.style.borderColor = "#CBD5E1";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "none"
-                  e.currentTarget.style.borderColor = "#E2E8F0"
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = "#E2E8F0";
                 }}
               >
                 <div
@@ -346,11 +335,7 @@ export default function Canales() {
                       {badge.label}
                     </span>
                   </div>
-                  <div
-                    style={{ fontSize: 13, color: "#64748B", marginBottom: 10 }}
-                  >
-                    {c.resp}
-                  </div>
+                  <div style={{ fontSize: 13, color: "#64748B", marginBottom: 10 }}>{c.resp}</div>
                   <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
                     <div
                       style={{
@@ -362,10 +347,7 @@ export default function Canales() {
                         fontWeight: 600,
                       }}
                     >
-                      <IconPhone
-                        style={{ width: 14, height: 14, color: "#0D9488" }}
-                      />{" "}
-                      {c.contacto}
+                      <IconPhone style={{ width: 14, height: 14, color: "#0D9488" }} /> {c.contacto}
                     </div>
                     {c.email && (
                       <div
@@ -389,9 +371,7 @@ export default function Canales() {
                   </div>
                 </div>
                 <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div
-                    style={{ fontSize: 12, color: "#94A3B8", marginBottom: 10 }}
-                  >
+                  <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 10 }}>
                     {c.horario}
                   </div>
                   {c.contacto.match(/\d{3}/) && (
@@ -401,8 +381,7 @@ export default function Canales() {
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 6,
-                        background:
-                          c.urgencia === "critica" ? "#E11D48" : "#0D9488",
+                        background: c.urgencia === "critica" ? "#E11D48" : "#0D9488",
                         color: "#fff",
                         borderRadius: 8,
                         padding: "9px 16px",
@@ -411,26 +390,20 @@ export default function Canales() {
                         fontWeight: 600,
                         transition: "opacity 0.2s",
                       }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.opacity = "0.85")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.opacity = "1")
-                      }
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                     >
                       <IconPhone style={{ width: 13, height: 13 }} /> Llamar
                     </a>
                   )}
                 </div>
               </div>
-            )
+            );
           })}
         </div>
 
         {/* Security info */}
-        <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <div
             style={{
               background: "#fff",
@@ -470,8 +443,8 @@ export default function Canales() {
                 margin: "0 0 16px",
               }}
             >
-              Ficha del sector con el cuadrante de seguridad vigente y el
-              contacto del funcionario a cargo, mantenida por el comité.
+              Ficha del sector con el cuadrante de seguridad vigente y el contacto del funcionario a
+              cargo, mantenida por el comité.
             </p>
             <div style={{ fontSize: 14, color: "#00201B", fontWeight: 500 }}>
               Comisaría 12a — Las Condes
@@ -527,9 +500,8 @@ export default function Canales() {
                 margin: "0 0 20px",
               }}
             >
-              Activa las notificaciones para recibir alertas de seguridad,
-              mantenimientos programados y avisos urgentes directamente en tu
-              dispositivo.
+              Activa las notificaciones para recibir alertas de seguridad, mantenimientos
+              programados y avisos urgentes directamente en tu dispositivo.
             </p>
             <button
               style={{
@@ -543,12 +515,8 @@ export default function Canales() {
                 cursor: "pointer",
                 transition: "background 0.2s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#005047")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#0D9488")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
             >
               Activar notificaciones
             </button>
@@ -635,9 +603,7 @@ export default function Canales() {
                       textAlign: "center",
                     }}
                   >
-                    <span
-                      style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}
-                    >
+                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
                       {card.desc}
                     </span>
                   </div>
@@ -798,12 +764,12 @@ export default function Canales() {
               transition: "border-color 0.2s, background 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff"
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)"
+              e.currentTarget.style.borderColor = "#fff";
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"
-              e.currentTarget.style.background = "transparent"
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+              e.currentTarget.style.background = "transparent";
             }}
           >
             Dashboard <IconChevronRight style={{ width: 16, height: 16 }} />
@@ -811,5 +777,5 @@ export default function Canales() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -27,7 +27,7 @@ export const gastos = [
     pct: 13,
     color: "#99F6E4",
   },
-]
+];
 
 // badge values: 'primary' | 'accent' | 'warning'
 export const avisos = [
@@ -91,7 +91,7 @@ export const avisos = [
     confirmacion: true,
     confirmados: 48,
   },
-]
+];
 
 export const channels = [
   {
@@ -134,7 +134,7 @@ export const channels = [
     horario: "24/7",
     urgencia: "critica",
   },
-]
+];
 
 export const registroFotos = [
   {
@@ -193,4 +193,4 @@ export const registroFotos = [
     estado: "Completado",
     boleta: "BOL-2026-0720",
   },
-]
+];

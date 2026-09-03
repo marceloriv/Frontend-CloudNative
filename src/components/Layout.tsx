@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react"
-import { Outlet, NavLink, useLocation, Link } from "react-router"
+import React, { useState, useEffect, useRef } from "react";
+import { Outlet, NavLink, useLocation, Link } from "react-router";
 import {
   IconHome,
   IconDollar,
@@ -12,9 +12,9 @@ import {
   IconTrendingUp,
   IconPhone,
   IconAlertTriangle,
-} from "./icons/Icons"
-import { useAuth } from "../hooks/useAuth"
-import type { Role } from "../types"
+} from "./icons/Icons";
+import { useAuth } from "../hooks/useAuth";
+import type { Role } from "../types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Data
@@ -37,13 +37,16 @@ const RIBBON_ITEMS = [
     text: "📸 Nuevo registro fotográfico: renovación jardín central",
     path: "/registro",
   },
-]
+];
 
-const NAV_LINKS_BY_ROLE: Record<Role, {
-  label: string
-  path: string
-  icon: React.ReactElement
-}[]> = {
+const NAV_LINKS_BY_ROLE: Record<
+  Role,
+  {
+    label: string;
+    path: string;
+    icon: React.ReactElement;
+  }[]
+> = {
   residente: [
     {
       label: "Mi panel",
@@ -172,7 +175,7 @@ const NAV_LINKS_BY_ROLE: Record<Role, {
       icon: <IconPhone style={{ width: 15, height: 15 }} />,
     },
   ],
-}
+};
 
 const FLOATING_SIDEBAR_ITEMS = [
   {
@@ -203,36 +206,36 @@ const FLOATING_SIDEBAR_ITEMS = [
     path: "/tablon",
     bg: "#0D9488",
   },
-]
+];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AnnouncementRibbon — declared before Layout to avoid hoisting issues
 // ─────────────────────────────────────────────────────────────────────────────
 
 function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
-  const [idx, setIdx] = useState(0)
-  const [fading, setFading] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [idx, setIdx] = useState(0);
+  const [fading, setFading] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const rotate = () => {
-    setFading(true)
+    setFading(true);
     fadeTimerRef.current = setTimeout(() => {
-      setIdx((i) => (i + 1) % RIBBON_ITEMS.length)
-      setFading(false)
-    }, 250)
-  }
+      setIdx((i) => (i + 1) % RIBBON_ITEMS.length);
+      setFading(false);
+    }, 250);
+  };
 
   useEffect(() => {
-    if (RIBBON_ITEMS.length < 2) return
-    timerRef.current = setInterval(rotate, 5000)
+    if (RIBBON_ITEMS.length < 2) return;
+    timerRef.current = setInterval(rotate, 5000);
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current)
-    }
-  }, [])
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    };
+  }, []);
 
-  const item = RIBBON_ITEMS[idx]
+  const item = RIBBON_ITEMS[idx];
 
   return (
     <div
@@ -312,17 +315,14 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
         </Link>
 
         {/* Dot indicators */}
-        <div
-          style={{ display: "flex", gap: 4, flexShrink: 0 }}
-          className="ribbon-dots"
-        >
+        <div style={{ display: "flex", gap: 4, flexShrink: 0 }} className="ribbon-dots">
           {RIBBON_ITEMS.map((item, i) => (
             <button
               key={item.text}
               aria-label={`Ver aviso ${i + 1} de ${RIBBON_ITEMS.length}`}
               onClick={() => {
-                setIdx(i)
-                setFading(false)
+                setIdx(i);
+                setFading(false);
               }}
               style={{
                 width: i === idx ? 14 : 5,
@@ -354,15 +354,13 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
             transition: "color 0.15s",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(255,255,255,0.6)")
-          }
+          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
         >
           ✕
         </button>
       </div>
     </div>
-  )
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -370,8 +368,8 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function FloatingSidebar() {
-  const [hovered, setHovered] = useState<string | null>(null)
-  const items = FLOATING_SIDEBAR_ITEMS
+  const [hovered, setHovered] = useState<string | null>(null);
+  const items = FLOATING_SIDEBAR_ITEMS;
 
   return (
     <div
@@ -413,13 +411,10 @@ function FloatingSidebar() {
               borderRadius: "6px 0 0 6px",
               paddingLeft: hovered === item.id ? 12 : 0,
               opacity: hovered === item.id ? 1 : 0,
-              transition:
-                "max-width 0.22s ease, opacity 0.18s ease, padding-left 0.22s ease",
+              transition: "max-width 0.22s ease, opacity 0.18s ease, padding-left 0.22s ease",
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>
-              {item.label}
-            </span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{item.label}</span>
           </div>
 
           {/* Icon button */}
@@ -478,7 +473,7 @@ function FloatingSidebar() {
         </svg>
       </button>
     </div>
-  )
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -490,62 +485,56 @@ const ROLE_LABELS: Record<Role, string> = {
   conserje: "Conserje",
   admin: "Admin",
   comite: "Comité",
-}
+};
 const ROLE_COLORS: Record<Role, string> = {
   residente: "#0D9488",
   conserje: "#3B82F6",
   admin: "#7C3AED",
   comite: "#D97706",
-}
+};
 
 export default function Layout() {
-  const { role, setRole, user } = useAuth()
-  const [ribbonVisible, setRibbonVisible] = useState(true)
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [roleSwitcherOpen, setRoleSwitcherOpen] = useState(false)
-  const location = useLocation()
-  const isHome = location.pathname === "/"
+  const { role, setRole, user } = useAuth();
+  const [ribbonVisible, setRibbonVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [roleSwitcherOpen, setRoleSwitcherOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
-  const [prevPathname, setPrevPathname] = useState(location.pathname)
+  const [prevPathname, setPrevPathname] = useState(location.pathname);
   if (location.pathname !== prevPathname) {
-    setPrevPathname(location.pathname)
-    setMobileOpen(false)
+    setPrevPathname(location.pathname);
+    setMobileOpen(false);
   }
 
-  const navLinks = NAV_LINKS_BY_ROLE[role]
+  const navLinks = NAV_LINKS_BY_ROLE[role];
 
-  const RIBBON_H = ribbonVisible ? 32 : 0
-  const NAV_H = 64
-  const TOP_OFFSET = RIBBON_H + NAV_H
-
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40)
-    window.addEventListener("scroll", handler, { passive: true })
-    return () => window.removeEventListener("scroll", handler)
-  }, [])
+  const RIBBON_H = ribbonVisible ? 32 : 0;
+  const NAV_H = 64;
+  const TOP_OFFSET = RIBBON_H + NAV_H;
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }, [location.pathname])
+    const handler = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
 
   const navBg = isHome
     ? scrolled
       ? "rgba(255,255,255,0.96)"
       : "transparent"
-    : "rgba(255,255,255,0.97)"
-  const navBorder = (isHome ? scrolled : true)
-    ? "1px solid #E2E8F0"
-    : "1px solid transparent"
+    : "rgba(255,255,255,0.97)";
+  const navBorder = (isHome ? scrolled : true) ? "1px solid #E2E8F0" : "1px solid transparent";
 
   return (
-    <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Ribbon */}
-      {ribbonVisible && (
-        <AnnouncementRibbon onDismiss={() => setRibbonVisible(false)} />
-      )}
+      {ribbonVisible && <AnnouncementRibbon onDismiss={() => setRibbonVisible(false)} />}
 
       {/* Nav */}
       <nav
@@ -624,10 +613,7 @@ export default function Layout() {
           </NavLink>
 
           {/* Desktop links */}
-          <div
-            className="nav-desktop"
-            style={{ display: "flex", alignItems: "center", gap: 2 }}
-          >
+          <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 2 }}>
             {navLinks.map((l) => (
               <NavLink
                 key={l.path}
@@ -646,20 +632,12 @@ export default function Layout() {
                   transition: "all 0.15s",
                 })}
                 onMouseEnter={(e) => {
-                  if (
-                    !(e.currentTarget as HTMLElement).classList.contains(
-                      "active",
-                    )
-                  )
-                    (e.currentTarget as HTMLElement).style.color = "#00201B"
+                  if (!(e.currentTarget as HTMLElement).classList.contains("active"))
+                    (e.currentTarget as HTMLElement).style.color = "#00201B";
                 }}
                 onMouseLeave={(e) => {
-                  if (
-                    !(e.currentTarget as HTMLElement).classList.contains(
-                      "active",
-                    )
-                  )
-                    (e.currentTarget as HTMLElement).style.color = "#64748B"
+                  if (!(e.currentTarget as HTMLElement).classList.contains("active"))
+                    (e.currentTarget as HTMLElement).style.color = "#64748B";
                 }}
               >
                 {l.icon} {l.label}
@@ -696,9 +674,7 @@ export default function Layout() {
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                 title="Cambiar rol (demo)"
               >
-                <span style={{ fontSize: 10, opacity: 0.75, fontWeight: 600 }}>
-                  ROL:
-                </span>
+                <span style={{ fontSize: 10, opacity: 0.75, fontWeight: 600 }}>ROL:</span>
                 {ROLE_LABELS[role]}
                 <svg
                   viewBox="0 0 24 24"
@@ -737,53 +713,48 @@ export default function Layout() {
                   >
                     Demo · Cambiar rol
                   </div>
-                  {(["residente", "conserje", "admin", "comite"] as Role[]).map(
-                    (r) => (
-                      <button
-                        key={r}
-                        onClick={() => {
-                          setRole(r)
-                          setRoleSwitcherOpen(false)
-                        }}
+                  {(["residente", "conserje", "admin", "comite"] as Role[]).map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => {
+                        setRole(r);
+                        setRoleSwitcherOpen(false);
+                      }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        width: "100%",
+                        padding: "8px 12px",
+                        border: "none",
+                        background: r === role ? "#F0FDFA" : "none",
+                        cursor: "pointer",
+                        borderRadius: 7,
+                        fontSize: 13,
+                        fontWeight: r === role ? 700 : 500,
+                        color: r === role ? ROLE_COLORS[r] : "#00201B",
+                        transition: "background 0.12s",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (r !== role)
+                          (e.currentTarget as HTMLElement).style.background = "#F8FAFB";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (r !== role) (e.currentTarget as HTMLElement).style.background = "none";
+                      }}
+                    >
+                      <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 8,
-                          width: "100%",
-                          padding: "8px 12px",
-                          border: "none",
-                          background: r === role ? "#F0FDFA" : "none",
-                          cursor: "pointer",
-                          borderRadius: 7,
-                          fontSize: 13,
-                          fontWeight: r === role ? 700 : 500,
-                          color: r === role ? ROLE_COLORS[r] : "#00201B",
-                          transition: "background 0.12s",
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: ROLE_COLORS[r],
+                          flexShrink: 0,
                         }}
-                        onMouseEnter={(e) => {
-                          if (r !== role)
-                            (e.currentTarget as HTMLElement).style.background =
-                              "#F8FAFB"
-                        }}
-                        onMouseLeave={(e) => {
-                          if (r !== role)
-                            (e.currentTarget as HTMLElement).style.background =
-                              "none"
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 8,
-                            height: 8,
-                            borderRadius: "50%",
-                            background: ROLE_COLORS[r],
-                            flexShrink: 0,
-                          }}
-                        />
-                        {ROLE_LABELS[r]}
-                      </button>
-                    ),
-                  )}
+                      />
+                      {ROLE_LABELS[r]}
+                    </button>
+                  ))}
                   <div
                     style={{
                       borderTop: "1px solid #F1F5F9",
@@ -824,12 +795,12 @@ export default function Layout() {
                 transition: "color 0.2s, border-color 0.2s",
               }}
               onMouseEnter={(e) => {
-                ;(e.currentTarget as HTMLElement).style.color = "#00201B"
-                ;(e.currentTarget as HTMLElement).style.borderColor = "#CBD5E1"
+                (e.currentTarget as HTMLElement).style.color = "#00201B";
+                (e.currentTarget as HTMLElement).style.borderColor = "#CBD5E1";
               }}
               onMouseLeave={(e) => {
-                ;(e.currentTarget as HTMLElement).style.color = "#64748B"
-                ;(e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0"
+                (e.currentTarget as HTMLElement).style.color = "#64748B";
+                (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0";
               }}
               data-cuelume-press="whisper"
               aria-label="Cerrar sesión"
@@ -906,30 +877,28 @@ export default function Layout() {
               </NavLink>
             ))}
             <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
-              {(["residente", "conserje", "admin", "comite"] as Role[]).map(
-                (r) => (
-                  <button
-                    key={r}
-                    onClick={() => {
-                      setRole(r)
-                      setMobileOpen(false)
-                    }}
-                    style={{
-                      flex: 1,
-                      padding: "8px 4px",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      borderRadius: 8,
-                      border: "none",
-                      background: r === role ? ROLE_COLORS[r] : "#F1F5F9",
-                      color: r === role ? "#fff" : "#64748B",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {ROLE_LABELS[r]}
-                  </button>
-                ),
-              )}
+              {(["residente", "conserje", "admin", "comite"] as Role[]).map((r) => (
+                <button
+                  key={r}
+                  onClick={() => {
+                    setRole(r);
+                    setMobileOpen(false);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: "8px 4px",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    borderRadius: 8,
+                    border: "none",
+                    background: r === role ? ROLE_COLORS[r] : "#F1F5F9",
+                    color: r === role ? "#fff" : "#64748B",
+                    cursor: "pointer",
+                  }}
+                >
+                  {ROLE_LABELS[r]}
+                </button>
+              ))}
             </div>
           </div>
         )}
@@ -1002,8 +971,8 @@ export default function Layout() {
                   color: "rgba(255,255,255,0.5)",
                 }}
               >
-                Plataforma digital para la gestión de condominios en Chile.
-                Tranquilidad, comunidad y confianza.
+                Plataforma digital para la gestión de condominios en Chile. Tranquilidad, comunidad
+                y confianza.
               </p>
               <div style={{ display: "flex", gap: 16 }}>
                 {["Privacidad", "Términos", "Contacto"].map((l) => (
@@ -1015,12 +984,8 @@ export default function Layout() {
                       cursor: "pointer",
                       transition: "color 0.15s",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = "#5EEAD4")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "rgba(255,255,255,0.35)")
-                    }
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#5EEAD4")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
                   >
                     {l}
                   </span>
@@ -1044,12 +1009,7 @@ export default function Layout() {
               },
               {
                 title: "Emergencias",
-                links: [
-                  "Carabineros 133",
-                  "Bomberos 132",
-                  "SAMU 131",
-                  "Conserjería Interno 100",
-                ],
+                links: ["Carabineros 133", "Bomberos 132", "SAMU 131", "Conserjería Interno 100"],
               },
             ].map((col) => (
               <div key={col.title}>
@@ -1076,9 +1036,7 @@ export default function Layout() {
                       transition: "color 0.15s",
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "rgba(255,255,255,0.45)")
-                    }
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}
                   >
                     {l}
                   </div>
@@ -1099,9 +1057,7 @@ export default function Layout() {
             <p style={{ fontSize: 12, margin: 0 }}>
               © 2026 Convivo SpA. Todos los derechos reservados.
             </p>
-            <p style={{ fontSize: 12, margin: 0 }}>
-              Hecho con ♥ para condominios chilenos
-            </p>
+            <p style={{ fontSize: 12, margin: 0 }}>Hecho con ♥ para condominios chilenos</p>
           </div>
         </div>
       </footer>
@@ -1129,5 +1085,5 @@ export default function Layout() {
         * { box-sizing: border-box; }
       `}</style>
     </div>
-  )
+  );
 }

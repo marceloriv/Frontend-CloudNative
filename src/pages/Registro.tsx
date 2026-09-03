@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { Link } from "react-router"
-import { registroFotos } from "../lib/data"
-import { FlipCard } from "../components/FlipCard"
+import { useState } from "react";
+import { Link } from "react-router";
+import { registroFotos } from "../lib/data";
+import { FlipCard } from "../components/FlipCard";
 import {
   IconCamera,
   IconEye,
@@ -11,7 +11,7 @@ import {
   IconCalendar,
   IconUsers,
   IconChevronRight,
-} from "../components/icons/Icons"
+} from "../components/icons/Icons";
 
 const categorias = [
   "Todos",
@@ -19,37 +19,37 @@ const categorias = [
   "Pintura",
   "Mantención eléctrica",
   "Limpieza de fachada",
-]
+];
 
 interface RegistroItem {
-  id: string
-  titulo: string
-  categoria: string
-  fecha: string
-  responsable: string
-  monto: string
-  estado: string
-  boleta: string
-  antes: string
-  despues: string
+  id: string;
+  titulo: string;
+  categoria: string;
+  fecha: string;
+  responsable: string;
+  monto: string;
+  estado: string;
+  boleta: string;
+  antes: string;
+  despues: string;
 }
 
 interface RegistroCardProps {
-  registro: RegistroItem
-  onOpen: () => void
+  registro: RegistroItem;
+  onOpen: () => void;
 }
 
 interface FlipCardData {
-  title: string
-  desc: string
-  icon: React.ReactNode
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
 }
 
 interface AltSection {
-  title: string
-  body: string
-  imgUrl: string
-  imgLeft: boolean
+  title: string;
+  body: string;
+  imgUrl: string;
+  imgLeft: boolean;
 }
 
 const flipCards: FlipCardData[] = [
@@ -73,28 +73,26 @@ const flipCards: FlipCardData[] = [
     desc: "Cada trabajo muestra el proveedor, monto y boleta adjunta.",
     icon: <IconUsers style={{ width: 28, height: 28, color: "#0D9488" }} />,
   },
-]
+];
 
 const altSections: AltSection[] = [
   {
     title: "Transparencia visual",
     body: "El registro fotográfico permite que cualquier residente pueda verificar el estado real del trabajo realizado. Antes y después, con fecha exacta y responsable identificado. La rendición de cuentas nunca fue tan clara.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=700&h=500&fit=crop",
     imgLeft: true,
   },
   {
     title: "Para el comité",
     body: "El comité cuenta con una bitácora completa de todas las intervenciones del condominio. Cada gasto respaldado con fotografía y boleta adjunta, accesible desde el dashboard en cualquier momento.",
-    imgUrl:
-      "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?w=700&h=500&fit=crop",
+    imgUrl: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?w=700&h=500&fit=crop",
     imgLeft: false,
   },
-]
+];
 
 function RegistroCard({ registro, onOpen }: RegistroCardProps) {
-  const [hovered, setHovered] = useState(false)
-  const [showBefore, setShowBefore] = useState(true)
+  const [hovered, setHovered] = useState(false);
+  const [showBefore, setShowBefore] = useState(true);
 
   return (
     <div
@@ -105,9 +103,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
         overflow: "hidden",
         border: "1px solid #E2E8F0",
         background: "#fff",
-        boxShadow: hovered
-          ? "0 12px 40px rgba(0,0,0,0.09)"
-          : "0 2px 8px rgba(0,0,0,0.04)",
+        boxShadow: hovered ? "0 12px 40px rgba(0,0,0,0.09)" : "0 2px 8px rgba(0,0,0,0.04)",
         transform: hovered ? "translateY(-3px)" : "none",
         transition: "box-shadow 0.25s ease, transform 0.25s ease",
       }}
@@ -143,8 +139,8 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
             <button
               key={label}
               onClick={(e) => {
-                e.stopPropagation()
-                setShowBefore(i === 0)
+                e.stopPropagation();
+                setShowBefore(i === 0);
               }}
               style={{
                 padding: "4px 10px",
@@ -191,9 +187,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
             marginBottom: 6,
           }}
         >
-          <span style={{ fontSize: 11, color: "#94A3B8" }}>
-            {registro.fecha}
-          </span>
+          <span style={{ fontSize: 11, color: "#94A3B8" }}>{registro.fecha}</span>
           <span style={{ fontSize: 11, color: "#94A3B8" }}>{registro.id}</span>
         </div>
         <h3
@@ -265,17 +259,15 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function Registro() {
-  const [activeCat, setActiveCat] = useState("Todos")
-  const [selected, setSelected] = useState<RegistroItem | null>(null)
-  const [showBefore, setShowBefore] = useState(true)
+  const [activeCat, setActiveCat] = useState("Todos");
+  const [selected, setSelected] = useState<RegistroItem | null>(null);
+  const [showBefore, setShowBefore] = useState(true);
 
-  const filtered = registroFotos.filter(
-    (r) => activeCat === "Todos" || r.categoria === activeCat,
-  )
+  const filtered = registroFotos.filter((r) => activeCat === "Todos" || r.categoria === activeCat);
 
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
@@ -361,17 +353,14 @@ export default function Registro() {
               lineHeight: 1.65,
             }}
           >
-            Control de calidad verificable por todos los residentes. Cada
-            intervención documentada con fotos de antes y después, fecha,
-            responsable y boleta adjunta.
+            Control de calidad verificable por todos los residentes. Cada intervención documentada
+            con fotos de antes y después, fecha, responsable y boleta adjunta.
           </p>
         </div>
       </div>
 
       {/* Main registro content */}
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* Stats */}
         <div
           style={{
@@ -388,8 +377,7 @@ export default function Registro() {
               color: "#0D9488",
             },
             {
-              val: registroFotos.filter((r) => r.estado === "Completado")
-                .length,
+              val: registroFotos.filter((r) => r.estado === "Completado").length,
               label: "Completados",
               color: "#005047",
             },
@@ -474,8 +462,8 @@ export default function Registro() {
               key={r.id}
               registro={r}
               onOpen={() => {
-                setSelected(r)
-                setShowBefore(true)
+                setSelected(r);
+                setShowBefore(true);
               }}
             />
           ))}
@@ -561,9 +549,7 @@ export default function Registro() {
                       textAlign: "center",
                     }}
                   >
-                    <span
-                      style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}
-                    >
+                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
                       {card.desc}
                     </span>
                   </div>
@@ -724,12 +710,12 @@ export default function Registro() {
               transition: "border-color 0.2s, background 0.2s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff"
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)"
+              e.currentTarget.style.borderColor = "#fff";
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"
-              e.currentTarget.style.background = "transparent"
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+              e.currentTarget.style.background = "transparent";
             }}
           >
             Dashboard <IconChevronRight style={{ width: 16, height: 16 }} />
@@ -821,9 +807,7 @@ export default function Registro() {
                           ? "#fff"
                           : "rgba(255,255,255,0.4)",
                       color:
-                        (showBefore && i === 0) || (!showBefore && i === 1)
-                          ? "#00201B"
-                          : "#fff",
+                        (showBefore && i === 0) || (!showBefore && i === 1) ? "#00201B" : "#fff",
                       transition: "background 0.2s, color 0.2s",
                     }}
                   >
@@ -964,8 +948,7 @@ export default function Registro() {
                     fontWeight: 600,
                   }}
                 >
-                  <IconCheck style={{ width: 16, height: 16 }} /> Boleta
-                  adjunta: {selected.boleta}
+                  <IconCheck style={{ width: 16, height: 16 }} /> Boleta adjunta: {selected.boleta}
                 </div>
                 <button
                   style={{
@@ -988,5 +971,5 @@ export default function Registro() {
         </div>
       )}
     </div>
-  )
+  );
 }

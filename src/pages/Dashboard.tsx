@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,14 +8,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-} from "recharts"
-import { gastos } from "../lib/data"
-import {
-  IconDownload,
-  IconTrendingUp,
-  IconEye,
-  IconTag,
-} from "../components/icons/Icons"
+} from "recharts";
+import { gastos } from "../lib/data";
+import { IconDownload, IconTrendingUp, IconEye, IconTag } from "../components/icons/Icons";
 
 const evolucionMensual = [
   { mes: "Ene", gasto: 540 },
@@ -26,19 +21,19 @@ const evolucionMensual = [
   { mes: "Jun", gasto: 590 },
   { mes: "Jul", gasto: 595 },
   { mes: "Ago", gasto: 600 },
-]
+];
 
 interface TooltipPayload {
-  value: number
+  value: number;
 }
 interface CustomTooltipProps {
-  active?: boolean
-  payload?: TooltipPayload[]
-  label?: string
+  active?: boolean;
+  payload?: TooltipPayload[];
+  label?: string;
 }
 
 function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
-  if (!active || !payload?.length) return null
+  if (!active || !payload?.length) return null;
   return (
     <div
       style={{
@@ -51,14 +46,12 @@ function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
         boxShadow: "0 4px 16px rgba(0,0,0,0.18)",
       }}
     >
-      <div style={{ color: "rgba(255,255,255,0.55)", marginBottom: 2 }}>
-        {label} 2026
-      </div>
+      <div style={{ color: "rgba(255,255,255,0.55)", marginBottom: 2 }}>{label} 2026</div>
       <div style={{ fontWeight: 700, color: "#5EEAD4" }}>
         ${payload[0].value.toLocaleString("es-CL")} k
       </div>
     </div>
-  )
+  );
 }
 
 const registros = [
@@ -116,7 +109,7 @@ const registros = [
     boleta: "BOL-2026-0702",
     estado: "Verificado",
   },
-]
+];
 
 const categorias = [
   "Todos",
@@ -126,13 +119,13 @@ const categorias = [
   "Limpieza",
   "Seguridad",
   "Gasfitería",
-]
+];
 
 export default function Dashboard() {
-  const [activeCategoria, setActiveCategoria] = useState("Todos")
+  const [activeCategoria, setActiveCategoria] = useState("Todos");
   const filtered = registros.filter(
     (r) => activeCategoria === "Todos" || r.categoria === activeCategoria,
-  )
+  );
 
   return (
     <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
@@ -172,15 +165,13 @@ export default function Dashboard() {
               lineHeight: 1.65,
             }}
           >
-            Panel centralizado de todos los gastos del condominio. Cada peso
-            documentado con boleta o factura adjunta.
+            Panel centralizado de todos los gastos del condominio. Cada peso documentado con boleta
+            o factura adjunta.
           </p>
         </div>
       </div>
 
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}
-      >
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* KPI cards */}
         <div
           style={{
@@ -302,9 +293,7 @@ export default function Dashboard() {
               >
                 Evolución mensual
               </h3>
-              <span style={{ fontSize: 12, color: "#94A3B8" }}>
-                2026 · miles CLP
-              </span>
+              <span style={{ fontSize: 12, color: "#94A3B8" }}>2026 · miles CLP</span>
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart
@@ -312,11 +301,7 @@ export default function Dashboard() {
                 barCategoryGap="28%"
                 margin={{ top: 4, right: 4, left: -24, bottom: 0 }}
               >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#F1F5F9"
-                  vertical={false}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
                 <XAxis
                   dataKey="mes"
                   tick={{
@@ -337,19 +322,12 @@ export default function Dashboard() {
                   tickLine={false}
                   domain={[500, 620]}
                 />
-                <Tooltip
-                  content={<ChartTooltip />}
-                  cursor={{ fill: "#F0FDFA" }}
-                />
+                <Tooltip content={<ChartTooltip />} cursor={{ fill: "#F0FDFA" }} />
                 <Bar dataKey="gasto" radius={[5, 5, 0, 0]}>
                   {evolucionMensual.map((m, i) => (
                     <Cell
                       key={m.mes}
-                      fill={
-                        i === evolucionMensual.length - 1
-                          ? "#0D9488"
-                          : "#CCFBF1"
-                      }
+                      fill={i === evolucionMensual.length - 1 ? "#0D9488" : "#CCFBF1"}
                     />
                   ))}
                 </Bar>
@@ -542,8 +520,7 @@ export default function Dashboard() {
                   <tr
                     key={r.boleta}
                     style={{
-                      borderBottom:
-                        i < filtered.length - 1 ? "1px solid #F1F5F9" : "none",
+                      borderBottom: i < filtered.length - 1 ? "1px solid #F1F5F9" : "none",
                     }}
                   >
                     <td
@@ -652,10 +629,7 @@ export default function Dashboard() {
                   >
                     $
                     {filtered
-                      .reduce(
-                        (acc, r) => acc + parseInt(r.monto.replace(/\D/g, "")),
-                        0,
-                      )
+                      .reduce((acc, r) => acc + parseInt(r.monto.replace(/\D/g, "")), 0)
                       .toLocaleString("es-CL")}
                   </td>
                   <td colSpan={2} />
@@ -672,5 +646,5 @@ export default function Dashboard() {
         }
       `}</style>
     </div>
-  )
+  );
 }

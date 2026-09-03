@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react"
-import { Link } from "react-router"
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router";
 import {
   IconCalendar,
   IconDollar,
@@ -10,52 +10,52 @@ import {
   IconChevronRight,
   IconTrendingUp,
   IconCheck,
-} from "../components/icons/Icons"
+} from "../components/icons/Icons";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface StatItem {
-  target: number
-  suffix: string
-  label: string
+  target: number;
+  suffix: string;
+  label: string;
 }
 
 interface ModuloTab {
-  label: string
-  icon: React.ReactNode
-  path: string
-  headline: string
-  body: string
-  points: string[]
-  img: string
+  label: string;
+  icon: React.ReactNode;
+  path: string;
+  headline: string;
+  body: string;
+  points: string[];
+  img: string;
 }
 
 interface Paso {
-  titulo: string
-  desc: string
+  titulo: string;
+  desc: string;
 }
 
 interface Testimonio {
-  nombre: string
-  rol: string
-  iniciales: string
-  cita: string
+  nombre: string;
+  rol: string;
+  iniciales: string;
+  cita: string;
 }
 
 interface PricingTier {
-  name: string
-  price: string
-  period: string
-  highlight: boolean
-  badge?: string
-  desc: string
-  features: string[]
-  cta: string
+  name: string;
+  price: string;
+  period: string;
+  highlight: boolean;
+  badge?: string;
+  desc: string;
+  features: string[];
+  cta: string;
 }
 
 interface TrustBadge {
-  icon: React.ReactNode
-  text: string
+  icon: React.ReactNode;
+  text: string;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -65,7 +65,7 @@ const STATS: StatItem[] = [
   { target: 98, suffix: "%", label: "Satisfacción" },
   { target: 150, suffix: "+", label: "Comunidades" },
   { target: 7, suffix: "", label: "Espacios gestionados" },
-]
+];
 
 const MODULOS: ModuloTab[] = [
   {
@@ -146,7 +146,7 @@ const MODULOS: ModuloTab[] = [
       "Categorizado por tipo de trabajo",
     ],
   },
-]
+];
 
 const PASOS: Paso[] = [
   {
@@ -165,7 +165,7 @@ const PASOS: Paso[] = [
     titulo: "Mantente conectado",
     desc: "Recibe avisos, accede al dashboard de transparencia y contacta a conserjería.",
   },
-]
+];
 
 const TESTIMONIOS: Testimonio[] = [
   {
@@ -186,7 +186,7 @@ const TESTIMONIOS: Testimonio[] = [
     iniciales: "MF",
     cita: "Los gastos comunes se pagan a tiempo porque los recordatorios llegan automáticos. Cero morosidad este mes.",
   },
-]
+];
 
 const PRICING: PricingTier[] = [
   {
@@ -236,7 +236,7 @@ const PRICING: PricingTier[] = [
     ],
     cta: "Contactar equipo",
   },
-]
+];
 
 const TRUST_BADGES: TrustBadge[] = [
   {
@@ -255,48 +255,48 @@ const TRUST_BADGES: TrustBadge[] = [
     icon: <IconHome style={{ width: 18, height: 18 }} />,
     text: "Soporte en español",
   },
-]
+];
 
 // ─── Sub-components (all before Home) ─────────────────────────────────────────
 
 function Counter({ target, suffix }: StatItem) {
-  const [val, setVal] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const started = useRef(false)
+  const [val, setVal] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const started = useRef(false);
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const el = ref.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || started.current) return
-        started.current = true
-        observer.disconnect()
-        const steps = 60
-        const increment = target / steps
-        let current = 0
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        observer.disconnect();
+        const steps = 60;
+        const increment = target / steps;
+        let current = 0;
         const timer = setInterval(() => {
-          current += increment
+          current += increment;
           if (current >= target) {
-            setVal(target)
-            clearInterval(timer)
+            setVal(target);
+            clearInterval(timer);
           } else {
-            setVal(Math.floor(current))
+            setVal(Math.floor(current));
           }
-        }, 25)
+        }, 25);
       },
       { threshold: 0.3 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [target])
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [target]);
 
   return (
     <span ref={ref}>
       {val.toLocaleString("es-CL")}
       {suffix}
     </span>
-  )
+  );
 }
 
 const HERO_QUICK_LINKS = [
@@ -336,10 +336,10 @@ const HERO_QUICK_LINKS = [
     path: "/registro",
     color: "#0D9488",
   },
-]
+];
 
 function HeroSection() {
-  const quickLinks = HERO_QUICK_LINKS
+  const quickLinks = HERO_QUICK_LINKS;
 
   return (
     <section
@@ -385,8 +385,7 @@ function HeroSection() {
             height: 520,
             top: "-80px",
             left: "-120px",
-            background:
-              "radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 70%)",
             filter: "blur(40px)",
             "--drift-dur": "14s",
           } as React.CSSProperties
@@ -403,8 +402,7 @@ function HeroSection() {
             height: 380,
             bottom: "60px",
             left: "38%",
-            background:
-              "radial-gradient(circle, rgba(0,80,71,0.22) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(0,80,71,0.22) 0%, transparent 70%)",
             filter: "blur(50px)",
             "--drift-dur": "18s",
             animationDelay: "-6s",
@@ -422,8 +420,7 @@ function HeroSection() {
             height: 260,
             top: "30%",
             right: "8%",
-            background:
-              "radial-gradient(circle, rgba(94,234,212,0.10) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(94,234,212,0.10) 0%, transparent 70%)",
             filter: "blur(32px)",
             "--drift-dur": "11s",
             animationDelay: "-3s",
@@ -520,8 +517,8 @@ function HeroSection() {
                 maxWidth: 520,
               }}
             >
-              Plataforma digital para condominios en Chile. Reservas, gastos,
-              avisos y seguridad — todo en un lugar.
+              Plataforma digital para condominios en Chile. Reservas, gastos, avisos y seguridad —
+              todo en un lugar.
             </p>
 
             {/* CTAs */}
@@ -550,16 +547,15 @@ function HeroSection() {
                   transition: "background 0.2s, transform 0.15s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#005047"
-                  e.currentTarget.style.transform = "translateY(-1px)"
+                  e.currentTarget.style.background = "#005047";
+                  e.currentTarget.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0D9488"
-                  e.currentTarget.style.transform = "none"
+                  e.currentTarget.style.background = "#0D9488";
+                  e.currentTarget.style.transform = "none";
                 }}
               >
-                Crear cuenta{" "}
-                <IconChevronRight style={{ width: 14, height: 14 }} />
+                Crear cuenta <IconChevronRight style={{ width: 14, height: 14 }} />
               </Link>
               <Link
                 to="/login"
@@ -577,22 +573,15 @@ function HeroSection() {
                   border: "1px solid rgba(255,255,255,0.28)",
                   transition: "background 0.2s",
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "rgba(255,255,255,0.22)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "rgba(255,255,255,0.12)")
-                }
+                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.22)")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
               >
                 Iniciar sesión
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div
-              className="cv-hero-badges"
-              style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
-            >
+            <div className="cv-hero-badges" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               {TRUST_BADGES.map((b) => (
                 <span
                   key={b.text}
@@ -645,11 +634,7 @@ function HeroSection() {
               }}
             >
               {quickLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  style={{ textDecoration: "none" }}
-                >
+                <Link key={item.label} to={item.path} style={{ textDecoration: "none" }}>
                   <div
                     style={{
                       background: "rgba(255,255,255,0.06)",
@@ -660,19 +645,15 @@ function HeroSection() {
                       cursor: "pointer",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background =
-                        "rgba(255,255,255,0.15)"
-                      e.currentTarget.style.transform = "translateY(-1px)"
+                      e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                      e.currentTarget.style.transform = "translateY(-1px)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background =
-                        "rgba(255,255,255,0.06)"
-                      e.currentTarget.style.transform = "none"
+                      e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.transform = "none";
                     }}
                   >
-                    <div style={{ color: item.color, marginBottom: 8 }}>
-                      {item.icon}
-                    </div>
+                    <div style={{ color: item.color, marginBottom: 8 }}>{item.icon}</div>
                     <div
                       style={{
                         fontSize: 12,
@@ -718,7 +699,7 @@ function HeroSection() {
         @media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr !important; } .hero-grid > div:last-child { display: none; } }
       `}</style>
     </section>
-  )
+  );
 }
 
 function StatsBar() {
@@ -762,19 +743,17 @@ function StatsBar() {
       </div>
       <style>{`@media(max-width:640px){.stats-grid{grid-template-columns:1fr 1fr !important}}`}</style>
     </section>
-  )
+  );
 }
 
 function ModuleTabs() {
-  const [active, setActive] = useState(0)
-  const m = MODULOS[active]
+  const [active, setActive] = useState(0);
+  const m = MODULOS[active];
 
   return (
     <section style={{ background: "#fff", padding: "100px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div
-          style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 48px" }}
-        >
+        <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 48px" }}>
           <p
             style={{
               fontSize: 11,
@@ -941,9 +920,7 @@ function ModuleTabs() {
                       marginTop: 1,
                     }}
                   >
-                    <IconCheck
-                      style={{ width: 11, height: 11, color: "#005047" }}
-                    />
+                    <IconCheck style={{ width: 11, height: 11, color: "#005047" }} />
                   </div>
                   {p}
                 </div>
@@ -964,31 +941,24 @@ function ModuleTabs() {
                 textDecoration: "none",
                 transition: "background 0.2s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#005047")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#0D9488")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
             >
-              Ir a {m.label}{" "}
-              <IconChevronRight style={{ width: 14, height: 14 }} />
+              Ir a {m.label} <IconChevronRight style={{ width: 14, height: 14 }} />
             </Link>
           </div>
         </div>
       </div>
       <style>{`@media(max-width:820px){.tab-content-grid{grid-template-columns:1fr !important}}`}</style>
     </section>
-  )
+  );
 }
 
 function HowItWorks() {
   return (
     <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div
-          style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 72px" }}
-        >
+        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 72px" }}>
           <p
             style={{
               fontSize: 11,
@@ -1105,7 +1075,7 @@ function HowItWorks() {
         @media(max-width:700px){.steps-grid{grid-template-columns:1fr 1fr !important}.steps-line{display:none}}
       `}</style>
     </section>
-  )
+  );
 }
 
 const FEATURE_SECTIONS = [
@@ -1133,10 +1103,10 @@ const FEATURE_SECTIONS = [
     ],
     cta: { label: "Ver espacios", path: "/reservas" },
   },
-]
+];
 
 function FeatureSections() {
-  const sections = FEATURE_SECTIONS
+  const sections = FEATURE_SECTIONS;
 
   return (
     <section style={{ background: "#fff", padding: "100px 24px" }}>
@@ -1224,11 +1194,7 @@ function FeatureSections() {
                     >
                       {st.val}
                     </div>
-                    <div
-                      style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}
-                    >
-                      {st.sub}
-                    </div>
+                    <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>{st.sub}</div>
                   </div>
                 ))}
               </div>
@@ -1248,16 +1214,15 @@ function FeatureSections() {
                   transition: "background 0.2s, color 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0D9488"
-                  e.currentTarget.style.color = "#fff"
+                  e.currentTarget.style.background = "#0D9488";
+                  e.currentTarget.style.color = "#fff";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent"
-                  e.currentTarget.style.color = "#0D9488"
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.color = "#0D9488";
                 }}
               >
-                {s.cta.label}{" "}
-                <IconChevronRight style={{ width: 14, height: 14 }} />
+                {s.cta.label} <IconChevronRight style={{ width: 14, height: 14 }} />
               </Link>
             </div>
           </div>
@@ -1265,16 +1230,14 @@ function FeatureSections() {
       </div>
       <style>{`@media(max-width:820px){.alt-grid{grid-template-columns:1fr !important;direction:ltr !important}}`}</style>
     </section>
-  )
+  );
 }
 
 function TestimonialsSection() {
   return (
     <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div
-          style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}
-        >
+        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
           <p
             style={{
               fontSize: 11,
@@ -1319,13 +1282,12 @@ function TestimonialsSection() {
                 transition: "box-shadow 0.2s, transform 0.2s",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow =
-                  "0 12px 40px rgba(13,148,136,0.09)"
-                e.currentTarget.style.transform = "translateY(-3px)"
+                e.currentTarget.style.boxShadow = "0 12px 40px rgba(13,148,136,0.09)";
+                e.currentTarget.style.transform = "translateY(-3px)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "none"
-                e.currentTarget.style.transform = "none"
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.transform = "none";
               }}
             >
               <div
@@ -1368,11 +1330,7 @@ function TestimonialsSection() {
                   {t.iniciales}
                 </div>
                 <div>
-                  <div
-                    style={{ fontSize: 14, fontWeight: 700, color: "#00201B" }}
-                  >
-                    {t.nombre}
-                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#00201B" }}>{t.nombre}</div>
                   <div style={{ fontSize: 12, color: "#94A3B8" }}>{t.rol}</div>
                 </div>
               </div>
@@ -1382,16 +1340,14 @@ function TestimonialsSection() {
       </div>
       <style>{`@media(max-width:820px){.testi-grid{grid-template-columns:1fr !important}}`}</style>
     </section>
-  )
+  );
 }
 
 function PricingSection() {
   return (
     <section style={{ background: "#00201B", padding: "100px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div
-          style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}
-        >
+        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
           <p
             style={{
               fontSize: 11,
@@ -1416,9 +1372,7 @@ function PricingSection() {
           >
             Simple y transparente
           </h2>
-          <p
-            style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", margin: 0 }}
-          >
+          <p style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", margin: 0 }}>
             Sin costos ocultos ni letras chicas.{" "}
             <Link
               to="/precios"
@@ -1448,18 +1402,12 @@ function PricingSection() {
               style={{
                 borderRadius: 20,
                 padding: plan.highlight ? "40px 28px" : "32px 28px",
-                background: plan.highlight
-                  ? "#0D9488"
-                  : "rgba(255,255,255,0.05)",
-                border: `1px solid ${
-                  plan.highlight ? "#0D9488" : "rgba(255,255,255,0.1)"
-                }`,
+                background: plan.highlight ? "#0D9488" : "rgba(255,255,255,0.05)",
+                border: `1px solid ${plan.highlight ? "#0D9488" : "rgba(255,255,255,0.1)"}`,
                 position: "relative",
                 overflow: "hidden",
                 transform: plan.highlight ? "scale(1.03)" : "scale(1)",
-                boxShadow: plan.highlight
-                  ? "0 24px 64px rgba(13,148,136,0.35)"
-                  : "none",
+                boxShadow: plan.highlight ? "0 24px 64px rgba(13,148,136,0.35)" : "none",
               }}
             >
               {plan.badge && (
@@ -1484,9 +1432,7 @@ function PricingSection() {
                 style={{
                   fontSize: 14,
                   fontWeight: 700,
-                  color: plan.highlight
-                    ? "rgba(255,255,255,0.8)"
-                    : "rgba(255,255,255,0.55)",
+                  color: plan.highlight ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.55)",
                   marginBottom: 8,
                 }}
               >
@@ -1546,9 +1492,7 @@ function PricingSection() {
                       gap: 8,
                       alignItems: "flex-start",
                       fontSize: 13,
-                      color: plan.highlight
-                        ? "rgba(255,255,255,0.9)"
-                        : "rgba(255,255,255,0.65)",
+                      color: plan.highlight ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.65)",
                     }}
                   >
                     <IconCheck
@@ -1575,9 +1519,7 @@ function PricingSection() {
                   transition: "opacity 0.2s",
                   background: plan.highlight ? "#fff" : "rgba(255,255,255,0.1)",
                   color: plan.highlight ? "#0D9488" : "#fff",
-                  border: plan.highlight
-                    ? "none"
-                    : "1px solid rgba(255,255,255,0.2)",
+                  border: plan.highlight ? "none" : "1px solid rgba(255,255,255,0.2)",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
@@ -1590,7 +1532,7 @@ function PricingSection() {
       </div>
       <style>{`@media(max-width:820px){.pricing-grid{grid-template-columns:1fr !important}.pricing-grid>div{transform:none !important}}`}</style>
     </section>
-  )
+  );
 }
 
 function FinalCTA() {
@@ -1623,8 +1565,7 @@ function FinalCTA() {
             margin: "0 0 36px",
           }}
         >
-          Sin instalaciones, sin contratos mínimos. Empieza a gestionar en
-          minutos.
+          Sin instalaciones, sin contratos mínimos. Empieza a gestionar en minutos.
         </p>
         <div
           style={{
@@ -1647,12 +1588,12 @@ function FinalCTA() {
               transition: "transform 0.15s, box-shadow 0.15s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)"
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)"
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "none"
-              e.currentTarget.style.boxShadow = "none"
+              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.boxShadow = "none";
             }}
           >
             Comenzar como residente
@@ -1670,19 +1611,15 @@ function FinalCTA() {
               border: "1px solid rgba(255,255,255,0.32)",
               transition: "background 0.2s",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(255,255,255,0.24)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "rgba(255,255,255,0.14)")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.24)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.14)")}
           >
             Ver planes del comité
           </Link>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // ─── Main export ──────────────────────────────────────────────────────────────
@@ -1699,5 +1636,5 @@ export default function Home() {
       <PricingSection />
       <FinalCTA />
     </div>
-  )
+  );
 }
