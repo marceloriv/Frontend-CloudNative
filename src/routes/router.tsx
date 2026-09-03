@@ -15,6 +15,7 @@ import RegistroCuenta from "../pages/RegistroCuenta";
 import EspaciosComunes from "../pages/EspaciosComunes";
 import Visitas from "../pages/Visitas";
 import Incidentes from "../pages/Incidentes";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter(
   [
@@ -92,6 +93,10 @@ const router = createBrowserRouter(
         },
       ],
     },
+
+    // Catch-all: rutas que no existen en la app (llegan acá tras el redirect
+    // de public/404.html en GitHub Pages, o por navegación interna directa).
+    { path: "*", Component: NotFound, errorElement: <RouteError /> },
   ],
   {
     // Debe matchear el `base` de vite.config.ts (GITHUB_REPOSITORY en CI, "/" local).
