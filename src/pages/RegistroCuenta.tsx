@@ -197,7 +197,7 @@ export default function RegistroCuenta() {
   return (
     <div className="min-h-screen flex">
       {/* Brand panel */}
-      <div className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 bg-text p-12">
+      <div className="hidden lg:flex flex-col justify-between w-105 shrink-0 bg-text p-12">
         <span className="text-primary font-display text-2xl">Convivo</span>
         <div>
           <h1 className="font-display text-white text-4xl leading-tight mb-4">

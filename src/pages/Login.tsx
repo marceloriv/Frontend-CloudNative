@@ -51,7 +51,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex">
       {/* Brand panel */}
-      <div className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 bg-text p-12">
+      <div className="hidden lg:flex flex-col justify-between w-105 shrink-0 bg-text p-12">
         <div>
           <span className="text-primary font-display text-2xl">Convivo</span>
         </div>
