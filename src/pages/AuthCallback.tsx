@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { decodeIdToken, exchangeCodeForTokens } from "../lib/cognitoAuth";
+import { sileo } from "sileo";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function AuthCallback() {
           unidad: claims["custom:unidad"] ?? "Sin unidad asignada",
           role: "residente",
         });
+        sileo.success({ title: "Sesión iniciada correctamente" });
         navigate("/mi-dashboard", { replace: true });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error desconocido intercambiando el code.");
