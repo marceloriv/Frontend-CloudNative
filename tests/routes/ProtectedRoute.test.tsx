@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { describe, expect, it } from "vitest";
-import { AuthContext } from "../hooks/useAuth";
-import type { Role } from "../types";
-import ProtectedRoute from "./ProtectedRoute";
+import { AuthContext } from "@/hooks/useAuth";
+import type { Role } from "@/types";
+import ProtectedRoute from "@/routes/ProtectedRoute";
 
 function renderConRol(role: Role, allowedRoles: Role[]) {
   return render(
