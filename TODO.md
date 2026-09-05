@@ -60,3 +60,6 @@ No bloquean el uso del proyecto. Resolver cuando el equipo tenga las decisiones.
 - [x] Mover los Test a una Carpeta en la raíz.
 - [ ] Configurar a traves del Claim Image de google, la imagen de perfil.
 - [x] Configurar las notificaciones a traves de [Sileo](https://sileo.aaryan.design/)
+
+- [ ] Fix: Workflows de CI/CD (deploy, ci-develop) fallan (posible problema con npm ci y --legacy-peer-deps). Arreglar.
+
