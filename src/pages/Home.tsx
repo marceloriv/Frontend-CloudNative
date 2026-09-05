@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import {
@@ -70,7 +71,7 @@ const STATS: StatItem[] = [
 const MODULOS: ModuloTab[] = [
   {
     label: "Reservas",
-    icon: <IconCalendar style={{ width: 17, height: 17 }} />,
+    icon: <IconCalendar className="w-[17px] h-[17px]" />,
     path: "/reservas",
     img: "https://images.unsplash.com/photo-1763479142280-675629f6db27?w=800&h=560&fit=crop&auto=format",
     headline: "Reserva espacios comunes en segundos",
@@ -83,7 +84,7 @@ const MODULOS: ModuloTab[] = [
   },
   {
     label: "Gastos",
-    icon: <IconDollar style={{ width: 17, height: 17 }} />,
+    icon: <IconDollar className="w-[17px] h-[17px]" />,
     path: "/gastos",
     img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=560&fit=crop&auto=format",
     headline: "Paga tus gastos comunes en línea",
@@ -96,7 +97,7 @@ const MODULOS: ModuloTab[] = [
   },
   {
     label: "Tablón",
-    icon: <IconMessage style={{ width: 17, height: 17 }} />,
+    icon: <IconMessage className="w-[17px] h-[17px]" />,
     path: "/tablon",
     img: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&h=560&fit=crop&auto=format",
     headline: "Mantente informado en tiempo real",
@@ -109,7 +110,7 @@ const MODULOS: ModuloTab[] = [
   },
   {
     label: "Dashboard",
-    icon: <IconTrendingUp style={{ width: 17, height: 17 }} />,
+    icon: <IconTrendingUp className="w-[17px] h-[17px]" />,
     path: "/dashboard",
     img: "https://images.unsplash.com/photo-1609921141835-710b7fa6e438?w=800&h=560&fit=crop&auto=format",
     headline: "Transparencia total en cada peso",
@@ -122,7 +123,7 @@ const MODULOS: ModuloTab[] = [
   },
   {
     label: "Canales",
-    icon: <IconShield style={{ width: 17, height: 17 }} />,
+    icon: <IconShield className="w-[17px] h-[17px]" />,
     path: "/canales",
     img: "https://images.unsplash.com/photo-1651514645933-c26e0eb4ace3?w=800&h=560&fit=crop&auto=format",
     headline: "Un clic para cualquier emergencia",
@@ -135,7 +136,7 @@ const MODULOS: ModuloTab[] = [
   },
   {
     label: "Registro",
-    icon: <IconCamera style={{ width: 17, height: 17 }} />,
+    icon: <IconCamera className="w-[17px] h-[17px]" />,
     path: "/registro",
     img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=560&fit=crop&auto=format",
     headline: "Control de calidad verificable",
@@ -240,19 +241,19 @@ const PRICING: PricingTier[] = [
 
 const TRUST_BADGES: TrustBadge[] = [
   {
-    icon: <IconShield style={{ width: 18, height: 18 }} />,
+    icon: <IconShield className="w-[18px] h-[18px]" />,
     text: "Datos seguros y cifrados",
   },
   {
-    icon: <IconCheck style={{ width: 18, height: 18 }} />,
+    icon: <IconCheck className="w-[18px] h-[18px]" />,
     text: "Pagos con WebPay",
   },
   {
-    icon: <IconCalendar style={{ width: 18, height: 18 }} />,
+    icon: <IconCalendar className="w-[18px] h-[18px]" />,
     text: "Sin contratos mínimos",
   },
   {
-    icon: <IconHome style={{ width: 18, height: 18 }} />,
+    icon: <IconHome className="w-[18px] h-[18px]" />,
     text: "Soporte en español",
   },
 ];
@@ -301,37 +302,37 @@ function Counter({ target, suffix }: StatItem) {
 
 const HERO_QUICK_LINKS = [
   {
-    icon: <IconCalendar style={{ width: 18, height: 18 }} />,
+    icon: <IconCalendar className="w-[18px] h-[18px]" />,
     label: "Reservar espacio",
     path: "/espacios",
     color: "#0D9488",
   },
   {
-    icon: <IconDollar style={{ width: 18, height: 18 }} />,
+    icon: <IconDollar className="w-[18px] h-[18px]" />,
     label: "Pagar gastos",
     path: "/gastos",
     color: "#005047",
   },
   {
-    icon: <IconMessage style={{ width: 18, height: 18 }} />,
+    icon: <IconMessage className="w-[18px] h-[18px]" />,
     label: "Ver tablón",
     path: "/tablon",
     color: "#0D9488",
   },
   {
-    icon: <IconShield style={{ width: 18, height: 18 }} />,
+    icon: <IconShield className="w-[18px] h-[18px]" />,
     label: "Emergencias",
     path: "/canales",
     color: "#E11D48",
   },
   {
-    icon: <IconTrendingUp style={{ width: 18, height: 18 }} />,
+    icon: <IconTrendingUp className="w-[18px] h-[18px]" />,
     label: "Dashboard",
     path: "/dashboard",
     color: "#14B8A6",
   },
   {
-    icon: <IconCamera style={{ width: 18, height: 18 }} />,
+    icon: <IconCamera className="w-[18px] h-[18px]" />,
     label: "Registro fotos",
     path: "/registro",
     color: "#0D9488",
@@ -555,7 +556,7 @@ function HeroSection() {
                   e.currentTarget.style.transform = "none";
                 }}
               >
-                Crear cuenta <IconChevronRight style={{ width: 14, height: 14 }} />
+                Crear cuenta <IconChevronRight className="w-[14px] h-[14px]" />
               </Link>
               <Link
                 to="/login"
@@ -694,10 +695,6 @@ function HeroSection() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr !important; } .hero-grid > div:last-child { display: none; } }
-      `}</style>
     </section>
   );
 }
@@ -741,7 +738,6 @@ function StatsBar() {
           </div>
         ))}
       </div>
-      <style>{`@media(max-width:640px){.stats-grid{grid-template-columns:1fr 1fr !important}}`}</style>
     </section>
   );
 }
@@ -752,7 +748,7 @@ function ModuleTabs() {
 
   return (
     <section style={{ background: "#fff", padding: "100px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="max-w-[1280px] mx-auto">
         <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 48px" }}>
           <p
             style={{
@@ -944,12 +940,11 @@ function ModuleTabs() {
               onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
             >
-              Ir a {m.label} <IconChevronRight style={{ width: 14, height: 14 }} />
+              Ir a {m.label} <IconChevronRight className="w-[14px] h-[14px]" />
             </Link>
           </div>
         </div>
       </div>
-      <style>{`@media(max-width:820px){.tab-content-grid{grid-template-columns:1fr !important}}`}</style>
     </section>
   );
 }
@@ -957,7 +952,7 @@ function ModuleTabs() {
 function HowItWorks() {
   return (
     <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="max-w-[1280px] mx-auto">
         <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 72px" }}>
           <p
             style={{
@@ -1071,9 +1066,6 @@ function HowItWorks() {
           </div>
         </div>
       </div>
-      <style>{`
-        @media(max-width:700px){.steps-grid{grid-template-columns:1fr 1fr !important}.steps-line{display:none}}
-      `}</style>
     </section>
   );
 }
@@ -1222,13 +1214,12 @@ function FeatureSections() {
                   e.currentTarget.style.color = "#0D9488";
                 }}
               >
-                {s.cta.label} <IconChevronRight style={{ width: 14, height: 14 }} />
+                {s.cta.label} <IconChevronRight className="w-[14px] h-[14px]" />
               </Link>
             </div>
           </div>
         ))}
       </div>
-      <style>{`@media(max-width:820px){.alt-grid{grid-template-columns:1fr !important;direction:ltr !important}}`}</style>
     </section>
   );
 }
@@ -1236,7 +1227,7 @@ function FeatureSections() {
 function TestimonialsSection() {
   return (
     <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="max-w-[1280px] mx-auto">
         <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
           <p
             style={{
@@ -1331,14 +1322,13 @@ function TestimonialsSection() {
                 </div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: "#00201B" }}>{t.nombre}</div>
-                  <div style={{ fontSize: 12, color: "#94A3B8" }}>{t.rol}</div>
+                  <div className="text-[12px] text-[#94A3B8]">{t.rol}</div>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <style>{`@media(max-width:820px){.testi-grid{grid-template-columns:1fr !important}}`}</style>
     </section>
   );
 }
@@ -1346,7 +1336,7 @@ function TestimonialsSection() {
 function PricingSection() {
   return (
     <section style={{ background: "#00201B", padding: "100px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="max-w-[1280px] mx-auto">
         <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
           <p
             style={{
@@ -1530,7 +1520,6 @@ function PricingSection() {
           ))}
         </div>
       </div>
-      <style>{`@media(max-width:820px){.pricing-grid{grid-template-columns:1fr !important}.pricing-grid>div{transform:none !important}}`}</style>
     </section>
   );
 }

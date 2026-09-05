@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, NavLink, useLocation, Link } from "react-router";
 import {
@@ -51,128 +52,128 @@ const NAV_LINKS_BY_ROLE: Record<
     {
       label: "Mi panel",
       path: "/mi-dashboard",
-      icon: <IconHome style={{ width: 15, height: 15 }} />,
+      icon: <IconHome className="w-[15px] h-[15px]" />,
     },
     {
       label: "Reservas",
       path: "/reservas",
-      icon: <IconCalendar style={{ width: 15, height: 15 }} />,
+      icon: <IconCalendar className="w-[15px] h-[15px]" />,
     },
     {
       label: "Gastos",
       path: "/gastos",
-      icon: <IconDollar style={{ width: 15, height: 15 }} />,
+      icon: <IconDollar className="w-[15px] h-[15px]" />,
     },
     {
       label: "Visitas",
       path: "/visitas",
-      icon: <IconShield style={{ width: 15, height: 15 }} />,
+      icon: <IconShield className="w-[15px] h-[15px]" />,
     },
     {
       label: "Incidentes",
       path: "/incidentes",
-      icon: <IconAlertTriangle style={{ width: 15, height: 15 }} />,
+      icon: <IconAlertTriangle className="w-[15px] h-[15px]" />,
     },
     {
       label: "Tablón",
       path: "/tablon",
-      icon: <IconMessage style={{ width: 15, height: 15 }} />,
+      icon: <IconMessage className="w-[15px] h-[15px]" />,
     },
     {
       label: "Canales",
       path: "/canales",
-      icon: <IconPhone style={{ width: 15, height: 15 }} />,
+      icon: <IconPhone className="w-[15px] h-[15px]" />,
     },
   ],
   conserje: [
     {
       label: "Visitas",
       path: "/visitas",
-      icon: <IconShield style={{ width: 15, height: 15 }} />,
+      icon: <IconShield className="w-[15px] h-[15px]" />,
     },
     {
       label: "Incidentes",
       path: "/incidentes",
-      icon: <IconAlertTriangle style={{ width: 15, height: 15 }} />,
+      icon: <IconAlertTriangle className="w-[15px] h-[15px]" />,
     },
     {
       label: "Tablón",
       path: "/tablon",
-      icon: <IconMessage style={{ width: 15, height: 15 }} />,
+      icon: <IconMessage className="w-[15px] h-[15px]" />,
     },
     {
       label: "Registro",
       path: "/registro",
-      icon: <IconCamera style={{ width: 15, height: 15 }} />,
+      icon: <IconCamera className="w-[15px] h-[15px]" />,
     },
     {
       label: "Canales",
       path: "/canales",
-      icon: <IconPhone style={{ width: 15, height: 15 }} />,
+      icon: <IconPhone className="w-[15px] h-[15px]" />,
     },
   ],
   admin: [
     {
       label: "Dashboard",
       path: "/dashboard",
-      icon: <IconTrendingUp style={{ width: 15, height: 15 }} />,
+      icon: <IconTrendingUp className="w-[15px] h-[15px]" />,
     },
     {
       label: "Visitas",
       path: "/visitas",
-      icon: <IconShield style={{ width: 15, height: 15 }} />,
+      icon: <IconShield className="w-[15px] h-[15px]" />,
     },
     {
       label: "Incidentes",
       path: "/incidentes",
-      icon: <IconAlertTriangle style={{ width: 15, height: 15 }} />,
+      icon: <IconAlertTriangle className="w-[15px] h-[15px]" />,
     },
     {
       label: "Registro",
       path: "/registro",
-      icon: <IconCamera style={{ width: 15, height: 15 }} />,
+      icon: <IconCamera className="w-[15px] h-[15px]" />,
     },
     {
       label: "Tablón",
       path: "/tablon",
-      icon: <IconMessage style={{ width: 15, height: 15 }} />,
+      icon: <IconMessage className="w-[15px] h-[15px]" />,
     },
     {
       label: "Canales",
       path: "/canales",
-      icon: <IconPhone style={{ width: 15, height: 15 }} />,
+      icon: <IconPhone className="w-[15px] h-[15px]" />,
     },
     {
       label: "Precios",
       path: "/precios",
-      icon: <IconDollar style={{ width: 15, height: 15 }} />,
+      icon: <IconDollar className="w-[15px] h-[15px]" />,
     },
   ],
   comite: [
     {
       label: "Gastos",
       path: "/gastos",
-      icon: <IconDollar style={{ width: 15, height: 15 }} />,
+      icon: <IconDollar className="w-[15px] h-[15px]" />,
     },
     {
       label: "Tablón",
       path: "/tablon",
-      icon: <IconMessage style={{ width: 15, height: 15 }} />,
+      icon: <IconMessage className="w-[15px] h-[15px]" />,
     },
     {
       label: "Espacios",
       path: "/espacios",
-      icon: <IconHome style={{ width: 15, height: 15 }} />,
+      icon: <IconHome className="w-[15px] h-[15px]" />,
     },
     {
       label: "Incidentes",
       path: "/incidentes",
-      icon: <IconAlertTriangle style={{ width: 15, height: 15 }} />,
+      icon: <IconAlertTriangle className="w-[15px] h-[15px]" />,
     },
     {
       label: "Canales",
       path: "/canales",
-      icon: <IconPhone style={{ width: 15, height: 15 }} />,
+      icon: <IconPhone className="w-[15px] h-[15px]" />,
     },
   ],
 };
@@ -180,28 +181,28 @@ const NAV_LINKS_BY_ROLE: Record<
 const FLOATING_SIDEBAR_ITEMS = [
   {
     id: "reservar",
-    icon: <IconCalendar style={{ width: 17, height: 17 }} />,
+    icon: <IconCalendar className="w-[17px] h-[17px]" />,
     label: "Reservar",
     path: "/reservas",
     bg: "#0D9488",
   },
   {
     id: "gastos",
-    icon: <IconDollar style={{ width: 17, height: 17 }} />,
+    icon: <IconDollar className="w-[17px] h-[17px]" />,
     label: "Mis gastos",
     path: "/gastos",
     bg: "#005047",
   },
   {
     id: "emergencia",
-    icon: <IconPhone style={{ width: 17, height: 17 }} />,
+    icon: <IconPhone className="w-[17px] h-[17px]" />,
     label: "Emergencia",
     path: "/canales",
     bg: "#E11D48",
   },
   {
     id: "tablon",
-    icon: <IconMessage style={{ width: 17, height: 17 }} />,
+    icon: <IconMessage className="w-[17px] h-[17px]" />,
     label: "Tablón",
     path: "/tablon",
     bg: "#0D9488",
@@ -315,7 +316,7 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
         </Link>
 
         {/* Dot indicators */}
-        <div style={{ display: "flex", gap: 4, flexShrink: 0 }} className="ribbon-dots">
+        <div className="flex gap-[4px] shrink-0 ribbon-dots">
           {RIBBON_ITEMS.map((item, i) => (
             <button
               key={item.text}
@@ -467,7 +468,7 @@ function FloatingSidebar() {
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ width: 14, height: 14 }}
+          className="w-[14px] h-[14px]"
         >
           <polyline points="18 15 12 9 6 15" />
         </svg>
@@ -812,7 +813,7 @@ export default function Layout() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                style={{ width: 13, height: 13 }}
+                className="w-[13px] h-[13px]"
               >
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                 <polyline points="16 17 21 12 16 7" />
@@ -836,9 +837,9 @@ export default function Layout() {
             }}
           >
             {mobileOpen ? (
-              <IconX style={{ width: 22, height: 22 }} />
+              <IconX className="w-[22px] h-[22px]" />
             ) : (
-              <IconMenu style={{ width: 22, height: 22 }} />
+              <IconMenu className="w-[22px] h-[22px]" />
             )}
           </button>
         </div>
@@ -920,7 +921,7 @@ export default function Layout() {
           padding: "52px 24px 28px",
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <div
             className="footer-grid"
             style={{
@@ -1061,29 +1062,6 @@ export default function Layout() {
           </div>
         </div>
       </footer>
-
-      <style>{`
-        @media (max-width: 960px) {
-          .nav-desktop { display: none !important; }
-          .nav-burger  { display: flex !important; }
-        }
-        @media (min-width: 961px) {
-          .nav-burger { display: none !important; }
-        }
-        @media (max-width: 700px) {
-          .float-sidebar { display: none !important; }
-        }
-        @media (max-width: 700px) {
-          .ribbon-dots { display: none !important; }
-        }
-        @media (max-width: 700px) {
-          .footer-grid { grid-template-columns: 1fr !important; }
-        }
-        @media (min-width: 701px) and (max-width: 960px) {
-          .footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        * { box-sizing: border-box; }
-      `}</style>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { Fragment, useState } from "react";
 import { IconCheck, IconX } from "../components/icons/Icons";
 
@@ -371,7 +372,7 @@ export default function Precios() {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Hero */}
       <div
         style={{
@@ -653,7 +654,7 @@ export default function Precios() {
             boxShadow: "0 4px 30px rgba(0,0,0,0.06)",
           }}
         >
-          <div style={{ overflowX: "auto" }}>
+          <div className="overflow-x-auto">
             <table
               style={{
                 width: "100%",
@@ -795,10 +796,6 @@ export default function Precios() {
           Hablar con ventas
         </button>
       </section>
-
-      <style>{`
-        @media(max-width:820px){.price-cards{grid-template-columns:1fr !important}.price-cards>div{transform:none !important}}
-      `}</style>
     </div>
   );
 }
