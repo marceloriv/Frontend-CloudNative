@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";

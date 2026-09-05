@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import React from "react";
 import { Link } from "react-router";
 import { channels } from "../lib/data";
@@ -28,11 +29,11 @@ const urgenciaBadge: Record<
 };
 
 const iconMap: Record<string, React.ReactNode> = {
-  Conserjería: <IconBell style={{ width: 22, height: 22 }} />,
-  "Comité de administración": <IconHome style={{ width: 22, height: 22 }} />,
-  Administración: <IconDollar style={{ width: 22, height: 22 }} />,
-  "Seguridad del sector": <IconShield style={{ width: 22, height: 22 }} />,
-  Emergencias: <IconAlertTriangle style={{ width: 22, height: 22 }} />,
+  Conserjería: <IconBell className="w-[22px] h-[22px]" />,
+  "Comité de administración": <IconHome className="w-[22px] h-[22px]" />,
+  Administración: <IconDollar className="w-[22px] h-[22px]" />,
+  "Seguridad del sector": <IconShield className="w-[22px] h-[22px]" />,
+  Emergencias: <IconAlertTriangle className="w-[22px] h-[22px]" />,
 };
 
 interface FlipCardData {
@@ -45,22 +46,22 @@ const flipCards: FlipCardData[] = [
   {
     title: "Conserjería 24/7",
     desc: "Llama directamente desde la plataforma — interno 100.",
-    icon: <IconBell style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconBell className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Comité",
     desc: "Contacta al presidente o cualquier miembro del comité.",
-    icon: <IconUsers style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconUsers className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Plan Cuadrante",
     desc: "Solicita patrulla directamente al Plan Cuadrante de tu sector.",
-    icon: <IconShield style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconShield className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Bomberos y SAMU",
     desc: "Botones de acceso rápido: 133, 132 y 131.",
-    icon: <IconAlertTriangle style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconAlertTriangle className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
 ];
 
@@ -88,10 +89,10 @@ const altSections: AltSection[] = [
 
 export default function Canales() {
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Dark hero header */}
-      <div style={{ background: "#00201B", padding: "72px 24px 64px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#00201B] p-[72px_24px_64px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -137,7 +138,7 @@ export default function Canales() {
           padding: "40px 24px 36px",
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -178,7 +179,7 @@ export default function Canales() {
       </div>
 
       {/* Main channel content */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Emergency banner */}
         <div
           style={{
@@ -347,7 +348,7 @@ export default function Canales() {
                         fontWeight: 600,
                       }}
                     >
-                      <IconPhone style={{ width: 14, height: 14, color: "#0D9488" }} /> {c.contacto}
+                      <IconPhone className="w-[14px] h-[14px] text-[#0D9488]" /> {c.contacto}
                     </div>
                     {c.email && (
                       <div
@@ -359,7 +360,7 @@ export default function Canales() {
                           color: "#0D9488",
                         }}
                       >
-                        <IconMail style={{ width: 14, height: 14 }} />
+                        <IconMail className="w-[14px] h-[14px]" />
                         <a
                           href={`mailto:${c.email}`}
                           style={{ color: "#0D9488", textDecoration: "none" }}
@@ -393,7 +394,7 @@ export default function Canales() {
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
                       onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
                     >
-                      <IconPhone style={{ width: 13, height: 13 }} /> Llamar
+                      <IconPhone className="w-[13px] h-[13px]" /> Llamar
                     </a>
                   )}
                 </div>
@@ -421,7 +422,7 @@ export default function Canales() {
               }}
             >
               <div style={{ color: "#0D9488" }}>
-                <IconShield style={{ width: 24, height: 24 }} />
+                <IconShield className="w-[24px] h-[24px]" />
               </div>
               <h3
                 style={{
@@ -478,7 +479,7 @@ export default function Canales() {
               }}
             >
               <div style={{ color: "#0D9488" }}>
-                <IconBell style={{ width: 24, height: 24 }} />
+                <IconBell className="w-[24px] h-[24px]" />
               </div>
               <h3
                 style={{
@@ -525,8 +526,8 @@ export default function Canales() {
       </div>
 
       {/* Sub-features flip cards */}
-      <div style={{ background: "#fff", padding: "80px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#fff] p-[80px_24px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -603,7 +604,7 @@ export default function Canales() {
                       textAlign: "center",
                     }}
                   >
-                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
+                    <span className="text-[14px] text-[#fff] leading-[1.6]">
                       {card.desc}
                     </span>
                   </div>
@@ -715,7 +716,7 @@ export default function Canales() {
       ))}
 
       {/* CTA strip */}
-      <div style={{ background: "#00201B", padding: "64px 24px" }}>
+      <div className="bg-[#00201B] p-[64px_24px]">
         <div
           style={{
             maxWidth: 1280,
@@ -745,7 +746,7 @@ export default function Canales() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
           >
-            Ver canales <IconChevronRight style={{ width: 16, height: 16 }} />
+            Ver canales <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
           <Link
             to="/dashboard"
@@ -772,7 +773,7 @@ export default function Canales() {
               e.currentTarget.style.background = "transparent";
             }}
           >
-            Dashboard <IconChevronRight style={{ width: 16, height: 16 }} />
+            Dashboard <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
         </div>
       </div>

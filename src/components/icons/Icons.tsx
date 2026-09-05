@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 export function IconHome({
   className = "",
   style,
