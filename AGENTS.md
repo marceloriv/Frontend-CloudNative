@@ -335,24 +335,30 @@ Versión de `release/*`/`hotfix/*` sigue semver, determinado por Conventional Co
 git checkout develop
 git checkout -b feature/descripcion-corta
 # ... trabajo, commits ...
-git checkout develop
-git merge --no-ff feature/descripcion-corta
+git push -u origin feature/descripcion-corta
+gh pr create --base develop --title "feat(alcance): descripcion corta" --body "Qué y por qué"
+# merge vía GitHub (botón o gh pr merge), nunca local a develop
+# tras merge en GitHub:
+git checkout develop && git pull origin develop
 git branch -d feature/descripcion-corta
-git push origin develop --delete feature/descripcion-corta  # si ya estaba publicada
 ```
 
 **Release** (preparar un release: freeze de features, version bump, últimos fixes menores — nada de feature nueva acá):
 
 ```bash
 git checkout -b release/1.2.0 develop
-npm version 1.2.0 --no-git-tag-version && git commit -am "🔖 chore(release): 1.2.0"
-git checkout main
-git merge --no-ff release/1.2.0
-git tag -a v1.2.0 -m "v1.2.0"       # -s en vez de -a si el proyecto firma tags (GPG)
-git checkout develop
-git merge --no-ff release/1.2.0
-git branch -d release/1.2.0
-git push origin main develop --tags
+npm version 1.2.0 --no-git-tag-version && git commit -am "chore(release): 1.2.0"
+git push -u origin release/1.2.0
+gh pr create --base main --title "chore(release): 1.2.0" --body "Release 1.2.0"
+# merge vía GitHub, nunca local a main
+# tras merge en GitHub:
+git checkout main && git pull origin main
+git tag -a v1.2.0 -m "v1.2.0"
+git push origin --tags
+# merge back a develop:
+gh pr create --base develop --head release/1.2.0 --title "chore: merge release/1.2.0 back to develop"
+# tras merge en GitHub:
+git checkout develop && git pull origin develop
 ```
 
 **Hotfix** (bug crítico en producción, no puede esperar al próximo release):
@@ -360,13 +366,17 @@ git push origin main develop --tags
 ```bash
 git checkout -b hotfix/descripcion-corta main
 # fix + commit(s), version bump de patch
-git checkout main
-git merge --no-ff hotfix/descripcion-corta
+git push -u origin hotfix/descripcion-corta
+gh pr create --base main --title "fix: descripcion corta" --body "Hotfix"
+# merge vía GitHub, nunca local a main
+# tras merge en GitHub:
+git checkout main && git pull origin main
 git tag -a v1.2.1 -m "v1.2.1"
-git checkout develop
-git merge --no-ff hotfix/descripcion-corta
-git branch -d hotfix/descripcion-corta
-git push origin main develop --tags
+git push origin --tags
+# merge back a develop:
+gh pr create --base develop --head hotfix/descripcion-corta --title "fix: merge hotfix back to develop"
+# tras merge en GitHub:
+git checkout develop && git pull origin develop
 ```
 
 **Caso concurrente (hotfix mientras hay release abierta):** el hotfix mergea a `main` y se taguea igual, pero el segundo merge va a `release/*` en vez de a `develop` — la release ya tiene el fix cuando eventualmente mergee a `develop`. Nunca mergear el mismo hotfix dos veces a `develop`.
