@@ -29,3 +29,6 @@ Thumbs.db
 
 # Índice local de CodeGraph — herramienta de desarrollo, no versionar
 .codegraph/
+
+# Coverage
+coverage/
