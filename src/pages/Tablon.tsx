@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
@@ -52,22 +53,22 @@ const flipCards: FlipCardData[] = [
   {
     title: "Avisos del comité",
     desc: "Comunicados oficiales, mantenciones y cambios de reglamento.",
-    icon: <IconBell style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconBell className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Asambleas",
     desc: "Convocatorias con confirmación de asistencia directa desde la plataforma.",
-    icon: <IconCalendar style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconCalendar className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Publicaciones de residentes",
     desc: "Pérdidas, arriendos y noticias de la comunidad.",
-    icon: <IconMessage style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconMessage className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Notificaciones push",
     desc: "Cada aviso nuevo llega a tu teléfono automáticamente.",
-    icon: <IconHome style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconHome className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
 ];
 
@@ -104,10 +105,10 @@ export default function Tablon() {
   const filtered = avisos.filter((a) => activeTipo === "Todos" || a.tipo === activeTipo);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Dark hero header */}
-      <div style={{ background: "#00201B", padding: "72px 24px 64px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#00201B] p-[72px_24px_64px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -220,14 +221,14 @@ export default function Tablon() {
               whiteSpace: "nowrap",
             }}
           >
-            <IconPlus style={{ width: 16, height: 16 }} />
+            <IconPlus className="w-[16px] h-[16px]" />
             {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}
           </button>
         </div>
       </div>
 
       {/* Main notices content */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Filters & stats */}
         <div
           style={{
@@ -295,7 +296,7 @@ export default function Tablon() {
                     >
                       {a.tipo}
                     </span>
-                    <span style={{ fontSize: 12, color: "#94A3B8" }}>{a.fecha}</span>
+                    <span className="text-[12px] text-[#94A3B8]">{a.fecha}</span>
                   </div>
                   <h3
                     style={{
@@ -329,7 +330,7 @@ export default function Tablon() {
                       marginBottom: 16,
                     }}
                   >
-                    <IconBell style={{ width: 12, height: 12 }} /> Publicado por:{" "}
+                    <IconBell className="w-[12px] h-[12px]" /> Publicado por:{" "}
                     <strong style={{ color: "#64748B" }}>{a.autor}</strong>
                   </div>
                 </div>
@@ -352,7 +353,7 @@ export default function Tablon() {
                         color: "#64748B",
                       }}
                     >
-                      <IconUsers style={{ width: 13, height: 13 }} />
+                      <IconUsers className="w-[13px] h-[13px]" />
                       {a.confirmados + (yaConfirmado ? 1 : 0)} confirmados
                     </div>
                     <button
@@ -378,7 +379,7 @@ export default function Tablon() {
                         color: yaConfirmado ? "#0D9488" : "#64748B",
                       }}
                     >
-                      <IconCheck style={{ width: 12, height: 12 }} />
+                      <IconCheck className="w-[12px] h-[12px]" />
                       {yaConfirmado ? "Confirmado" : "Confirmar asistencia"}
                     </button>
                   </div>
@@ -390,8 +391,8 @@ export default function Tablon() {
       </div>
 
       {/* Sub-features flip cards */}
-      <div style={{ background: "#fff", padding: "80px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#fff] p-[80px_24px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -468,7 +469,7 @@ export default function Tablon() {
                       textAlign: "center",
                     }}
                   >
-                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
+                    <span className="text-[14px] text-[#fff] leading-[1.6]">
                       {card.desc}
                     </span>
                   </div>
@@ -580,7 +581,7 @@ export default function Tablon() {
       ))}
 
       {/* CTA strip */}
-      <div style={{ background: "#00201B", padding: "64px 24px" }}>
+      <div className="bg-[#00201B] p-[64px_24px]">
         <div
           style={{
             maxWidth: 1280,
@@ -610,7 +611,7 @@ export default function Tablon() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
           >
-            Ver los avisos <IconChevronRight style={{ width: 16, height: 16 }} />
+            Ver los avisos <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
           <button
             onClick={() => setShowNew(true)}
@@ -638,7 +639,7 @@ export default function Tablon() {
             }}
           >
             {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}{" "}
-            <IconChevronRight style={{ width: 16, height: 16 }} />
+            <IconChevronRight className="w-[16px] h-[16px]" />
           </button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { gastos } from "../lib/data";
 import { useAuth } from "../hooks/useAuth";
@@ -160,10 +161,10 @@ export default function Gastos() {
   const [paid, setPaid] = useState(false);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Hero Header */}
       <div style={{ background: "#00201B", padding: "56px 24px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -204,7 +205,7 @@ export default function Gastos() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Mi situación — solo residente */}
         {!isAdmin && (
           <div
@@ -290,7 +291,7 @@ export default function Gastos() {
                   >
                     $600.000
                   </div>
-                  <div style={{ fontSize: 12, color: "#94A3B8" }}>CLP · Vence el 15 sep 2026</div>
+                  <div className="text-[12px] text-[#94A3B8]">CLP · Vence el 15 sep 2026</div>
                 </div>
                 {!paid && (
                   <button
@@ -312,7 +313,7 @@ export default function Gastos() {
                     onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
                     onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
                   >
-                    <IconDollar style={{ width: 16, height: 16 }} /> Pagar ahora
+                    <IconDollar className="w-[16px] h-[16px]" /> Pagar ahora
                   </button>
                 )}
                 {paid && (
@@ -326,7 +327,7 @@ export default function Gastos() {
                       fontSize: 14,
                     }}
                   >
-                    <IconCheck style={{ width: 18, height: 18 }} /> Pagado
+                    <IconCheck className="w-[18px] h-[18px]" /> Pagado
                   </div>
                 )}
               </div>
@@ -507,7 +508,7 @@ export default function Gastos() {
                       >
                         {u.unidad}
                       </div>
-                      <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                      <div className="text-[12px] text-[#94A3B8]">
                         {u.estado === "Al día" ? "Sin deuda" : `Deuda: ${u.monto}`}
                       </div>
                     </div>
@@ -573,10 +574,10 @@ export default function Gastos() {
                 cursor: "pointer",
               }}
             >
-              <IconDownload style={{ width: 14, height: 14 }} /> Exportar PDF
+              <IconDownload className="w-[14px] h-[14px]" /> Exportar PDF
             </button>
           </div>
-          <div style={{ overflowX: "auto" }}>
+          <div className="overflow-x-auto">
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
@@ -626,7 +627,7 @@ export default function Gastos() {
                     >
                       {h.total}
                     </td>
-                    <td style={{ padding: "14px 0" }}>
+                    <td className="py-[14px]">
                       <span
                         style={{
                           fontSize: 12,
@@ -640,7 +641,7 @@ export default function Gastos() {
                         {h.estado}
                       </span>
                     </td>
-                    <td style={{ padding: "14px 0" }}>
+                    <td className="py-[14px]">
                       <button
                         style={{
                           fontSize: 12,
@@ -654,7 +655,7 @@ export default function Gastos() {
                           fontWeight: 500,
                         }}
                       >
-                        <IconDownload style={{ width: 12, height: 12 }} /> Descargar
+                        <IconDownload className="w-[12px] h-[12px]" /> Descargar
                       </button>
                     </td>
                   </tr>
@@ -667,7 +668,7 @@ export default function Gastos() {
 
       {/* Sub-features: Flip Cards */}
       <div style={{ background: "#fff", padding: "72px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -1069,12 +1070,6 @@ export default function Gastos() {
           </div>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 800px) {
-          #gastos-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }

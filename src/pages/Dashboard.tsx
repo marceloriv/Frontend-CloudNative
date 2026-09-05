@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import {
   BarChart,
@@ -128,10 +129,10 @@ export default function Dashboard() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Header */}
       <div style={{ background: "#00201B", padding: "56px 24px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -171,7 +172,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* KPI cards */}
         <div
           style={{
@@ -186,28 +187,28 @@ export default function Dashboard() {
               label: "Gasto del mes (ago)",
               val: "$600.000",
               sub: "CLP · 4 ítems",
-              icon: <IconTrendingUp style={{ width: 20, height: 20 }} />,
+              icon: <IconTrendingUp className="w-[20px] h-[20px]" />,
               color: "#0D9488",
             },
             {
               label: "Acumulado anual",
               val: "$7.200.000",
               sub: "CLP · 2026",
-              icon: <IconTag style={{ width: 20, height: 20 }} />,
+              icon: <IconTag className="w-[20px] h-[20px]" />,
               color: "#005047",
             },
             {
               label: "Mejoras implementadas",
               val: "$1.770.000",
               sub: "CLP · 2026",
-              icon: <IconEye style={{ width: 20, height: 20 }} />,
+              icon: <IconEye className="w-[20px] h-[20px]" />,
               color: "#14B8A6",
             },
             {
               label: "Registros con boleta",
               val: `${registros.length} / ${registros.length}`,
               sub: "100% verificados",
-              icon: <IconDownload style={{ width: 20, height: 20 }} />,
+              icon: <IconDownload className="w-[20px] h-[20px]" />,
               color: "#0D9488",
             },
           ].map((k) => (
@@ -252,7 +253,7 @@ export default function Dashboard() {
               >
                 {k.val}
               </div>
-              <div style={{ fontSize: 12, color: "#94A3B8" }}>{k.sub}</div>
+              <div className="text-[12px] text-[#94A3B8]">{k.sub}</div>
             </div>
           ))}
         </div>
@@ -293,7 +294,7 @@ export default function Dashboard() {
               >
                 Evolución mensual
               </h3>
-              <span style={{ fontSize: 12, color: "#94A3B8" }}>2026 · miles CLP</span>
+              <span className="text-[12px] text-[#94A3B8]">2026 · miles CLP</span>
             </div>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart
@@ -480,11 +481,11 @@ export default function Dashboard() {
                   cursor: "pointer",
                 }}
               >
-                <IconDownload style={{ width: 13, height: 13 }} /> Exportar PDF
+                <IconDownload className="w-[13px] h-[13px]" /> Exportar PDF
               </button>
             </div>
           </div>
-          <div style={{ overflowX: "auto" }}>
+          <div className="overflow-x-auto">
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "2px solid #E2E8F0" }}>
@@ -589,7 +590,7 @@ export default function Dashboard() {
                     >
                       {r.boleta}
                     </td>
-                    <td style={{ padding: "14px 0" }}>
+                    <td className="py-[14px]">
                       <span
                         style={{
                           fontSize: 11,
@@ -639,12 +640,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 860px) {
-          #dash-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   );
 }

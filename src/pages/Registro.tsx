@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { registroFotos } from "../lib/data";
@@ -56,22 +57,22 @@ const flipCards: FlipCardData[] = [
   {
     title: "Antes y después",
     desc: "Cada intervención documentada con foto de inicio y resultado.",
-    icon: <IconCamera style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconCamera className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Vinculado al gasto",
     desc: "El registro está enlazado al gasto del dashboard. Todo conectado.",
-    icon: <IconDollar style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconDollar className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Historial completo",
     desc: "Accede a toda la bitácora histórica, ordenada por fecha y tipo.",
-    icon: <IconCalendar style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconCalendar className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
   {
     title: "Con responsable",
     desc: "Cada trabajo muestra el proveedor, monto y boleta adjunta.",
-    icon: <IconUsers style={{ width: 28, height: 28, color: "#0D9488" }} />,
+    icon: <IconUsers className="w-[28px] h-[28px] text-[#0D9488]" />,
   },
 ];
 
@@ -233,7 +234,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
               fontWeight: 500,
             }}
           >
-            <IconCheck style={{ width: 12, height: 12 }} /> {registro.boleta}
+            <IconCheck className="w-[12px] h-[12px]" /> {registro.boleta}
           </div>
           <button
             onClick={onOpen}
@@ -254,7 +255,7 @@ function RegistroCard({ registro, onOpen }: RegistroCardProps) {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#CCFBF1")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#F0FDFA")}
           >
-            <IconEye style={{ width: 14, height: 14 }} /> Ver detalle
+            <IconEye className="w-[14px] h-[14px]" /> Ver detalle
           </button>
         </div>
       </div>
@@ -270,10 +271,10 @@ export default function Registro() {
   const filtered = registroFotos.filter((r) => activeCat === "Todos" || r.categoria === activeCat);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F8FAFB" }}>
+    <div className="min-h-screen bg-[#F8FAFB]">
       {/* Dark hero header */}
-      <div style={{ background: "#00201B", padding: "72px 24px 64px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#00201B] p-[72px_24px_64px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -319,7 +320,7 @@ export default function Registro() {
           padding: "40px 24px 36px",
         }}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -360,7 +361,7 @@ export default function Registro() {
       </div>
 
       {/* Main registro content */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Stats */}
         <div
           style={{
@@ -471,8 +472,8 @@ export default function Registro() {
       </div>
 
       {/* Sub-features flip cards */}
-      <div style={{ background: "#fff", padding: "80px 24px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div className="bg-[#fff] p-[80px_24px]">
+        <div className="max-w-[1280px] mx-auto">
           <p
             style={{
               fontSize: 11,
@@ -549,7 +550,7 @@ export default function Registro() {
                       textAlign: "center",
                     }}
                   >
-                    <span style={{ fontSize: 14, color: "#fff", lineHeight: 1.6 }}>
+                    <span className="text-[14px] text-[#fff] leading-[1.6]">
                       {card.desc}
                     </span>
                   </div>
@@ -661,7 +662,7 @@ export default function Registro() {
       ))}
 
       {/* CTA strip */}
-      <div style={{ background: "#00201B", padding: "64px 24px" }}>
+      <div className="bg-[#00201B] p-[64px_24px]">
         <div
           style={{
             maxWidth: 1280,
@@ -691,7 +692,7 @@ export default function Registro() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
           >
-            Ver registros <IconChevronRight style={{ width: 16, height: 16 }} />
+            Ver registros <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
           <Link
             to="/dashboard"
@@ -718,7 +719,7 @@ export default function Registro() {
               e.currentTarget.style.background = "transparent";
             }}
           >
-            Dashboard <IconChevronRight style={{ width: 16, height: 16 }} />
+            Dashboard <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
         </div>
       </div>
@@ -948,7 +949,7 @@ export default function Registro() {
                     fontWeight: 600,
                   }}
                 >
-                  <IconCheck style={{ width: 16, height: 16 }} /> Boleta adjunta: {selected.boleta}
+                  <IconCheck className="w-[16px] h-[16px]" /> Boleta adjunta: {selected.boleta}
                 </div>
                 <button
                   style={{
@@ -963,7 +964,7 @@ export default function Registro() {
                     cursor: "pointer",
                   }}
                 >
-                  <IconDownload style={{ width: 14, height: 14 }} /> Descargar
+                  <IconDownload className="w-[14px] h-[14px]" /> Descargar
                 </button>
               </div>
             </div>

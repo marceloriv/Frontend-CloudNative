@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 
 interface FlipCardProps {

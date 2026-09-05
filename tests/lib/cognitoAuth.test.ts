@@ -4,7 +4,8 @@ import {
   generateCodeChallenge,
   buildGoogleAuthorizeUrl,
   decodeIdToken,
-} from "./cognitoAuth";
+  exchangeCodeForTokens,
+} from "@/lib/cognitoAuth";
 
 beforeEach(() => {
   sessionStorage.clear();
@@ -56,5 +57,35 @@ describe("decodeIdToken", () => {
     const fakeJwt = `${base64url(JSON.stringify({ alg: "RS256" }))}.${base64url(JSON.stringify(payload))}.signature`;
 
     expect(decodeIdToken(fakeJwt)).toEqual(payload);
+  });
+});
+
+describe("exchangeCodeForTokens", () => {
+  beforeEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("lanza error si no hay code_verifier en sessionStorage", async () => {
+    await expect(exchangeCodeForTokens("any-code")).rejects.toThrow(/No hay code_verifier guardado/);
+  });
+
+  it("lanza error si Cognito rechaza el intercambio", async () => {
+    sessionStorage.setItem("convivo.pkce_verifier", "fake-verifier");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 400 }));
+
+    await expect(exchangeCodeForTokens("any-code")).rejects.toThrow(/Cognito rechaz/);
+  });
+
+  it("retorna tokens y limpia el verifier en caso de éxito", async () => {
+    sessionStorage.setItem("convivo.pkce_verifier", "fake-verifier");
+    const mockTokens = { id_token: "id", access_token: "access" };
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockTokens),
+    }));
+
+    const result = await exchangeCodeForTokens("real-code");
+    expect(result).toEqual(mockTokens);
+    expect(sessionStorage.getItem("convivo.pkce_verifier")).toBeNull();
   });
 });
