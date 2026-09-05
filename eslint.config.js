@@ -5,6 +5,8 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { globalIgnores } from "eslint/config";
 
+import reactPlugin from "eslint-plugin-react";
+
 export default tseslint.config(
   globalIgnores(["dist"]),
   {
@@ -18,11 +20,16 @@ export default tseslint.config(
     languageOptions: {
       globals: globals.browser,
     },
+    plugins: {
+      react: reactPlugin,
+    },
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
+      "react/forbid-dom-props": ["error", { forbid: ["style"] }],
+      "react/forbid-elements": ["error", { forbid: ["style"] }],
     },
   },
   {
