@@ -40,6 +40,7 @@ export default function AuthCallback() {
           nombre: claims.name ?? claims.given_name ?? claims.email?.split("@")[0] ?? "Residente",
           unidad: claims["custom:unidad"] ?? "Sin unidad asignada",
           role: "residente",
+          avatar: claims.picture,
         });
         sileo.success({ title: "Sesión iniciada correctamente" });
         navigate("/mi-dashboard", { replace: true });
