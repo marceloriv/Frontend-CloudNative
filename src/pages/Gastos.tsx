@@ -578,7 +578,7 @@ export default function Gastos() {
             </button>
           </div>
           <div className="overflow-x-auto">
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table style={{ width: "100%", minWidth: "max-content", borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid #E2E8F0" }}>
                   {["Período", "Total", "Estado", "Acciones"].map((h) => (

@@ -802,7 +802,7 @@ function ConserjeriaPanel({ visitas, onUpdateEstado }: ConserjeriaPanelProps) {
           <h3 className="font-display text-lg text-text">Últimos registros de hoy</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-max text-sm">
             <thead className="bg-gray-50 border-b border-border">
               <tr>
                 {["Hora", "Visitante", "Unidad", "Acción", "Estado"].map((col) => (

@@ -462,8 +462,8 @@ export default function ResidenteDashboard() {
                     Gestionar →
                   </Link>
                 </div>
-                <div className="overflow-hidden rounded-xl border border-border bg-white">
-                  <table className="w-full font-body text-sm">
+                <div className="overflow-x-auto rounded-xl border border-border bg-white">
+                  <table className="w-full min-w-max font-body text-sm">
                     <thead>
                       <tr className="border-b border-border bg-slate-50 text-left">
                         <th className="px-4 py-3 font-semibold text-muted">Nombre</th>
