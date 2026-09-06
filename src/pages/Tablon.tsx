@@ -469,9 +469,7 @@ export default function Tablon() {
                       textAlign: "center",
                     }}
                   >
-                    <span className="text-[14px] text-[#fff] leading-[1.6]">
-                      {card.desc}
-                    </span>
+                    <span className="text-[14px] text-[#fff] leading-[1.6]">{card.desc}</span>
                   </div>
                 }
               />
