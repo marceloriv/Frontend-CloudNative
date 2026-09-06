@@ -4,4 +4,5 @@ export interface User {
   nombre: string;
   unidad: string;
   role: Role;
+  avatar?: string;
 }

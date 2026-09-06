@@ -80,6 +80,7 @@ export interface CognitoIdTokenClaims {
   email?: string;
   name?: string;
   given_name?: string;
+  picture?: string;
   "custom:unidad"?: string;
   "custom:torre"?: string;
   "custom:piso"?: string;
