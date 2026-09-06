@@ -20,14 +20,14 @@
   .footer-grid {
     grid-template-columns: 1fr 1fr !important;
   }
-  
+
   .hero-grid {
     grid-template-columns: 1fr !important;
   }
   .hero-grid > div:last-child {
     display: none;
   }
-  
+
   .tab-content-grid,
   .alt-grid,
   .testi-grid,
@@ -41,7 +41,7 @@
   .alt-grid {
     direction: ltr !important;
   }
-  
+
   .pricing-grid > div,
   .price-cards > div {
     transform: none !important;
