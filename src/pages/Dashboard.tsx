@@ -36,21 +36,9 @@ interface CustomTooltipProps {
 function ChartTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
   return (
-    <div
-      style={{
-        background: "#00201B",
-        borderRadius: 8,
-        padding: "8px 12px",
-        fontSize: 12,
-        fontFamily: "Inter, system-ui, sans-serif",
-        color: "#fff",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.18)",
-      }}
-    >
-      <div style={{ color: "rgba(255,255,255,0.55)", marginBottom: 2 }}>{label} 2026</div>
-      <div style={{ fontWeight: 700, color: "#5EEAD4" }}>
-        ${payload[0].value.toLocaleString("es-CL")} k
-      </div>
+    <div className="bg-[#00201B] rounded-lg py-2 px-3 text-xs font-sans text-white shadow-[0_4px_16px_rgba(0,0,0,0.18)]">
+      <div className="text-white/55 mb-0.5">{label} 2026</div>
+      <div className="font-bold text-[#5EEAD4]">${payload[0].value.toLocaleString("es-CL")} k</div>
     </div>
   );
 }
@@ -131,41 +119,15 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#F8FAFB]">
       {/* Header */}
-      <div style={{ background: "#00201B", padding: "56px 24px 48px" }}>
+      <div className="bg-[#00201B] pt-[56px] px-6 pb-12">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(94,234,212,0.7)",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 10,
-            }}
-          >
+          <p className="text-[11px] font-bold text-[#5EEAD4]/70 tracking-[0.12em] uppercase mb-[10px]">
             Transparencia total
           </p>
-          <h1
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(32px, 4vw, 52px)",
-              color: "#fff",
-              lineHeight: 1.1,
-              margin: "0 0 12px",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="font-[Gloock,Georgia,serif] text-[clamp(32px,4vw,52px)] text-white leading-[1.1] m-0 mb-3 font-normal">
             Dashboard de Transparencia
           </h1>
-          <p
-            style={{
-              fontSize: 17,
-              color: "rgba(255,255,255,0.65)",
-              margin: 0,
-              maxWidth: 560,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[17px] text-white/65 m-0 max-w-[560px] leading-[1.65]">
             Panel centralizado de todos los gastos del condominio. Cada peso documentado con boleta
             o factura adjunta.
           </p>
@@ -174,83 +136,48 @@ export default function Dashboard() {
 
       <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* KPI cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-            gap: 18,
-            marginBottom: 28,
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-[18px] mb-7">
           {[
             {
               label: "Gasto del mes (ago)",
               val: "$600.000",
               sub: "CLP · 4 ítems",
               icon: <IconTrendingUp className="w-[20px] h-[20px]" />,
-              color: "#0D9488",
+              color: "text-[#0D9488]",
             },
             {
               label: "Acumulado anual",
               val: "$7.200.000",
               sub: "CLP · 2026",
               icon: <IconTag className="w-[20px] h-[20px]" />,
-              color: "#005047",
+              color: "text-[#005047]",
             },
             {
               label: "Mejoras implementadas",
               val: "$1.770.000",
               sub: "CLP · 2026",
               icon: <IconEye className="w-[20px] h-[20px]" />,
-              color: "#14B8A6",
+              color: "text-[#14B8A6]",
             },
             {
               label: "Registros con boleta",
               val: `${registros.length} / ${registros.length}`,
               sub: "100% verificados",
               icon: <IconDownload className="w-[20px] h-[20px]" />,
-              color: "#0D9488",
+              color: "text-[#0D9488]",
             },
           ].map((k) => (
             <div
               key={k.label}
-              style={{
-                background: "#fff",
-                border: "1px solid #E2E8F0",
-                borderRadius: 14,
-                padding: "22px 20px",
-              }}
+              className="bg-white border border-[#E2E8F0] rounded-[14px] py-[22px] px-5"
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  marginBottom: 12,
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 12,
-                    color: "#94A3B8",
-                    fontWeight: 600,
-                    letterSpacing: "0.04em",
-                    maxWidth: 140,
-                    lineHeight: 1.3,
-                  }}
-                >
+              <div className="flex justify-between items-start mb-3">
+                <div className="text-xs text-[#94A3B8] font-semibold tracking-[0.04em] max-w-[140px] leading-[1.3]">
                   {k.label}
                 </div>
-                <div style={{ color: k.color }}>{k.icon}</div>
+                <div className={k.color}>{k.icon}</div>
               </div>
-              <div
-                style={{
-                  fontFamily: "Gloock, Georgia, serif",
-                  fontSize: 26,
-                  color: "#00201B",
-                  marginBottom: 4,
-                }}
-              >
+              <div className="font-[Gloock,Georgia,serif] text-[26px] text-[#00201B] mb-1">
                 {k.val}
               </div>
               <div className="text-[12px] text-[#94A3B8]">{k.sub}</div>
@@ -258,40 +185,11 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.4fr 1fr",
-            gap: 24,
-            marginBottom: 28,
-          }}
-        >
+        <div className="grid grid-cols-[1.4fr_1fr] gap-6 mb-7">
           {/* Recharts bar chart — Evolución mensual */}
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
-              borderRadius: 16,
-              padding: "28px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 24,
-              }}
-            >
-              <h3
-                style={{
-                  fontFamily: "Gloock, Georgia, serif",
-                  fontSize: 20,
-                  color: "#00201B",
-                  margin: 0,
-                  fontWeight: 400,
-                }}
-              >
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-7">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-[Gloock,Georgia,serif] text-[20px] text-[#00201B] m-0 font-normal">
                 Evolución mensual
               </h3>
               <span className="text-[12px] text-[#94A3B8]">2026 · miles CLP</span>
@@ -337,71 +235,27 @@ export default function Dashboard() {
           </div>
 
           {/* Desglose por categoría */}
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
-              borderRadius: 16,
-              padding: "28px",
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: "Gloock, Georgia, serif",
-                fontSize: 20,
-                color: "#00201B",
-                margin: "0 0 24px",
-                fontWeight: 400,
-              }}
-            >
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-7">
+            <h3 className="font-[Gloock,Georgia,serif] text-[20px] text-[#00201B] m-0 mb-6 font-normal">
               Por categoría
             </h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div className="flex flex-col gap-4">
               {gastos.map((g) => (
                 <div key={g.item}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: 6,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: 13,
-                        color: "#00201B",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {g.item}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "#00201B",
-                      }}
-                    >
-                      {g.mensual}
-                    </span>
+                  <div className="flex justify-between mb-1.5">
+                    <span className="text-[13px] text-[#00201B] font-medium">{g.item}</span>
+                    <span className="text-[13px] font-bold text-[#00201B]">{g.mensual}</span>
                   </div>
-                  <div
-                    style={{
-                      background: "#F1F5F9",
-                      borderRadius: 4,
-                      height: 6,
-                    }}
-                  >
+                  <div className="bg-[#F1F5F9] rounded h-1.5">
                     <div
+                      className="h-full rounded"
                       style={{
                         width: `${g.pct}%`,
-                        height: "100%",
-                        borderRadius: 4,
                         background: g.color,
                       }}
                     />
                   </div>
-                  <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 3 }}>
+                  <div className="text-[11px] text-[#94A3B8] mt-[3px]">
                     {g.pct}% · Anual: {g.anual}
                   </div>
                 </div>
@@ -411,84 +265,31 @@ export default function Dashboard() {
         </div>
 
         {/* Detalle de gastos */}
-        <div
-          style={{
-            background: "#fff",
-            border: "1px solid #E2E8F0",
-            borderRadius: 16,
-            padding: "28px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 16,
-              marginBottom: 20,
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: "Gloock, Georgia, serif",
-                fontSize: 20,
-                color: "#00201B",
-                margin: 0,
-                fontWeight: 400,
-              }}
-            >
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-7">
+          <div className="flex justify-between items-center flex-wrap gap-4 mb-5">
+            <h3 className="font-[Gloock,Georgia,serif] text-[20px] text-[#00201B] m-0 font-normal">
               Detalle de gastos
             </h3>
-            <div
-              style={{
-                display: "flex",
-                gap: 10,
-                alignItems: "center",
-                flexWrap: "wrap",
-              }}
-            >
+            <div className="flex gap-2.5 items-center flex-wrap">
               <select
                 aria-label="Filtrar por categoría"
                 value={activeCategoria}
                 onChange={(e) => setActiveCategoria(e.target.value)}
-                style={{
-                  fontSize: 13,
-                  border: "1px solid #E2E8F0",
-                  borderRadius: 8,
-                  padding: "7px 12px",
-                  color: "#00201B",
-                  background: "#fff",
-                  outline: "none",
-                }}
+                className="text-[13px] border border-[#E2E8F0] rounded-lg py-[7px] px-3 text-[#00201B] bg-white outline-none"
               >
                 {categorias.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
               </select>
-              <button
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: "#0D9488",
-                  background: "none",
-                  border: "1px solid #0D9488",
-                  borderRadius: 8,
-                  padding: "7px 14px",
-                  cursor: "pointer",
-                }}
-              >
+              <button className="flex items-center gap-1.5 text-[13px] font-semibold text-[#0D9488] bg-transparent border border-[#0D9488] rounded-lg py-[7px] px-[14px] cursor-pointer">
                 <IconDownload className="w-[13px] h-[13px]" /> Exportar PDF
               </button>
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table className="w-full min-w-max border-collapse">
               <thead>
-                <tr style={{ borderBottom: "2px solid #E2E8F0" }}>
+                <tr className="border-b-2 border-[#E2E8F0]">
                   {[
                     "Fecha",
                     "Categoría",
@@ -500,16 +301,7 @@ export default function Dashboard() {
                   ].map((h) => (
                     <th
                       key={h}
-                      style={{
-                        textAlign: "left",
-                        padding: "0 12px 12px 0",
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: "#94A3B8",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        whiteSpace: "nowrap",
-                      }}
+                      className="text-left pr-3 pb-3 text-[11px] font-bold text-[#94A3B8] uppercase tracking-[0.08em] whitespace-nowrap"
                     >
                       {h}
                     </th>
@@ -520,87 +312,32 @@ export default function Dashboard() {
                 {filtered.map((r, i) => (
                   <tr
                     key={r.boleta}
-                    style={{
-                      borderBottom: i < filtered.length - 1 ? "1px solid #F1F5F9" : "none",
-                    }}
+                    className={
+                      i < filtered.length - 1 ? "border-b border-[#F1F5F9]" : "border-none"
+                    }
                   >
-                    <td
-                      style={{
-                        padding: "14px 12px 14px 0",
-                        fontSize: 13,
-                        color: "#64748B",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td className="py-[14px] pr-3 text-[13px] text-[#64748B] whitespace-nowrap">
                       {r.fecha}
                     </td>
-                    <td style={{ padding: "14px 12px 14px 0", fontSize: 13 }}>
-                      <span
-                        style={{
-                          background: "#F0FDFA",
-                          color: "#005047",
-                          fontSize: 11,
-                          fontWeight: 600,
-                          padding: "3px 8px",
-                          borderRadius: 6,
-                        }}
-                      >
+                    <td className="py-[14px] pr-3 text-[13px]">
+                      <span className="bg-[#F0FDFA] text-[#005047] text-[11px] font-semibold py-[3px] px-2 rounded-md">
                         {r.categoria}
                       </span>
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 12px 14px 0",
-                        fontSize: 13,
-                        color: "#00201B",
-                        maxWidth: 220,
-                      }}
-                    >
+                    <td className="py-[14px] pr-3 text-[13px] text-[#00201B] max-w-[220px]">
                       {r.descripcion}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 12px 14px 0",
-                        fontSize: 13,
-                        color: "#64748B",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td className="py-[14px] pr-3 text-[13px] text-[#64748B] whitespace-nowrap">
                       {r.proveedor}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 12px 14px 0",
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "#00201B",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td className="py-[14px] pr-3 text-[13px] font-bold text-[#00201B] whitespace-nowrap">
                       {r.monto}
                     </td>
-                    <td
-                      style={{
-                        padding: "14px 12px 14px 0",
-                        fontSize: 12,
-                        color: "#0D9488",
-                        fontFamily: "monospace",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
+                    <td className="py-[14px] pr-3 text-[12px] text-[#0D9488] font-mono whitespace-nowrap">
                       {r.boleta}
                     </td>
                     <td className="py-[14px]">
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 600,
-                          color: "#0D9488",
-                          background: "#F0FDFA",
-                          padding: "3px 8px",
-                          borderRadius: 6,
-                        }}
-                      >
+                      <span className="text-[11px] font-semibold text-[#0D9488] bg-[#F0FDFA] py-[3px] px-2 rounded-md">
                         {r.estado}
                       </span>
                     </td>
@@ -608,26 +345,14 @@ export default function Dashboard() {
                 ))}
               </tbody>
               <tfoot>
-                <tr style={{ borderTop: "2px solid #E2E8F0" }}>
+                <tr className="border-t-2 border-[#E2E8F0]">
                   <td
                     colSpan={4}
-                    style={{
-                      padding: "14px 12px 0 0",
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#64748B",
-                    }}
+                    className="pt-[14px] pr-3 text-[13px] font-semibold text-[#64748B]"
                   >
                     Total mostrado
                   </td>
-                  <td
-                    style={{
-                      padding: "14px 12px 0 0",
-                      fontSize: 15,
-                      fontWeight: 700,
-                      color: "#00201B",
-                    }}
-                  >
+                  <td className="pt-[14px] pr-3 text-[15px] font-bold text-[#00201B]">
                     $
                     {filtered
                       .reduce((acc, r) => acc + parseInt(r.monto.replace(/\D/g, "")), 0)

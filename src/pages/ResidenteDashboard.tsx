@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
@@ -111,16 +110,7 @@ function KpiCard({
               <Tooltip
                 content={({ active, payload }) =>
                   active && payload?.length ? (
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontFamily: "Inter, system-ui, sans-serif",
-                        background: "#00201B",
-                        color: "#fff",
-                        padding: "3px 7px",
-                        borderRadius: 5,
-                      }}
-                    >
+                    <span className="text-[11px] font-body bg-[#00201B] text-white px-2 py-1 rounded-md">
                       {payload[0].value}
                     </span>
                   ) : null

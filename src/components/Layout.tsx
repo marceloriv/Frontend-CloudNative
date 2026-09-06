@@ -239,60 +239,12 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
   const item = RIBBON_ITEMS[idx];
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 60,
-        height: 32,
-        background: "#005047",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "0 16px",
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          width: "100%",
-        }}
-      >
+    <div className="fixed top-0 inset-x-0 z-[60] h-[32px] bg-[#005047] flex items-center">
+      <div className="max-w-[1280px] mx-auto px-4 flex items-center gap-[12px] w-full">
         {/* Label badge */}
-        <div
-          style={{
-            flexShrink: 0,
-            background: "#0D9488",
-            borderRadius: 3,
-            padding: "1px 8px",
-            display: "flex",
-            alignItems: "center",
-            gap: 5,
-          }}
-        >
-          <span
-            style={{
-              width: 5,
-              height: 5,
-              borderRadius: "50%",
-              background: "#4ADE80",
-              display: "inline-block",
-            }}
-          />
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#fff",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-            }}
-          >
+        <div className="shrink-0 bg-[#0D9488] rounded-[3px] px-2 py-[1px] flex items-center gap-[5px]">
+          <span className="w-[5px] h-[5px] rounded-full bg-[#4ADE80] inline-block" />
+          <span className="text-[10px] font-bold text-white tracking-[0.08em] uppercase">
             Tablón
           </span>
         </div>
@@ -300,17 +252,8 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
         {/* Rotating text */}
         <Link
           to={item.path}
-          style={{
-            flex: 1,
-            fontSize: 12,
-            color: "rgba(255,255,255,0.88)",
-            textDecoration: "none",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            opacity: fading ? 0 : 1,
-            transition: "opacity 0.25s",
-          }}
+          className="flex-1 text-[12px] text-white/90 no-underline overflow-hidden whitespace-nowrap text-ellipsis transition-opacity duration-300"
+          style={{ opacity: fading ? 0 : 1 }}
         >
           {item.text}
         </Link>
@@ -325,15 +268,10 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
                 setIdx(i);
                 setFading(false);
               }}
+              className="h-[5px] rounded-[3px] border-none cursor-pointer p-0 transition-all duration-300"
               style={{
                 width: i === idx ? 14 : 5,
-                height: 5,
-                borderRadius: 3,
                 background: i === idx ? "#5EEAD4" : "rgba(255,255,255,0.3)",
-                border: "none",
-                cursor: "pointer",
-                padding: 0,
-                transition: "width 0.3s, background 0.3s",
               }}
             />
           ))}
@@ -343,19 +281,7 @@ function AnnouncementRibbon({ onDismiss }: { onDismiss: () => void }) {
         <button
           onClick={onDismiss}
           aria-label="Cerrar aviso"
-          style={{
-            flexShrink: 0,
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            color: "rgba(255,255,255,0.6)",
-            padding: "2px 4px",
-            lineHeight: 1,
-            fontSize: 14,
-            transition: "color 0.15s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
+          className="shrink-0 bg-transparent border-none cursor-pointer text-white/60 hover:text-white px-1 py-0.5 leading-none text-[14px] transition-colors duration-150"
         >
           ✕
         </button>
@@ -373,65 +299,34 @@ function FloatingSidebar() {
   const items = FLOATING_SIDEBAR_ITEMS;
 
   return (
-    <div
-      className="float-sidebar"
-      style={{
-        position: "fixed",
-        right: 0,
-        top: "50%",
-        transform: "translateY(-50%)",
-        zIndex: 45,
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-      }}
-    >
+    <div className="float-sidebar fixed right-0 top-1/2 -translate-y-1/2 z-[45] flex flex-col gap-[6px]">
       {items.map((item) => (
         <Link
           key={item.id}
           to={item.path}
           onMouseEnter={() => setHovered(item.id)}
           onMouseLeave={() => setHovered(null)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            textDecoration: "none",
-          }}
+          className="flex items-center justify-end no-underline"
         >
           {/* Expanding label */}
           <div
+            className="flex items-center h-[40px] overflow-hidden whitespace-nowrap rounded-l-[6px] transition-all duration-[220ms] ease-out"
             style={{
-              display: "flex",
-              alignItems: "center",
               background: item.bg,
-              height: 40,
               maxWidth: hovered === item.id ? 120 : 0,
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              borderRadius: "6px 0 0 6px",
               paddingLeft: hovered === item.id ? 12 : 0,
               opacity: hovered === item.id ? 1 : 0,
-              transition: "max-width 0.22s ease, opacity 0.18s ease, padding-left 0.22s ease",
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 700, color: "#fff" }}>{item.label}</span>
+            <span className="text-[12px] font-bold text-white">{item.label}</span>
           </div>
 
           {/* Icon button */}
           <div
+            className="w-[40px] h-[40px] shrink-0 flex items-center justify-center text-white shadow-[0_2px_12px_rgba(0,0,0,0.22)] transition-[border-radius] duration-[220ms] ease-out"
             style={{
-              width: 40,
-              height: 40,
-              flexShrink: 0,
               background: item.bg,
               borderRadius: hovered === item.id ? "0 6px 6px 0" : "6px 0 0 6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#fff",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.22)",
-              transition: "border-radius 0.22s ease",
             }}
           >
             {item.icon}
@@ -442,23 +337,7 @@ function FloatingSidebar() {
       {/* Scroll-to-top */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: "6px 0 0 6px",
-          background: "#fff",
-          border: "1px solid #E2E8F0",
-          borderRight: "none",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          color: "#64748B",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-          transition: "background 0.15s",
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#F0FDFA")}
-        onMouseLeave={(e) => (e.currentTarget.style.background = "#fff")}
+        className="w-[40px] h-[40px] rounded-l-[6px] bg-white border border-[#E2E8F0] border-r-0 flex items-center justify-center cursor-pointer text-[#64748B] shadow-[0_2px_12px_rgba(0,0,0,0.08)] transition-colors duration-150 hover:bg-[#F0FDFA]"
         title="Ir arriba"
       >
         <svg
@@ -533,154 +412,66 @@ export default function Layout() {
   const navBorder = (isHome ? scrolled : true) ? "1px solid #E2E8F0" : "1px solid transparent";
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="min-h-screen flex flex-col">
       {/* Ribbon */}
       {ribbonVisible && <AnnouncementRibbon onDismiss={() => setRibbonVisible(false)} />}
 
       {/* Nav */}
       <nav
+        className="fixed inset-x-0 z-50 flex items-center backdrop-blur-[14px] transition-all duration-300"
         style={{
-          position: "fixed",
           top: RIBBON_H,
-          left: 0,
-          right: 0,
-          zIndex: 50,
           height: NAV_H,
           background: navBg,
-          backdropFilter: "blur(14px)",
           borderBottom: navBorder,
-          transition: "background 0.3s, border-color 0.3s, top 0.3s",
-          display: "flex",
-          alignItems: "center",
         }}
       >
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "0 24px",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="max-w-[1280px] mx-auto px-6 w-full flex items-center justify-between">
           {/* Logo */}
-          <NavLink
-            to="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              textDecoration: "none",
-            }}
-          >
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 9,
-                background: "linear-gradient(135deg,#0D9488,#005047)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IconHome style={{ color: "#fff", width: 17, height: 17 }} />
+          <NavLink to="/" className="flex items-center gap-[10px] no-underline">
+            <div className="w-[34px] h-[34px] rounded-[9px] bg-gradient-to-br from-[#0D9488] to-[#005047] flex items-center justify-center">
+              <IconHome className="text-white w-[17px] h-[17px]" />
             </div>
             <div>
-              <div
-                style={{
-                  fontFamily: "Gloock,Georgia,serif",
-                  fontSize: 19,
-                  color: "#00201B",
-                  lineHeight: 1.1,
-                }}
-              >
+              <div className="font-['Gloock',Georgia,serif] text-[19px] text-[#00201B] leading-tight">
                 Convivo
               </div>
-              <div
-                style={{
-                  fontSize: 9,
-                  color: "#94A3B8",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  fontWeight: 600,
-                }}
-              >
+              <div className="text-[9px] text-[#94A3B8] tracking-[0.12em] uppercase font-semibold">
                 Gestión Simple
               </div>
             </div>
           </NavLink>
 
           {/* Desktop links */}
-          <div className="nav-desktop" style={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <div className="nav-desktop flex items-center gap-[2px]">
             {navLinks.map((l) => (
               <NavLink
                 key={l.path}
                 to={l.path}
-                style={({ isActive }) => ({
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 5,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  textDecoration: "none",
-                  padding: "6px 11px",
-                  borderRadius: 7,
-                  color: isActive ? "#0D9488" : "#64748B",
-                  background: isActive ? "#F0FDFA" : "transparent",
-                  transition: "all 0.15s",
-                })}
-                onMouseEnter={(e) => {
-                  if (!(e.currentTarget as HTMLElement).classList.contains("active"))
-                    (e.currentTarget as HTMLElement).style.color = "#00201B";
-                }}
-                onMouseLeave={(e) => {
-                  if (!(e.currentTarget as HTMLElement).classList.contains("active"))
-                    (e.currentTarget as HTMLElement).style.color = "#64748B";
-                }}
+                className={({ isActive }) =>
+                  `flex items-center gap-[5px] text-[13px] font-medium no-underline px-[11px] py-[6px] rounded-[7px] transition-all duration-150 ${
+                    isActive
+                      ? "text-[#0D9488] bg-[#F0FDFA]"
+                      : "text-[#64748B] bg-transparent hover:text-[#00201B]"
+                  }`
+                }
               >
                 {l.icon} {l.label}
               </NavLink>
             ))}
-            <div
-              style={{
-                width: 1,
-                height: 20,
-                background: "#E2E8F0",
-                margin: "0 6px",
-              }}
-            />
+            <div className="w-[1px] h-[20px] bg-[#E2E8F0] mx-[6px]" />
 
             {/* Avatar del usuario */}
             {user.avatar ? (
               <img
                 src={user.avatar}
                 alt={user.nombre}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  border: "1px solid #E2E8F0",
-                }}
+                className="w-[32px] h-[32px] rounded-full object-cover border border-[#E2E8F0]"
                 referrerPolicy="no-referrer"
               />
             ) : (
               <div
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "50%",
-                  background: "#E2E8F0",
-                  color: "#64748B",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                  fontSize: 12,
-                }}
+                className="w-[32px] h-[32px] rounded-full bg-[#E2E8F0] text-[#64748B] flex items-center justify-center font-bold text-[12px]"
                 title={user.nombre}
               >
                 {user.nombre.charAt(0).toUpperCase()}
@@ -688,64 +479,28 @@ export default function Layout() {
             )}
 
             {/* Role switcher (demo) */}
-            <div style={{ position: "relative" }}>
+            <div className="relative">
               <button
                 onClick={() => setRoleSwitcherOpen((o) => !o)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color: "#fff",
-                  background: ROLE_COLORS[role],
-                  padding: "7px 12px",
-                  borderRadius: 7,
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "opacity 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                className="flex items-center gap-[6px] text-[12px] font-bold text-white px-[12px] py-[7px] rounded-[7px] border-none cursor-pointer transition-opacity duration-150 hover:opacity-85"
+                style={{ background: ROLE_COLORS[role] }}
                 title="Cambiar rol (demo)"
               >
-                <span style={{ fontSize: 10, opacity: 0.75, fontWeight: 600 }}>ROL:</span>
+                <span className="text-[10px] opacity-75 font-semibold">ROL:</span>
                 {ROLE_LABELS[role]}
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.5"
-                  style={{ width: 10, height: 10, opacity: 0.7 }}
+                  className="w-[10px] h-[10px] opacity-70"
                 >
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
               {roleSwitcherOpen && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "calc(100% + 6px)",
-                    right: 0,
-                    background: "#fff",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: 10,
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                    padding: "4px",
-                    zIndex: 100,
-                    minWidth: 160,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: 10,
-                      fontWeight: 700,
-                      color: "#94A3B8",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      padding: "6px 12px 4px",
-                    }}
-                  >
+                <div className="absolute top-[calc(100%+6px)] right-0 bg-white border border-[#E2E8F0] rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.1)] p-1 z-[100] min-w-[160px]">
+                  <div className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-[0.08em] px-[12px] pt-[6px] pb-[4px]">
                     Demo · Cambiar rol
                   </div>
                   {(["residente", "conserje", "admin", "comite"] as Role[]).map((r) => (
@@ -755,55 +510,22 @@ export default function Layout() {
                         setRole(r);
                         setRoleSwitcherOpen(false);
                       }}
+                      className="flex items-center gap-[8px] w-full px-[12px] py-[8px] border-none cursor-pointer rounded-[7px] text-[13px] transition-colors duration-150 hover:bg-[#F8FAFB]"
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                        width: "100%",
-                        padding: "8px 12px",
-                        border: "none",
-                        background: r === role ? "#F0FDFA" : "none",
-                        cursor: "pointer",
-                        borderRadius: 7,
-                        fontSize: 13,
+                        background: r === role ? "#F0FDFA" : "transparent",
                         fontWeight: r === role ? 700 : 500,
                         color: r === role ? ROLE_COLORS[r] : "#00201B",
-                        transition: "background 0.12s",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (r !== role)
-                          (e.currentTarget as HTMLElement).style.background = "#F8FAFB";
-                      }}
-                      onMouseLeave={(e) => {
-                        if (r !== role) (e.currentTarget as HTMLElement).style.background = "none";
                       }}
                     >
                       <span
-                        style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: "50%",
-                          background: ROLE_COLORS[r],
-                          flexShrink: 0,
-                        }}
+                        className="w-[8px] h-[8px] rounded-full shrink-0"
+                        style={{ background: ROLE_COLORS[r] }}
                       />
                       {ROLE_LABELS[r]}
                     </button>
                   ))}
-                  <div
-                    style={{
-                      borderTop: "1px solid #F1F5F9",
-                      margin: "4px 0",
-                      padding: "4px 12px 6px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: 11,
-                        color: "#94A3B8",
-                        lineHeight: 1.4,
-                      }}
-                    >
+                  <div className="border-t border-[#F1F5F9] my-1 px-[12px] pt-[4px] pb-[6px]">
+                    <p className="text-[11px] text-[#94A3B8] leading-[1.4] m-0">
                       {user.nombre}
                       <br />
                       {user.unidad}
@@ -815,28 +537,7 @@ export default function Layout() {
 
             <Link
               to="/login"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 5,
-                fontSize: 12,
-                fontWeight: 600,
-                color: "#64748B",
-                background: "none",
-                padding: "7px 12px",
-                borderRadius: 7,
-                textDecoration: "none",
-                border: "1px solid #E2E8F0",
-                transition: "color 0.2s, border-color 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.color = "#00201B";
-                (e.currentTarget as HTMLElement).style.borderColor = "#CBD5E1";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.color = "#64748B";
-                (e.currentTarget as HTMLElement).style.borderColor = "#E2E8F0";
-              }}
+              className="flex items-center gap-[5px] text-[12px] font-semibold text-[#64748B] bg-transparent px-[12px] py-[7px] rounded-[7px] no-underline border border-[#E2E8F0] transition-colors duration-200 hover:text-[#00201B] hover:border-[#CBD5E1]"
               data-cuelume-press="whisper"
               aria-label="Cerrar sesión"
             >
@@ -859,16 +560,8 @@ export default function Layout() {
 
           {/* Mobile burger */}
           <button
-            className="nav-burger"
+            className="nav-burger bg-transparent border-none cursor-pointer p-1 text-[#00201B] hidden"
             onClick={() => setMobileOpen((o) => !o)}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 4,
-              color: "#00201B",
-              display: "none",
-            }}
           >
             {mobileOpen ? (
               <IconX className="w-[22px] h-[22px]" />
@@ -880,38 +573,21 @@ export default function Layout() {
 
         {/* Mobile dropdown */}
         {mobileOpen && (
-          <div
-            style={{
-              position: "absolute",
-              top: "100%",
-              left: 0,
-              right: 0,
-              background: "#fff",
-              borderBottom: "1px solid #E2E8F0",
-              padding: "8px 16px 16px",
-              zIndex: 49,
-            }}
-          >
+          <div className="absolute top-full inset-x-0 bg-white border-b border-[#E2E8F0] px-4 pt-2 pb-4 z-[49]">
             {navLinks.map((l) => (
               <NavLink
                 key={l.path}
                 to={l.path}
-                style={({ isActive }) => ({
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "11px 8px",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: isActive ? "#0D9488" : "#00201B",
-                  textDecoration: "none",
-                  borderBottom: "1px solid #F1F5F9",
-                })}
+                className={({ isActive }) =>
+                  `flex items-center gap-[10px] py-[11px] px-[8px] text-[14px] font-medium no-underline border-b border-[#F1F5F9] ${
+                    isActive ? "text-[#0D9488]" : "text-[#00201B]"
+                  }`
+                }
               >
                 {l.icon} {l.label}
               </NavLink>
             ))}
-            <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
+            <div className="mt-2 flex gap-2">
               {(["residente", "conserje", "admin", "comite"] as Role[]).map((r) => (
                 <button
                   key={r}
@@ -919,16 +595,10 @@ export default function Layout() {
                     setRole(r);
                     setMobileOpen(false);
                   }}
+                  className="flex-1 py-2 px-1 text-[12px] font-bold rounded-lg border-none cursor-pointer"
                   style={{
-                    flex: 1,
-                    padding: "8px 4px",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    borderRadius: 8,
-                    border: "none",
                     background: r === role ? ROLE_COLORS[r] : "#F1F5F9",
                     color: r === role ? "#fff" : "#64748B",
-                    cursor: "pointer",
                   }}
                 >
                   {ROLE_LABELS[r]}
@@ -940,7 +610,7 @@ export default function Layout() {
       </nav>
 
       {/* Page content */}
-      <main style={{ flex: 1, paddingTop: isHome ? 0 : TOP_OFFSET }}>
+      <main className="flex-1" style={{ paddingTop: isHome ? 0 : TOP_OFFSET }}>
         <Outlet />
       </main>
 
@@ -948,79 +618,27 @@ export default function Layout() {
       <FloatingSidebar />
 
       {/* Footer */}
-      <footer
-        style={{
-          background: "#00201B",
-          color: "rgba(255,255,255,0.55)",
-          padding: "52px 24px 28px",
-        }}
-      >
+      <footer className="bg-[#00201B] text-white/55 pt-[52px] pb-[28px] px-[24px]">
         <div className="max-w-[1280px] mx-auto">
-          <div
-            className="footer-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr 1fr",
-              gap: 40,
-              marginBottom: 40,
-            }}
-          >
+          <div className="footer-grid grid grid-cols-[2fr_1fr_1fr_1fr] gap-[40px] mb-[40px]">
             <div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  marginBottom: 16,
-                }}
-              >
-                <div
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: 8,
-                    background: "#0D9488",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <IconHome style={{ color: "#fff", width: 16, height: 16 }} />
+              <div className="flex items-center gap-[10px] mb-[16px]">
+                <div className="w-[32px] h-[32px] rounded-[8px] bg-[#0D9488] flex items-center justify-center">
+                  <IconHome className="text-white w-[16px] h-[16px]" />
                 </div>
-                <span
-                  style={{
-                    fontFamily: "Gloock,Georgia,serif",
-                    fontSize: 18,
-                    color: "#fff",
-                  }}
-                >
+                <span className="font-['Gloock',Georgia,serif] text-[18px] text-white">
                   Convivo
                 </span>
               </div>
-              <p
-                style={{
-                  fontSize: 13,
-                  lineHeight: 1.7,
-                  maxWidth: 260,
-                  margin: "0 0 16px",
-                  color: "rgba(255,255,255,0.5)",
-                }}
-              >
+              <p className="text-[13px] leading-[1.7] max-w-[260px] m-0 mb-[16px] text-white/50">
                 Plataforma digital para la gestión de condominios en Chile. Tranquilidad, comunidad
                 y confianza.
               </p>
-              <div style={{ display: "flex", gap: 16 }}>
+              <div className="flex gap-[16px]">
                 {["Privacidad", "Términos", "Contacto"].map((l) => (
                   <span
                     key={l}
-                    style={{
-                      fontSize: 12,
-                      color: "rgba(255,255,255,0.35)",
-                      cursor: "pointer",
-                      transition: "color 0.15s",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#5EEAD4")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.35)")}
+                    className="text-[12px] text-white/35 cursor-pointer transition-colors duration-150 hover:text-[#5EEAD4]"
                   >
                     {l}
                   </span>
@@ -1048,30 +666,13 @@ export default function Layout() {
               },
             ].map((col) => (
               <div key={col.title}>
-                <div
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: "#5EEAD4",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    marginBottom: 16,
-                  }}
-                >
+                <div className="text-[11px] font-bold text-[#5EEAD4] tracking-[0.1em] uppercase mb-[16px]">
                   {col.title}
                 </div>
                 {col.links.map((l) => (
                   <div
                     key={l}
-                    style={{
-                      fontSize: 13,
-                      color: "rgba(255,255,255,0.45)",
-                      marginBottom: 10,
-                      cursor: "pointer",
-                      transition: "color 0.15s",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.45)")}
+                    className="text-[13px] text-white/45 mb-[10px] cursor-pointer transition-colors duration-150 hover:text-white"
                   >
                     {l}
                   </div>
@@ -1079,20 +680,9 @@ export default function Layout() {
               </div>
             ))}
           </div>
-          <div
-            style={{
-              borderTop: "1px solid rgba(255,255,255,0.07)",
-              paddingTop: 20,
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 8,
-            }}
-          >
-            <p style={{ fontSize: 12, margin: 0 }}>
-              © 2026 Convivo SpA. Todos los derechos reservados.
-            </p>
-            <p style={{ fontSize: 12, margin: 0 }}>Hecho con ♥ para condominios chilenos</p>
+          <div className="border-t border-white/5 pt-[20px] flex justify-between flex-wrap gap-[8px]">
+            <p className="text-[12px] m-0">© 2026 Convivo SpA. Todos los derechos reservados.</p>
+            <p className="text-[12px] m-0">Hecho con ♥ para condominios chilenos</p>
           </div>
         </div>
       </footer>

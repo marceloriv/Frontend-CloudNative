@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
@@ -107,172 +106,69 @@ export default function Tablon() {
   return (
     <div className="min-h-screen bg-[#F8FAFB]">
       {/* Dark hero header */}
-      <div className="bg-[#00201B] p-[72px_24px_64px]">
+      <div className="bg-[#00201B] px-6 pb-16 pt-[72px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.45)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
+          <p className="text-[11px] font-bold text-white/45 tracking-[0.14em] uppercase mb-4">
             Cartelera digital
           </p>
-          <h1
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(36px, 5vw, 64px)",
-              color: "#fff",
-              lineHeight: 1.08,
-              margin: "0 0 18px",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="font-display text-[clamp(36px,5vw,64px)] text-white leading-[1.08] mb-[18px] font-normal">
             Tablón de avisos
           </h1>
-          <p
-            style={{
-              fontSize: 19,
-              color: "rgba(255,255,255,0.65)",
-              margin: 0,
-              maxWidth: 540,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[19px] text-white/65 m-0 max-w-[540px] leading-[1.65]">
             Información del condominio, siempre al día
           </p>
         </div>
       </div>
 
       {/* Existing header strip (gradient) */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0D9488 0%, #005047 100%)",
-          padding: "40px 24px 36px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            flexWrap: "wrap",
-            gap: 20,
-          }}
-        >
+      <div className="bg-gradient-to-br from-[#0D9488] to-[#005047] px-6 pb-9 pt-10">
+        <div className="max-w-[1280px] mx-auto flex justify-between items-end flex-wrap gap-5">
           <div>
-            <p
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: "rgba(255,255,255,0.6)",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                marginBottom: 10,
-              }}
-            >
+            <p className="text-[11px] font-bold text-white/60 tracking-[0.12em] uppercase mb-2.5">
               Cartelera digital
             </p>
-            <h2
-              style={{
-                fontFamily: "Gloock, Georgia, serif",
-                fontSize: "clamp(24px, 3vw, 36px)",
-                color: "#fff",
-                lineHeight: 1.1,
-                margin: "0 0 10px",
-                fontWeight: 400,
-              }}
-            >
+            <h2 className="font-display text-[clamp(24px,3vw,36px)] text-white leading-[1.1] mb-2.5 font-normal">
               Tablón de Eventos y Avisos
             </h2>
-            <p
-              style={{
-                fontSize: 15,
-                color: "rgba(255,255,255,0.72)",
-                margin: 0,
-                maxWidth: 520,
-                lineHeight: 1.65,
-              }}
-            >
+            <p className="text-[15px] text-white/72 m-0 max-w-[520px] leading-[1.65]">
               Cartelera digital comunitaria con avisos, asambleas y comunicados del comité — en
               tiempo real.
             </p>
           </div>
           <button
             onClick={() => setShowNew(true)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#fff",
-              color: "#005047",
-              border: "none",
-              borderRadius: 10,
-              padding: "12px 20px",
-              fontSize: 14,
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "opacity 0.2s",
-              whiteSpace: "nowrap",
-            }}
+            className="flex items-center gap-2 bg-white text-[#005047] border-none rounded-[10px] px-5 py-3 text-[14px] font-bold cursor-pointer transition-opacity duration-200 whitespace-nowrap hover:opacity-90"
           >
-            <IconPlus className="w-[16px] h-[16px]" />
+            <IconPlus className="w-4 h-4" />
             {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}
           </button>
         </div>
       </div>
 
       {/* Main notices content */}
-      <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
+      <div className="max-w-[1280px] mx-auto px-6 pb-20 pt-10">
         {/* Filters & stats */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: 16,
-            marginBottom: 32,
-          }}
-        >
-          <div style={{ display: "flex", gap: 8 }}>
+        <div className="flex justify-between items-center flex-wrap gap-4 mb-8">
+          <div className="flex gap-2">
             {tipos.map((t) => (
               <button
                 key={t}
                 onClick={() => setActiveTipo(t)}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: 100,
-                  fontSize: 13,
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  border: "1px solid",
-                  borderColor: activeTipo === t ? "#0D9488" : "#E2E8F0",
-                  background: activeTipo === t ? "#0D9488" : "#fff",
-                  color: activeTipo === t ? "#fff" : "#64748B",
-                  transition: "border-color 0.15s, background 0.15s, color 0.15s",
-                }}
+                className={`px-4 py-2 rounded-full text-[13px] font-medium cursor-pointer border transition-colors duration-150 ${
+                  activeTipo === t
+                    ? "border-[#0D9488] bg-[#0D9488] text-white"
+                    : "border-border bg-white text-text-muted hover:border-[#0D9488]"
+                }`}
               >
                 {t}
               </button>
             ))}
           </div>
-          <div style={{ fontSize: 13, color: "#94A3B8" }}>{filtered.length} publicaciones</div>
+          <div className="text-[13px] text-text-muted">{filtered.length} publicaciones</div>
         </div>
 
         {/* Cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-            gap: 20,
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(340px,1fr))] gap-5">
           {filtered.map((a) => {
             const idx = avisos.indexOf(a);
             const yaConfirmado = confirmados[idx];
@@ -282,77 +178,27 @@ export default function Tablon() {
                 key={a.titulo}
                 className={`bg-surface border border-border border-l-4 ${bc.border} rounded-2xl overflow-hidden transition-[box-shadow,transform] duration-200 hover:shadow-lg hover:-translate-y-0.5`}
               >
-                <div style={{ padding: "22px 22px 0" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: 12,
-                    }}
-                  >
+                <div className="px-[22px] pt-[22px]">
+                  <div className="flex justify-between items-center mb-3">
                     <span
                       className={`text-[11px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full ${bc.label}`}
                     >
                       {a.tipo}
                     </span>
-                    <span className="text-[12px] text-[#94A3B8]">{a.fecha}</span>
+                    <span className="text-[12px] text-text-muted">{a.fecha}</span>
                   </div>
-                  <h3
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: 17,
-                      color: "#00201B",
-                      margin: "0 0 10px",
-                      fontWeight: 400,
-                      lineHeight: 1.3,
-                    }}
-                  >
+                  <h3 className="font-display text-[17px] text-[#00201B] m-0 mb-2.5 font-normal leading-[1.3]">
                     {a.titulo}
                   </h3>
-                  <p
-                    style={{
-                      fontSize: 13,
-                      color: "#64748B",
-                      lineHeight: 1.65,
-                      margin: "0 0 16px",
-                    }}
-                  >
-                    {a.desc}
-                  </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      fontSize: 12,
-                      color: "#94A3B8",
-                      marginBottom: 16,
-                    }}
-                  >
-                    <IconBell className="w-[12px] h-[12px]" /> Publicado por:{" "}
-                    <strong style={{ color: "#64748B" }}>{a.autor}</strong>
+                  <p className="text-[13px] text-text-muted leading-[1.65] m-0 mb-4">{a.desc}</p>
+                  <div className="flex items-center gap-1.5 text-[12px] text-text-muted mb-4">
+                    <IconBell className="w-3 h-3" /> Publicado por:{" "}
+                    <strong className="text-text-muted font-bold">{a.autor}</strong>
                   </div>
                 </div>
                 {a.confirmacion && (
-                  <div
-                    style={{
-                      borderTop: "1px solid #F1F5F9",
-                      padding: "14px 22px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontSize: 12,
-                        color: "#64748B",
-                      }}
-                    >
+                  <div className="border-t border-[#F1F5F9] px-[22px] py-[14px] flex justify-between items-center">
+                    <div className="flex items-center gap-1.5 text-[12px] text-text-muted">
                       <IconUsers className="w-[13px] h-[13px]" />
                       {a.confirmados + (yaConfirmado ? 1 : 0)} confirmados
                     </div>
@@ -363,23 +209,13 @@ export default function Tablon() {
                           [idx]: !prev[idx],
                         }))
                       }
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontSize: 12,
-                        fontWeight: 600,
-                        padding: "7px 14px",
-                        borderRadius: 8,
-                        border: "1px solid",
-                        cursor: "pointer",
-                        transition: "border-color 0.15s, background 0.15s, color 0.15s",
-                        borderColor: yaConfirmado ? "#0D9488" : "#E2E8F0",
-                        background: yaConfirmado ? "#F0FDFA" : "#fff",
-                        color: yaConfirmado ? "#0D9488" : "#64748B",
-                      }}
+                      className={`flex items-center gap-1.5 text-[12px] font-semibold px-3.5 py-[7px] rounded-lg border cursor-pointer transition-colors duration-150 ${
+                        yaConfirmado
+                          ? "border-[#0D9488] bg-[#F0FDFA] text-[#0D9488]"
+                          : "border-border bg-white text-text-muted hover:border-[#0D9488]"
+                      }`}
                     >
-                      <IconCheck className="w-[12px] h-[12px]" />
+                      <IconCheck className="w-3 h-3" />
                       {yaConfirmado ? "Confirmado" : "Confirmar asistencia"}
                     </button>
                   </div>
@@ -391,85 +227,30 @@ export default function Tablon() {
       </div>
 
       {/* Sub-features flip cards */}
-      <div className="bg-[#fff] p-[80px_24px]">
+      <div className="bg-white px-6 py-20">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+          <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.14em] uppercase mb-3">
             Funcionalidades
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              color: "#00201B",
-              margin: "0 0 48px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-display text-[clamp(28px,3.5vw,44px)] text-[#00201B] m-0 mb-12 font-normal">
             Todo lo que necesitas en un tablón
           </h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: 20,
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5">
             {flipCards.map((card) => (
               <FlipCard
                 key={card.title}
                 height={200}
                 front={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#F8FAFB",
-                      borderRadius: 16,
-                      border: "1px solid #E2E8F0",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                      gap: 14,
-                    }}
-                  >
+                  <div className="h-full bg-[#F8FAFB] rounded-2xl border border-border flex flex-col items-center justify-center p-6 text-center gap-3.5">
                     {card.icon}
-                    <span
-                      style={{
-                        fontSize: 15,
-                        fontWeight: 700,
-                        color: "#00201B",
-                        lineHeight: 1.3,
-                      }}
-                    >
+                    <span className="text-[15px] font-bold text-[#00201B] leading-[1.3]">
                       {card.title}
                     </span>
                   </div>
                 }
                 back={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#0D9488",
-                      borderRadius: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <span className="text-[14px] text-[#fff] leading-[1.6]">{card.desc}</span>
+                  <div className="h-full bg-[#0D9488] rounded-2xl flex items-center justify-center p-6 text-center">
+                    <span className="text-[14px] text-white leading-[1.6]">{card.desc}</span>
                   </div>
                 }
               />
@@ -482,95 +263,35 @@ export default function Tablon() {
       {altSections.map((section) => (
         <div
           key={section.title}
-          style={{
-            padding: "80px 24px",
-            background: section.imgLeft ? "#F8FAFB" : "#fff",
-          }}
+          className={`px-6 py-20 ${section.imgLeft ? "bg-[#F8FAFB]" : "bg-white"}`}
         >
-          <div
-            style={{
-              maxWidth: 1280,
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 64,
-              alignItems: "center",
-            }}
-          >
+          <div className="max-w-[1280px] mx-auto grid grid-cols-2 gap-16 items-center max-md:grid-cols-1">
             {section.imgLeft ? (
               <>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-[16px] text-text-muted leading-[1.75] m-0">{section.body}</p>
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-[16px] text-text-muted leading-[1.75] m-0">{section.body}</p>
                 </div>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
               </>
             )}
@@ -579,148 +300,53 @@ export default function Tablon() {
       ))}
 
       {/* CTA strip */}
-      <div className="bg-[#00201B] p-[64px_24px]">
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 24,
-            flexWrap: "wrap",
-          }}
-        >
+      <div className="bg-[#00201B] px-6 py-16">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-6 flex-wrap">
           <Link
             to="/tablon"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#0D9488",
-              color: "#fff",
-              borderRadius: 12,
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
+            className="inline-flex items-center gap-2 bg-[#0D9488] hover:bg-[#005047] text-white rounded-xl px-8 py-4 text-[15px] font-bold no-underline transition-colors duration-200"
           >
-            Ver los avisos <IconChevronRight className="w-[16px] h-[16px]" />
+            Ver los avisos <IconChevronRight className="w-4 h-4" />
           </Link>
           <button
             onClick={() => setShowNew(true)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "transparent",
-              color: "#fff",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.3)",
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "border-color 0.2s, background 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff";
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-              e.currentTarget.style.background = "transparent";
-            }}
+            className="inline-flex items-center gap-2 bg-transparent hover:bg-white/5 text-white rounded-xl border border-white/30 hover:border-white px-8 py-4 text-[15px] font-bold cursor-pointer transition-colors duration-200"
           >
             {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}{" "}
-            <IconChevronRight className="w-[16px] h-[16px]" />
+            <IconChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
       {/* New post modal */}
       {showNew && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 200,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-        >
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-5">
           <button
             type="button"
             aria-label="Cerrar"
             onClick={() => setShowNew(false)}
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,32,27,0.6)",
-              backdropFilter: "blur(4px)",
-              border: "none",
-              padding: 0,
-              cursor: "default",
-            }}
+            className="absolute inset-0 bg-[#00201B]/60 backdrop-blur-sm border-none p-0 cursor-default"
           />
-          <div
-            style={{
-              position: "relative",
-              background: "#fff",
-              borderRadius: 20,
-              width: "100%",
-              maxWidth: 480,
-              padding: "32px 28px",
-              boxShadow: "0 24px 80px rgba(0,0,0,0.2)",
-            }}
-          >
-            <h3
-              style={{
-                fontFamily: "Gloock, Georgia, serif",
-                fontSize: 22,
-                color: "#00201B",
-                margin: "0 0 6px",
-              }}
-            >
+          <div className="relative bg-white rounded-[20px] w-full max-w-[480px] px-7 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
+            <h3 className="font-display text-[22px] text-[#00201B] m-0 mb-1.5">
               {canPublishDirect ? "Publicar aviso" : "Solicitar publicación"}
             </h3>
-            <p style={{ fontSize: 13, color: "#64748B", margin: "0 0 24px" }}>
+            <p className="text-[13px] text-text-muted m-0 mb-6">
               {canPublishDirect
                 ? "El aviso quedará publicado de inmediato en el tablón comunitario."
                 : "Tu solicitud será revisada por el comité antes de publicarse."}
             </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div className="flex flex-col gap-3.5">
               <div>
                 <label
                   htmlFor="nuevo-aviso-tipo"
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "#64748B",
-                    display: "block",
-                    marginBottom: 6,
-                  }}
+                  className="text-[12px] font-semibold text-text-muted block mb-1.5"
                 >
                   Tipo
                 </label>
                 <select
                   id="nuevo-aviso-tipo"
-                  style={{
-                    width: "100%",
-                    padding: "10px 12px",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: 8,
-                    fontSize: 14,
-                    color: "#00201B",
-                    background: "#fff",
-                    outline: "none",
-                  }}
+                  className="w-full px-3 py-2.5 border border-border rounded-lg text-[14px] text-[#00201B] bg-white outline-none focus:border-[#0D9488]"
                 >
                   <option>Aviso de interés comunitario</option>
                   <option>Rifa / bazar</option>
@@ -730,13 +356,7 @@ export default function Tablon() {
               <div>
                 <label
                   htmlFor="nuevo-aviso-titulo"
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "#64748B",
-                    display: "block",
-                    marginBottom: 6,
-                  }}
+                  className="text-[12px] font-semibold text-text-muted block mb-1.5"
                 >
                   Título
                 </label>
@@ -744,30 +364,13 @@ export default function Tablon() {
                   id="nuevo-aviso-titulo"
                   type="text"
                   placeholder="Título del aviso"
-                  style={{
-                    width: "100%",
-                    padding: "10px 12px",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: 8,
-                    fontSize: 14,
-                    color: "#00201B",
-                    outline: "none",
-                    boxSizing: "border-box",
-                  }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = "#0D9488")}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E2E8F0")}
+                  className="w-full px-3 py-2.5 border border-border rounded-lg text-[14px] text-[#00201B] outline-none box-border focus:border-[#0D9488]"
                 />
               </div>
               <div>
                 <label
                   htmlFor="nuevo-aviso-desc"
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: "#64748B",
-                    display: "block",
-                    marginBottom: 6,
-                  }}
+                  className="text-[12px] font-semibold text-text-muted block mb-1.5"
                 >
                   Descripción
                 </label>
@@ -775,53 +378,20 @@ export default function Tablon() {
                   id="nuevo-aviso-desc"
                   rows={4}
                   placeholder="Descripción detallada..."
-                  style={{
-                    width: "100%",
-                    padding: "10px 12px",
-                    border: "1px solid #E2E8F0",
-                    borderRadius: 8,
-                    fontSize: 14,
-                    color: "#00201B",
-                    outline: "none",
-                    resize: "vertical",
-                    fontFamily: "inherit",
-                    boxSizing: "border-box",
-                  }}
-                  onFocus={(e) => (e.currentTarget.style.borderColor = "#0D9488")}
-                  onBlur={(e) => (e.currentTarget.style.borderColor = "#E2E8F0")}
+                  className="w-full px-3 py-2.5 border border-border rounded-lg text-[14px] text-[#00201B] outline-none resize-y font-sans box-border focus:border-[#0D9488]"
                 />
               </div>
             </div>
-            <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+            <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowNew(false)}
-                style={{
-                  flex: 1,
-                  padding: "12px",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  borderRadius: 10,
-                  border: "1px solid #E2E8F0",
-                  background: "#fff",
-                  color: "#64748B",
-                  cursor: "pointer",
-                }}
+                className="flex-1 p-3 text-[14px] font-semibold rounded-[10px] border border-border bg-white text-text-muted cursor-pointer hover:bg-gray-50"
               >
                 Cancelar
               </button>
               <button
                 onClick={() => setShowNew(false)}
-                style={{
-                  flex: 2,
-                  padding: "12px",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  borderRadius: 10,
-                  border: "none",
-                  background: "#0D9488",
-                  color: "#fff",
-                  cursor: "pointer",
-                }}
+                className="flex-[2] p-3 text-[14px] font-bold rounded-[10px] border-none bg-[#0D9488] text-white cursor-pointer hover:bg-[#005047]"
               >
                 {canPublishDirect ? "Publicar" : "Enviar solicitud"}
               </button>
