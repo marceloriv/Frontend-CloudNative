@@ -343,163 +343,45 @@ function HeroSection() {
   const quickLinks = HERO_QUICK_LINKS;
 
   return (
-    <section
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        overflow: "hidden",
-      }}
-    >
+    <section className="relative min-h-[100vh] flex items-center overflow-hidden">
       {/* Background photo */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1624204386084-dd8c05e32226?w=1800&h=1100&fit=crop&auto=format)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1624204386084-dd8c05e32226?w=1800&h=1100&fit=crop&auto=format')] bg-cover bg-center" />
 
       {/* Dark gradient overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(110deg,rgba(0,32,27,0.93) 0%,rgba(13,148,136,0.35) 55%,rgba(0,0,0,0.15) 100%)",
-        }}
-      />
+      <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(0,32,27,0.93)_0%,rgba(13,148,136,0.35)_55%,rgba(0,0,0,0.15)_100%)]" />
 
       {/* ── Animated blobs (subtle, behind text) ── */}
       <div
-        className="cv-blob"
-        style={
-          {
-            position: "absolute",
-            borderRadius: "50%",
-            pointerEvents: "none",
-            width: 520,
-            height: 520,
-            top: "-80px",
-            left: "-120px",
-            background: "radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 70%)",
-            filter: "blur(40px)",
-            "--drift-dur": "14s",
-          } as React.CSSProperties
-        }
+        className="cv-blob absolute rounded-full pointer-events-none w-[520px] h-[520px] top-[-80px] left-[-120px] bg-[radial-gradient(circle,rgba(13,148,136,0.18)_0%,transparent_70%)] blur-[40px]"
+        style={{ "--drift-dur": "14s" } as React.CSSProperties}
       />
       <div
-        className="cv-blob"
-        style={
-          {
-            position: "absolute",
-            borderRadius: "50%",
-            pointerEvents: "none",
-            width: 380,
-            height: 380,
-            bottom: "60px",
-            left: "38%",
-            background: "radial-gradient(circle, rgba(0,80,71,0.22) 0%, transparent 70%)",
-            filter: "blur(50px)",
-            "--drift-dur": "18s",
-            animationDelay: "-6s",
-          } as React.CSSProperties
-        }
+        className="cv-blob absolute rounded-full pointer-events-none w-[380px] h-[380px] bottom-[60px] left-[38%] bg-[radial-gradient(circle,rgba(0,80,71,0.22)_0%,transparent_70%)] blur-[50px]"
+        style={{ "--drift-dur": "18s", animationDelay: "-6s" } as React.CSSProperties}
       />
       <div
-        className="cv-blob"
-        style={
-          {
-            position: "absolute",
-            borderRadius: "50%",
-            pointerEvents: "none",
-            width: 260,
-            height: 260,
-            top: "30%",
-            right: "8%",
-            background: "radial-gradient(circle, rgba(94,234,212,0.10) 0%, transparent 70%)",
-            filter: "blur(32px)",
-            "--drift-dur": "11s",
-            animationDelay: "-3s",
-          } as React.CSSProperties
-        }
+        className="cv-blob absolute rounded-full pointer-events-none w-[260px] h-[260px] top-[30%] right-[8%] bg-[radial-gradient(circle,rgba(94,234,212,0.10)_0%,transparent_70%)] blur-[32px]"
+        style={{ "--drift-dur": "11s", animationDelay: "-3s" } as React.CSSProperties}
       />
 
       {/* ── Content ── */}
-      <div
-        style={{
-          position: "relative",
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "clamp(96px,10vw,140px) 24px 80px",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 420px",
-            gap: 56,
-            alignItems: "center",
-          }}
-          className="hero-grid"
-        >
+      <div className="relative max-w-[1280px] mx-auto pt-[clamp(96px,10vw,140px)] pr-[24px] pb-[clamp(96px,10vw,140px)] pl-[80px] w-full">
+        <div className="hero-grid grid grid-cols-[1fr_420px] gap-14 items-center">
           {/* Left col — staggered entrance */}
           <div>
             {/* Badge */}
-            <div
-              className="cv-hero-badge"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "rgba(13,148,136,0.22)",
-                border: "1px solid rgba(13,148,136,0.45)",
-                borderRadius: 100,
-                padding: "5px 14px",
-                marginBottom: 28,
-              }}
-            >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: "#4ADE80",
-                  display: "inline-block",
-                }}
-              />
-              <span
-                style={{
-                  fontSize: 12,
-                  color: "#fff",
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
-                }}
-              >
+            <div className="cv-hero-badge inline-flex items-center gap-2 bg-[#0D9488]/22 border border-[#0D9488]/45 rounded-full py-[5px] px-[14px] mb-7">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4ADE80] inline-block" />
+              <span className="text-[12px] text-white font-medium tracking-[0.05em]">
                 Torres del Parque · Plataforma activa
               </span>
             </div>
 
             {/* H1 */}
-            <h1
-              className="cv-hero-h1"
-              style={{
-                fontFamily: "Gloock,Georgia,serif",
-                fontSize: "clamp(38px,5.2vw,68px)",
-                lineHeight: 1.07,
-                color: "#fff",
-                margin: "0 0 22px",
-                fontWeight: 400,
-              }}
-            >
+            <h1 className="cv-hero-h1 font-['Gloock',Georgia,serif] text-[clamp(38px,5.2vw,68px)] leading-[1.07] text-white m-0 mb-[22px] font-normal">
               Gestión simple.
               <br />
-              <span style={{ color: "#5EEAD4" }}>
+              <span className="text-[#5EEAD4]">
                 Comunidad
                 <br />
                 conectada.
@@ -507,96 +389,33 @@ function HeroSection() {
             </h1>
 
             {/* Subtitle */}
-            <p
-              className="cv-hero-subtitle"
-              style={{
-                fontSize: 17,
-                lineHeight: 1.72,
-                color: "rgba(255,255,255,0.78)",
-                margin: "0 0 36px",
-                fontWeight: 300,
-                maxWidth: 520,
-              }}
-            >
+            <p className="cv-hero-subtitle text-[17px] leading-[1.72] text-white/78 m-0 mb-9 font-light max-w-[520px]">
               Plataforma digital para condominios en Chile. Reservas, gastos, avisos y seguridad —
               todo en un lugar.
             </p>
 
             {/* CTAs */}
-            <div
-              className="cv-hero-ctas"
-              style={{
-                display: "flex",
-                gap: 12,
-                flexWrap: "wrap",
-                marginBottom: 36,
-              }}
-            >
+            <div className="cv-hero-ctas flex gap-3 flex-wrap mb-9">
               <Link
                 to="/crear-cuenta"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "#0D9488",
-                  color: "#fff",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  padding: "13px 26px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  transition: "background 0.2s, transform 0.15s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#005047";
-                  e.currentTarget.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#0D9488";
-                  e.currentTarget.style.transform = "none";
-                }}
+                className="inline-flex items-center gap-2 bg-[#0D9488] text-white font-bold text-[14px] py-[13px] px-[26px] rounded-[10px] no-underline transition-all hover:bg-[#005047] hover:-translate-y-[1px]"
               >
                 Crear cuenta <IconChevronRight className="w-[14px] h-[14px]" />
               </Link>
               <Link
                 to="/login"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "rgba(255,255,255,0.12)",
-                  color: "#fff",
-                  fontWeight: 600,
-                  fontSize: 14,
-                  padding: "13px 26px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  border: "1px solid rgba(255,255,255,0.28)",
-                  transition: "background 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.22)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
+                className="inline-flex items-center gap-2 bg-white/12 text-white font-semibold text-[14px] py-[13px] px-[26px] rounded-[10px] no-underline border border-white/28 transition-colors hover:bg-white/22"
               >
                 Iniciar sesión
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div className="cv-hero-badges" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div className="cv-hero-badges flex gap-3 flex-wrap">
               {TRUST_BADGES.map((b) => (
                 <span
                   key={b.text}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontSize: 12,
-                    color: "rgba(255,255,255,0.7)",
-                    background: "rgba(255,255,255,0.08)",
-                    borderRadius: 100,
-                    padding: "6px 12px",
-                    border: "1px solid rgba(255,255,255,0.14)",
-                  }}
+                  className="inline-flex items-center gap-[6px] text-[12px] text-white/70 bg-white/5 rounded-full py-[6px] px-[12px] border border-white/10"
                 >
                   {b.icon} {b.text}
                 </span>
@@ -605,92 +424,27 @@ function HeroSection() {
           </div>
 
           {/* Right: glassmorphism quick-access card */}
-          <div
-            className="cv-hero-card"
-            style={{
-              background: "rgba(255,255,255,0.07)",
-              backdropFilter: "blur(18px)",
-              borderRadius: 20,
-              border: "1px solid rgba(255,255,255,0.14)",
-              padding: "28px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: "rgba(255,255,255,0.55)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                margin: "0 0 18px",
-              }}
-            >
+          <div className="cv-hero-card bg-white/5 backdrop-blur-[18px] rounded-[20px] border border-white/10 p-7">
+            <p className="text-[11px] font-bold text-white/55 tracking-[0.1em] uppercase m-0 mb-[18px]">
               Acceso rápido
             </p>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 10,
-              }}
-            >
+            <div className="grid grid-cols-2 gap-2.5">
               {quickLinks.map((item) => (
-                <Link key={item.label} to={item.path} style={{ textDecoration: "none" }}>
-                  <div
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      borderRadius: 12,
-                      padding: "15px 12px",
-                      border: "1px solid rgba(255,255,255,0.09)",
-                      transition: "background 0.2s, transform 0.15s",
-                      cursor: "pointer",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.15)";
-                      e.currentTarget.style.transform = "translateY(-1px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                      e.currentTarget.style.transform = "none";
-                    }}
-                  >
-                    <div style={{ color: item.color, marginBottom: 8 }}>{item.icon}</div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: "#fff",
-                        lineHeight: 1.2,
-                      }}
-                    >
+                <Link key={item.label} to={item.path} className="no-underline group">
+                  <div className="bg-white/5 rounded-xl py-[15px] px-[12px] border border-white/10 transition-all cursor-pointer group-hover:bg-white/15 group-hover:-translate-y-[1px]">
+                    <div className="mb-2" style={{ color: item.color }}>
+                      {item.icon}
+                    </div>
+                    <div className="text-[12px] font-semibold text-white leading-[1.2]">
                       {item.label}
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
-            <div
-              style={{
-                marginTop: 18,
-                paddingTop: 14,
-                borderTop: "1px solid rgba(255,255,255,0.1)",
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "#4ADE80",
-                  display: "inline-block",
-                }}
-              />
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>
-                Conserjería en línea · Interno 100
-              </span>
+            <div className="mt-[18px] pt-[14px] border-t border-white/10 flex items-center gap-2">
+              <span className="w-[7px] h-[7px] rounded-full bg-[#4ADE80] inline-block" />
+              <span className="text-[12px] text-white/55">Conserjería en línea · Interno 100</span>
             </div>
           </div>
         </div>
@@ -701,40 +455,14 @@ function HeroSection() {
 
 function StatsBar() {
   return (
-    <section style={{ background: "#00201B", padding: "52px 24px" }}>
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gap: 32,
-          textAlign: "center",
-        }}
-        className="stats-grid"
-      >
+    <section className="bg-[#00201B] py-[52px] px-6">
+      <div className="stats-grid max-w-[1280px] mx-auto grid grid-cols-4 gap-8 text-center">
         {STATS.map((s) => (
           <div key={s.label}>
-            <div
-              style={{
-                fontFamily: "Gloock,Georgia,serif",
-                fontSize: "clamp(36px,4vw,52px)",
-                color: "#5EEAD4",
-                lineHeight: 1,
-              }}
-            >
+            <div className="font-['Gloock',Georgia,serif] text-[clamp(36px,4vw,52px)] text-[#5EEAD4] leading-none">
               <Counter target={s.target} suffix={s.suffix} label={s.label} />
             </div>
-            <div
-              style={{
-                fontSize: 13,
-                color: "rgba(255,255,255,0.5)",
-                marginTop: 8,
-                fontWeight: 500,
-              }}
-            >
-              {s.label}
-            </div>
+            <div className="text-[13px] text-white/50 mt-2 font-medium">{s.label}</div>
           </div>
         ))}
       </div>
@@ -747,64 +475,28 @@ function ModuleTabs() {
   const m = MODULOS[active];
 
   return (
-    <section style={{ background: "#fff", padding: "100px 24px" }}>
+    <section className="bg-white py-[100px] px-6">
       <div className="max-w-[1280px] mx-auto">
-        <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto 48px" }}>
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+        <div className="text-center max-w-[520px] mx-auto mb-12">
+          <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.12em] uppercase mb-3">
             Plataforma completa
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock,Georgia,serif",
-              fontSize: "clamp(28px,3.5vw,44px)",
-              color: "#00201B",
-              lineHeight: 1.15,
-              margin: 0,
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-['Gloock',Georgia,serif] text-[clamp(28px,3.5vw,44px)] text-[#00201B] leading-[1.15] m-0 font-normal">
             Un ecosistema para tu condominio
           </h2>
         </div>
 
         {/* Tab bar */}
-        <div
-          style={{
-            display: "flex",
-            gap: 6,
-            justifyContent: "center",
-            flexWrap: "wrap",
-            marginBottom: 48,
-          }}
-        >
+        <div className="flex gap-1.5 justify-center flex-wrap mb-12">
           {MODULOS.map((mod, i) => (
             <button
               key={mod.label}
               onClick={() => setActive(i)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 7,
-                padding: "9px 18px",
-                borderRadius: 10,
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: "pointer",
-                border: "1.5px solid",
-                borderColor: active === i ? "#0D9488" : "#E2E8F0",
-                background: active === i ? "#0D9488" : "#fff",
-                color: active === i ? "#fff" : "#64748B",
-                transition: "border-color 0.18s, background 0.18s, color 0.18s",
-              }}
+              className={`flex items-center gap-[7px] py-[9px] px-[18px] rounded-[10px] text-[13px] font-semibold cursor-pointer border-[1.5px] transition-colors ${
+                active === i
+                  ? "border-[#0D9488] bg-[#0D9488] text-white"
+                  : "border-[#E2E8F0] bg-white text-[#64748B]"
+              }`}
             >
               {mod.icon} {mod.label}
             </button>
@@ -812,111 +504,24 @@ function ModuleTabs() {
         </div>
 
         {/* Tab content */}
-        <div
-          key={active}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 64,
-            alignItems: "center",
-          }}
-          className="tab-content-grid"
-        >
-          <div
-            style={{
-              borderRadius: 20,
-              overflow: "hidden",
-              height: 380,
-              background: "#E2E8F0",
-              boxShadow: "0 20px 60px rgba(0,0,0,0.11)",
-            }}
-          >
-            <img
-              src={m.img}
-              alt={m.label}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
+        <div key={active} className="tab-content-grid grid grid-cols-2 gap-16 items-center">
+          <div className="rounded-[20px] overflow-hidden h-[380px] bg-[#E2E8F0] shadow-[0_20px_60px_rgba(0,0,0,0.11)]">
+            <img src={m.img} alt={m.label} className="w-full h-full object-cover" />
           </div>
           <div>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#F0FDFA",
-                borderRadius: 8,
-                padding: "5px 14px",
-                marginBottom: 20,
-                color: "#005047",
-              }}
-            >
+            <div className="inline-flex items-center gap-2 bg-[#F0FDFA] rounded-lg py-[5px] px-[14px] mb-5 text-[#005047]">
               {m.icon}
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                }}
-              >
-                {m.label}
-              </span>
+              <span className="text-[11px] font-bold tracking-[0.08em] uppercase">{m.label}</span>
             </div>
-            <h3
-              style={{
-                fontFamily: "Gloock,Georgia,serif",
-                fontSize: "clamp(22px,2.8vw,34px)",
-                color: "#00201B",
-                lineHeight: 1.2,
-                margin: "0 0 16px",
-                fontWeight: 400,
-              }}
-            >
+            <h3 className="font-['Gloock',Georgia,serif] text-[clamp(22px,2.8vw,34px)] text-[#00201B] leading-[1.2] m-0 mb-4 font-normal">
               {m.headline}
             </h3>
-            <p
-              style={{
-                fontSize: 15,
-                color: "#64748B",
-                lineHeight: 1.75,
-                margin: "0 0 28px",
-              }}
-            >
-              {m.body}
-            </p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 12,
-                marginBottom: 32,
-              }}
-            >
+            <p className="text-[15px] text-[#64748B] leading-[1.75] m-0 mb-7">{m.body}</p>
+            <div className="flex flex-col gap-3 mb-8">
               {m.points.map((p) => (
-                <div
-                  key={p}
-                  style={{
-                    display: "flex",
-                    gap: 10,
-                    alignItems: "flex-start",
-                    fontSize: 14,
-                    color: "#00201B",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 20,
-                      height: 20,
-                      borderRadius: "50%",
-                      background: "#CCFBF1",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      marginTop: 1,
-                    }}
-                  >
-                    <IconCheck style={{ width: 11, height: 11, color: "#005047" }} />
+                <div key={p} className="flex gap-2.5 items-start text-[14px] text-[#00201B]">
+                  <div className="w-5 h-5 rounded-full bg-[#CCFBF1] flex items-center justify-center shrink-0 mt-[1px]">
+                    <IconCheck className="w-[11px] h-[11px] text-[#005047]" />
                   </div>
                   {p}
                 </div>
@@ -924,21 +529,7 @@ function ModuleTabs() {
             </div>
             <Link
               to={m.path}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#0D9488",
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: 14,
-                padding: "12px 24px",
-                borderRadius: 10,
-                textDecoration: "none",
-                transition: "background 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
+              className="inline-flex items-center gap-2 bg-[#0D9488] text-white font-bold text-[14px] py-[12px] px-[24px] rounded-[10px] no-underline transition-colors hover:bg-[#005047]"
             >
               Ir a {m.label} <IconChevronRight className="w-[14px] h-[14px]" />
             </Link>
@@ -951,116 +542,42 @@ function ModuleTabs() {
 
 function HowItWorks() {
   return (
-    <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
+    <section className="bg-[#F8FAFB] py-[100px] px-6">
       <div className="max-w-[1280px] mx-auto">
-        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 72px" }}>
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+        <div className="text-center max-w-[440px] mx-auto mb-[72px]">
+          <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.12em] uppercase mb-3">
             Así funciona
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock,Georgia,serif",
-              fontSize: "clamp(28px,3.5vw,42px)",
-              color: "#00201B",
-              lineHeight: 1.2,
-              margin: 0,
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-['Gloock',Georgia,serif] text-[clamp(28px,3.5vw,42px)] text-[#00201B] leading-[1.2] m-0 font-normal">
             En 4 pasos ya formas parte
           </h2>
         </div>
 
         {/* Steps with CSS connector line */}
-        <div style={{ position: "relative" }}>
+        <div className="relative">
           {/* Connector */}
-          <div
-            style={{
-              position: "absolute",
-              top: 36,
-              left: "12.5%",
-              right: "12.5%",
-              height: 2,
-              background:
-                "linear-gradient(90deg,transparent,#CCFBF1 10%,#0D9488 50%,#CCFBF1 90%,transparent)",
-              zIndex: 0,
-            }}
-            className="steps-line"
-          />
+          <div className="steps-line absolute top-[36px] left-[12.5%] right-[12.5%] h-[2px] z-0 bg-[linear-gradient(90deg,transparent,#CCFBF1_10%,#0D9488_50%,#CCFBF1_90%,transparent)]" />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4,1fr)",
-              gap: 8,
-            }}
-            className="steps-grid"
-          >
+          <div className="steps-grid grid grid-cols-4 gap-2">
             {PASOS.map((p, i) => (
-              <div
-                key={p.titulo}
-                style={{
-                  textAlign: "center",
-                  padding: "0 16px",
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
+              <div key={p.titulo} className="text-center px-4 relative z-10">
                 <div
-                  style={{
-                    width: 72,
-                    height: 72,
-                    borderRadius: "50%",
-                    margin: "0 auto 24px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: i === 0 ? "#0D9488" : "#fff",
-                    border: `3px solid ${i === 0 ? "#0D9488" : "#CCFBF1"}`,
-                    boxShadow: "0 4px 20px rgba(13,148,136,0.14)",
-                  }}
+                  className={`w-[72px] h-[72px] rounded-full mx-auto mb-6 flex items-center justify-center shadow-[0_4px_20px_rgba(13,148,136,0.14)] border-[3px] ${
+                    i === 0 ? "bg-[#0D9488] border-[#0D9488]" : "bg-white border-[#CCFBF1]"
+                  }`}
                 >
                   <span
-                    style={{
-                      fontFamily: "Gloock,Georgia,serif",
-                      fontSize: 24,
-                      color: i === 0 ? "#fff" : "#0D9488",
-                      fontWeight: 400,
-                    }}
+                    className={`font-['Gloock',Georgia,serif] text-[24px] font-normal ${
+                      i === 0 ? "text-white" : "text-[#0D9488]"
+                    }`}
                   >
                     {i + 1}
                   </span>
                 </div>
-                <h4
-                  style={{
-                    fontFamily: "Gloock,Georgia,serif",
-                    fontSize: 17,
-                    color: "#00201B",
-                    margin: "0 0 10px",
-                    fontWeight: 400,
-                  }}
-                >
+                <h4 className="font-['Gloock',Georgia,serif] text-[17px] text-[#00201B] m-0 mb-[10px] font-normal">
                   {p.titulo}
                 </h4>
-                <p
-                  style={{
-                    fontSize: 13,
-                    color: "#64748B",
-                    lineHeight: 1.65,
-                    margin: 0,
-                  }}
-                >
-                  {p.desc}
-                </p>
+                <p className="text-[13px] text-[#64748B] leading-[1.65] m-0">{p.desc}</p>
               </div>
             ))}
           </div>
@@ -1101,118 +618,41 @@ function FeatureSections() {
   const sections = FEATURE_SECTIONS;
 
   return (
-    <section style={{ background: "#fff", padding: "100px 24px" }}>
-      <div
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: 96,
-        }}
-      >
+    <section className="bg-white py-[100px] px-6">
+      <div className="max-w-[1280px] mx-auto flex flex-col gap-24">
         {sections.map((s) => (
           <div
             key={s.label}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 64,
-              alignItems: "center",
-              direction: s.imgLeft ? "rtl" : "ltr",
-            }}
-            className="alt-grid"
+            className="alt-grid grid grid-cols-2 gap-16 items-center"
+            style={{ direction: s.imgLeft ? "rtl" : "ltr" }}
           >
             <div
-              style={{
-                borderRadius: 20,
-                overflow: "hidden",
-                height: 360,
-                background: "#E2E8F0",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
-                direction: "ltr",
-              }}
+              className="rounded-[20px] overflow-hidden h-[360px] bg-[#E2E8F0] shadow-[0_20px_60px_rgba(0,0,0,0.1)]"
+              style={{ direction: "ltr" }}
             >
-              <img
-                src={s.img}
-                alt={s.label}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
+              <img src={s.img} alt={s.label} className="w-full h-full object-cover" />
             </div>
             <div style={{ direction: "ltr" }}>
-              <p
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: "#0D9488",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 14,
-                }}
-              >
+              <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.1em] uppercase mb-[14px]">
                 {s.label}
               </p>
-              <h2
-                style={{
-                  fontFamily: "Gloock,Georgia,serif",
-                  fontSize: "clamp(24px,3vw,38px)",
-                  color: "#00201B",
-                  lineHeight: 1.2,
-                  margin: "0 0 16px",
-                  fontWeight: 400,
-                }}
-              >
+              <h2 className="font-['Gloock',Georgia,serif] text-[clamp(24px,3vw,38px)] text-[#00201B] leading-[1.2] m-0 mb-4 font-normal">
                 {s.headline}
               </h2>
-              <p
-                style={{
-                  fontSize: 15,
-                  color: "#64748B",
-                  lineHeight: 1.75,
-                  margin: "0 0 28px",
-                }}
-              >
-                {s.body}
-              </p>
-              <div style={{ display: "flex", gap: 36, marginBottom: 32 }}>
+              <p className="text-[15px] text-[#64748B] leading-[1.75] m-0 mb-7">{s.body}</p>
+              <div className="flex gap-9 mb-8">
                 {s.stats.map((st) => (
                   <div key={st.sub}>
-                    <div
-                      style={{
-                        fontFamily: "Gloock,Georgia,serif",
-                        fontSize: 32,
-                        color: "#0D9488",
-                      }}
-                    >
+                    <div className="font-['Gloock',Georgia,serif] text-[32px] text-[#0D9488]">
                       {st.val}
                     </div>
-                    <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>{st.sub}</div>
+                    <div className="text-[12px] text-[#94A3B8] mt-0.5">{st.sub}</div>
                   </div>
                 ))}
               </div>
               <Link
                 to={s.cta.path}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  border: "2px solid #0D9488",
-                  color: "#0D9488",
-                  fontWeight: 700,
-                  fontSize: 14,
-                  padding: "11px 22px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  transition: "background 0.2s, color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#0D9488";
-                  e.currentTarget.style.color = "#fff";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#0D9488";
-                }}
+                className="inline-flex items-center gap-2 border-2 border-[#0D9488] text-[#0D9488] font-bold text-[14px] py-[11px] px-[22px] rounded-[10px] no-underline transition-colors hover:bg-[#0D9488] hover:text-white"
               >
                 {s.cta.label} <IconChevronRight className="w-[14px] h-[14px]" />
               </Link>
@@ -1226,102 +666,32 @@ function FeatureSections() {
 
 function TestimonialsSection() {
   return (
-    <section style={{ background: "#F8FAFB", padding: "100px 24px" }}>
+    <section className="bg-[#F8FAFB] py-[100px] px-6">
       <div className="max-w-[1280px] mx-auto">
-        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+        <div className="text-center max-w-[440px] mx-auto mb-14">
+          <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.12em] uppercase mb-3">
             Lo que dicen
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock,Georgia,serif",
-              fontSize: "clamp(28px,3.5vw,42px)",
-              color: "#00201B",
-              lineHeight: 1.2,
-              margin: 0,
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-['Gloock',Georgia,serif] text-[clamp(28px,3.5vw,42px)] text-[#00201B] leading-[1.2] m-0 font-normal">
             La comunidad habla
           </h2>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: 22,
-          }}
-          className="testi-grid"
-        >
+        <div className="testi-grid grid grid-cols-3 gap-[22px]">
           {TESTIMONIOS.map((t) => (
             <div
               key={t.nombre}
-              style={{
-                background: "#fff",
-                border: "1px solid #E2E8F0",
-                borderRadius: 18,
-                padding: "32px 28px",
-                transition: "box-shadow 0.2s, transform 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = "0 12px 40px rgba(13,148,136,0.09)";
-                e.currentTarget.style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = "none";
-                e.currentTarget.style.transform = "none";
-              }}
+              className="bg-white border border-[#E2E8F0] rounded-[18px] py-8 px-7 transition-all hover:shadow-[0_12px_40px_rgba(13,148,136,0.09)] hover:-translate-y-[3px]"
             >
-              <div
-                style={{
-                  fontSize: 48,
-                  color: "#CCFBF1",
-                  fontFamily: "Georgia,serif",
-                  lineHeight: 1,
-                  marginBottom: 16,
-                }}
-              >
+              <div className="text-[48px] text-[#CCFBF1] font-['Georgia',serif] leading-none mb-4">
                 "
               </div>
-              <p
-                style={{
-                  fontSize: 15,
-                  color: "#00201B",
-                  lineHeight: 1.75,
-                  margin: "0 0 24px",
-                  fontStyle: "italic",
-                }}
-              >
-                {t.cita}
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg,#CCFBF1,#0D9488)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#fff",
-                    fontFamily: "Gloock,Georgia,serif",
-                    fontSize: 15,
-                  }}
-                >
+              <p className="text-[15px] text-[#00201B] leading-[1.75] m-0 mb-6 italic">{t.cita}</p>
+              <div className="flex items-center gap-3">
+                <div className="w-[42px] h-[42px] rounded-full bg-[linear-gradient(135deg,#CCFBF1,#0D9488)] flex items-center justify-center text-white font-['Gloock',Georgia,serif] text-[15px]">
                   {t.iniciales}
                 </div>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: "#00201B" }}>{t.nombre}</div>
+                  <div className="text-[14px] font-bold text-[#00201B]">{t.nombre}</div>
                   <div className="text-[12px] text-[#94A3B8]">{t.rol}</div>
                 </div>
               </div>
@@ -1335,184 +705,69 @@ function TestimonialsSection() {
 
 function PricingSection() {
   return (
-    <section style={{ background: "#00201B", padding: "100px 24px" }}>
+    <section className="bg-[#00201B] py-[100px] px-6">
       <div className="max-w-[1280px] mx-auto">
-        <div style={{ textAlign: "center", maxWidth: 440, margin: "0 auto 56px" }}>
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#5EEAD4",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+        <div className="text-center max-w-[440px] mx-auto mb-14">
+          <p className="text-[11px] font-bold text-[#5EEAD4] tracking-[0.12em] uppercase mb-3">
             Planes y precios
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock,Georgia,serif",
-              fontSize: "clamp(28px,3.5vw,42px)",
-              color: "#fff",
-              lineHeight: 1.2,
-              margin: "0 0 14px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-['Gloock',Georgia,serif] text-[clamp(28px,3.5vw,42px)] text-white leading-[1.2] m-0 mb-3.5 font-normal">
             Simple y transparente
           </h2>
-          <p style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", margin: 0 }}>
+          <p className="text-[15px] text-white/55 m-0">
             Sin costos ocultos ni letras chicas.{" "}
-            <Link
-              to="/precios"
-              style={{
-                color: "#5EEAD4",
-                textDecoration: "none",
-                fontWeight: 600,
-              }}
-            >
+            <Link to="/precios" className="text-[#5EEAD4] no-underline font-semibold">
               Ver comparación completa →
             </Link>
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: 20,
-            alignItems: "stretch",
-          }}
-          className="pricing-grid"
-        >
+        <div className="pricing-grid grid grid-cols-3 gap-5 items-stretch">
           {PRICING.map((plan) => (
             <div
               key={plan.name}
-              style={{
-                borderRadius: 20,
-                padding: plan.highlight ? "40px 28px" : "32px 28px",
-                background: plan.highlight ? "#0D9488" : "rgba(255,255,255,0.05)",
-                border: `1px solid ${plan.highlight ? "#0D9488" : "rgba(255,255,255,0.1)"}`,
-                position: "relative",
-                overflow: "hidden",
-                transform: plan.highlight ? "scale(1.03)" : "scale(1)",
-                boxShadow: plan.highlight ? "0 24px 64px rgba(13,148,136,0.35)" : "none",
-              }}
+              className={`relative overflow-hidden rounded-[20px] border ${
+                plan.highlight
+                  ? "p-[40px_28px] bg-[#0D9488] border-[#0D9488] scale-[1.03] shadow-[0_24px_64px_rgba(13,148,136,0.35)]"
+                  : "p-[32px_28px] bg-white/5 border-white/10 scale-100 shadow-none"
+              }`}
             >
               {plan.badge && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 16,
-                    right: 16,
-                    background: "#fff",
-                    color: "#005047",
-                    fontSize: 10,
-                    fontWeight: 800,
-                    padding: "3px 10px",
-                    borderRadius: 100,
-                    letterSpacing: "0.06em",
-                  }}
-                >
+                <div className="absolute top-4 right-4 bg-white text-[#005047] text-[10px] font-extrabold py-[3px] px-[10px] rounded-full tracking-[0.06em]">
                   {plan.badge}
                 </div>
               )}
               <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  color: plan.highlight ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.55)",
-                  marginBottom: 8,
-                }}
+                className={`text-[14px] font-bold mb-2 ${plan.highlight ? "text-white/80" : "text-white/55"}`}
               >
                 {plan.name}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-end",
-                  gap: 4,
-                  marginBottom: 8,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "Gloock,Georgia,serif",
-                    fontSize: 38,
-                    color: "#fff",
-                    lineHeight: 1,
-                  }}
-                >
+              <div className="flex items-end gap-1 mb-2">
+                <span className="font-['Gloock',Georgia,serif] text-[38px] text-white leading-none">
                   {plan.price}
                 </span>
-                <span
-                  style={{
-                    fontSize: 14,
-                    color: "rgba(255,255,255,0.45)",
-                    marginBottom: 4,
-                  }}
-                >
-                  {plan.period}
-                </span>
+                <span className="text-[14px] text-white/45 mb-1">{plan.period}</span>
               </div>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "rgba(255,255,255,0.55)",
-                  lineHeight: 1.6,
-                  margin: "0 0 24px",
-                }}
-              >
-                {plan.desc}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                  marginBottom: 28,
-                }}
-              >
+              <p className="text-[13px] text-white/55 leading-[1.6] m-0 mb-6">{plan.desc}</p>
+              <div className="flex flex-col gap-2.5 mb-7">
                 {plan.features.map((f) => (
                   <div
                     key={f}
-                    style={{
-                      display: "flex",
-                      gap: 8,
-                      alignItems: "flex-start",
-                      fontSize: 13,
-                      color: plan.highlight ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.65)",
-                    }}
+                    className={`flex gap-2 items-start text-[13px] ${plan.highlight ? "text-white/90" : "text-white/65"}`}
                   >
                     <IconCheck
-                      style={{
-                        width: 13,
-                        height: 13,
-                        color: plan.highlight ? "#fff" : "#5EEAD4",
-                        flexShrink: 0,
-                        marginTop: 1,
-                      }}
+                      className={`w-[13px] h-[13px] shrink-0 mt-[1px] ${plan.highlight ? "text-white" : "text-[#5EEAD4]"}`}
                     />
                     {f}
                   </div>
                 ))}
               </div>
               <button
-                style={{
-                  width: "100%",
-                  padding: "13px",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  borderRadius: 10,
-                  cursor: "pointer",
-                  transition: "opacity 0.2s",
-                  background: plan.highlight ? "#fff" : "rgba(255,255,255,0.1)",
-                  color: plan.highlight ? "#0D9488" : "#fff",
-                  border: plan.highlight ? "none" : "1px solid rgba(255,255,255,0.2)",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                className={`w-full p-[13px] text-[14px] font-bold rounded-[10px] cursor-pointer transition-opacity hover:opacity-85 ${
+                  plan.highlight
+                    ? "bg-white text-[#0D9488] border-none"
+                    : "bg-white/10 text-white border border-white/20"
+                }`}
               >
                 {plan.cta}
               </button>
@@ -1526,82 +781,24 @@ function PricingSection() {
 
 function FinalCTA() {
   return (
-    <section
-      style={{
-        background: "linear-gradient(135deg,#0D9488 0%,#005047 100%)",
-        padding: "88px 24px",
-        textAlign: "center",
-      }}
-    >
-      <div style={{ maxWidth: 600, margin: "0 auto" }}>
-        <h2
-          style={{
-            fontFamily: "Gloock,Georgia,serif",
-            fontSize: "clamp(28px,4vw,48px)",
-            color: "#fff",
-            lineHeight: 1.12,
-            margin: "0 0 16px",
-            fontWeight: 400,
-          }}
-        >
+    <section className="bg-[linear-gradient(135deg,#0D9488_0%,#005047_100%)] py-[88px] px-6 text-center">
+      <div className="max-w-[600px] mx-auto">
+        <h2 className="font-['Gloock',Georgia,serif] text-[clamp(28px,4vw,48px)] text-white leading-[1.12] mb-4 font-normal">
           Tu condominio, conectado hoy
         </h2>
-        <p
-          style={{
-            fontSize: 16,
-            color: "rgba(255,255,255,0.75)",
-            lineHeight: 1.7,
-            margin: "0 0 36px",
-          }}
-        >
+        <p className="text-[16px] text-white/75 leading-[1.7] mb-9">
           Sin instalaciones, sin contratos mínimos. Empieza a gestionar en minutos.
         </p>
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="flex gap-3 justify-center flex-wrap">
           <Link
             to="/reservas"
-            style={{
-              background: "#fff",
-              color: "#005047",
-              fontWeight: 700,
-              fontSize: 15,
-              padding: "14px 32px",
-              borderRadius: 10,
-              textDecoration: "none",
-              transition: "transform 0.15s, box-shadow 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "none";
-              e.currentTarget.style.boxShadow = "none";
-            }}
+            className="bg-white text-[#005047] font-bold text-[15px] py-[14px] px-8 rounded-[10px] no-underline transition-all hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]"
           >
             Comenzar como residente
           </Link>
           <Link
             to="/precios"
-            style={{
-              background: "rgba(255,255,255,0.14)",
-              color: "#fff",
-              fontWeight: 600,
-              fontSize: 15,
-              padding: "14px 32px",
-              borderRadius: 10,
-              textDecoration: "none",
-              border: "1px solid rgba(255,255,255,0.32)",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.24)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.14)")}
+            className="bg-white/14 text-white font-semibold text-[15px] py-[14px] px-8 rounded-[10px] no-underline border border-white/32 transition-colors hover:bg-white/24"
           >
             Ver planes del comité
           </Link>

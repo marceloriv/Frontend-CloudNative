@@ -12,42 +12,24 @@ export function FlipCard({ front, back, height = 180 }: FlipCardProps) {
 
   return (
     <div
+      className="cursor-pointer [perspective:1000px]"
       onMouseEnter={() => setFlipped(true)}
       onMouseLeave={() => setFlipped(false)}
-      style={{ perspective: "1000px", height, cursor: "pointer" }}
+      style={{ height }}
     >
       <div
+        className="relative w-full h-full [transform-style:preserve-3d] transition-transform duration-[550ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
         style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-          transformStyle: "preserve-3d",
           transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-          transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
         }}
       >
         {/* Front */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-          }}
-        >
+        <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden]">
           {front}
         </div>
 
         {/* Back */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backfaceVisibility: "hidden",
-            WebkitBackfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-        >
+        <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)]">
           {back}
         </div>
       </div>

@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import React from "react";
 import { Link } from "react-router";
 import { channels } from "../lib/data";
@@ -19,13 +18,12 @@ const urgenciaBadge: Record<
   string,
   {
     label: string;
-    color: string;
-    bg: string;
+    className: string;
   }
 > = {
-  alta: { label: "Prioridad alta", color: "#EAB308", bg: "#FEFCE8" },
-  media: { label: "Prioridad media", color: "#0D9488", bg: "#F0FDFA" },
-  critica: { label: "Emergencia", color: "#E11D48", bg: "#FFF1F2" },
+  alta: { label: "Prioridad alta", className: "text-[#EAB308] bg-[#FEFCE8]" },
+  media: { label: "Prioridad media", className: "text-[#0D9488] bg-[#F0FDFA]" },
+  critica: { label: "Emergencia", className: "text-[#E11D48] bg-[#FFF1F2]" },
 };
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -93,85 +91,28 @@ export default function Canales() {
       {/* Dark hero header */}
       <div className="bg-[#00201B] p-[72px_24px_64px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.45)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
+          <p className="text-[11px] font-bold text-white/45 tracking-[0.14em] uppercase mb-4">
             Contacto directo
           </p>
-          <h1
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(36px, 5vw, 64px)",
-              color: "#fff",
-              lineHeight: 1.08,
-              margin: "0 0 18px",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="font-display text-[clamp(36px,5vw,64px)] text-white leading-[1.08] m-0 mb-[18px] font-normal">
             Canales de seguridad
           </h1>
-          <p
-            style={{
-              fontSize: 19,
-              color: "rgba(255,255,255,0.65)",
-              margin: 0,
-              maxWidth: 540,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[19px] text-white/65 m-0 max-w-[540px] leading-[1.65]">
             Todo el condominio, un clic para cada emergencia
           </p>
         </div>
       </div>
 
       {/* Existing header strip */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0D9488 0%, #005047 100%)",
-          padding: "40px 24px 36px",
-        }}
-      >
+      <div className="bg-gradient-to-br from-[#0D9488] to-[#005047] p-[40px_24px_36px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.6)",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 10,
-            }}
-          >
+          <p className="text-[11px] font-bold text-white/60 tracking-[0.12em] uppercase mb-[10px]">
             Contacto directo
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(24px, 3vw, 36px)",
-              color: "#fff",
-              lineHeight: 1.1,
-              margin: "0 0 10px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-display text-[clamp(24px,3vw,36px)] text-white leading-[1.1] m-0 mb-[10px] font-normal">
             Canales de Seguridad
           </h2>
-          <p
-            style={{
-              fontSize: 15,
-              color: "rgba(255,255,255,0.72)",
-              margin: 0,
-              maxWidth: 520,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[15px] text-white/72 m-0 max-w-[520px] leading-[1.65]">
             Toda la información de contacto del condominio en un solo lugar, siempre actualizada. Un
             clic para emergencias.
           </p>
@@ -181,38 +122,17 @@ export default function Canales() {
       {/* Main channel content */}
       <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Emergency banner */}
-        <div
-          style={{
-            background: "#FFF1F2",
-            border: "1px solid #FECDD3",
-            borderRadius: 14,
-            padding: "20px 24px",
-            marginBottom: 32,
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={{ color: "#E11D48", flexShrink: 0 }}>
-            <IconAlertTriangle style={{ width: 28, height: 28 }} />
+        <div className="bg-[#FFF1F2] border border-[#FECDD3] rounded-[14px] p-[20px_24px] mb-8 flex items-center gap-4 flex-wrap">
+          <div className="text-[#E11D48] shrink-0">
+            <IconAlertTriangle className="w-[28px] h-[28px]" />
           </div>
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontSize: 15,
-                fontWeight: 700,
-                color: "#E11D48",
-                marginBottom: 2,
-              }}
-            >
-              ¿Es una emergencia?
-            </div>
-            <div style={{ fontSize: 13, color: "#9F1239" }}>
+          <div className="flex-1">
+            <div className="text-[15px] font-bold text-[#E11D48] mb-[2px]">¿Es una emergencia?</div>
+            <div className="text-[13px] text-[#9F1239]">
               Llama directamente a Carabineros (133), Bomberos (132) o Ambulancia SAMU (131)
             </div>
           </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <div className="flex gap-[10px] flex-wrap">
             {[
               { num: "133", label: "Carabineros" },
               { num: "132", label: "Bomberos" },
@@ -221,178 +141,67 @@ export default function Canales() {
               <a
                 key={e.num}
                 href={`tel:${e.num}`}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  background: "#E11D48",
-                  color: "#fff",
-                  borderRadius: 10,
-                  padding: "10px 18px",
-                  textDecoration: "none",
-                  transition: "background 0.2s",
-                }}
-                onMouseEnter={(el) => (el.currentTarget.style.background = "#9F1239")}
-                onMouseLeave={(el) => (el.currentTarget.style.background = "#E11D48")}
+                className="flex flex-col items-center bg-[#E11D48] hover:bg-[#9F1239] text-white rounded-[10px] py-[10px] px-[18px] no-underline transition-colors duration-200"
               >
-                <span
-                  style={{
-                    fontFamily: "Gloock, Georgia, serif",
-                    fontSize: 20,
-                    lineHeight: 1,
-                  }}
-                >
-                  {e.num}
-                </span>
-                <span style={{ fontSize: 11, opacity: 0.85, marginTop: 2 }}>{e.label}</span>
+                <span className="font-display text-[20px] leading-none">{e.num}</span>
+                <span className="text-[11px] opacity-85 mt-[2px]">{e.label}</span>
               </a>
             ))}
           </div>
         </div>
 
         {/* Channel cards */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 16,
-            marginBottom: 40,
-          }}
-        >
+        <div className="flex flex-col gap-4 mb-10">
           {channels.map((c) => {
             const badge = urgenciaBadge[c.urgencia];
             return (
               <div
                 key={c.area}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #E2E8F0",
-                  borderRadius: 16,
-                  padding: "24px 28px",
-                  display: "grid",
-                  gridTemplateColumns: "56px 1fr auto",
-                  gap: 20,
-                  alignItems: "center",
-                  transition: "box-shadow 0.2s, border-color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.07)";
-                  e.currentTarget.style.borderColor = "#CBD5E1";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "none";
-                  e.currentTarget.style.borderColor = "#E2E8F0";
-                }}
+                className="bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] rounded-[16px] py-[24px] px-[28px] grid grid-cols-[56px_1fr_auto] gap-5 items-center transition-all duration-200 hover:shadow-[0_6px_24px_rgba(0,0,0,0.07)]"
               >
                 <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: 14,
-                    background:
-                      c.urgencia === "critica"
-                        ? "#FFF1F2"
-                        : "linear-gradient(135deg, #CCFBF1, #99F6E4)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: c.urgencia === "critica" ? "#E11D48" : "#005047",
-                    flexShrink: 0,
-                  }}
+                  className={`w-[52px] h-[52px] rounded-[14px] flex items-center justify-center shrink-0 ${
+                    c.urgencia === "critica"
+                      ? "bg-[#FFF1F2] text-[#E11D48]"
+                      : "bg-gradient-to-br from-[#CCFBF1] to-[#99F6E4] text-[#005047]"
+                  }`}
                 >
                   {iconMap[c.area]}
                 </div>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
-                      marginBottom: 4,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontFamily: "Gloock, Georgia, serif",
-                        fontSize: 18,
-                        color: "#00201B",
-                        margin: 0,
-                        fontWeight: 400,
-                      }}
-                    >
+                  <div className="flex items-center gap-[10px] mb-1 flex-wrap">
+                    <h3 className="font-display text-[18px] text-[#00201B] m-0 font-normal">
                       {c.area}
                     </h3>
                     <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 700,
-                        color: badge.color,
-                        background: badge.bg,
-                        padding: "3px 10px",
-                        borderRadius: 100,
-                      }}
+                      className={`text-[11px] font-bold py-[3px] px-[10px] rounded-full ${badge.className}`}
                     >
                       {badge.label}
                     </span>
                   </div>
-                  <div style={{ fontSize: 13, color: "#64748B", marginBottom: 10 }}>{c.resp}</div>
-                  <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontSize: 14,
-                        color: "#00201B",
-                        fontWeight: 600,
-                      }}
-                    >
+                  <div className="text-[13px] text-[#64748B] mb-[10px]">{c.resp}</div>
+                  <div className="flex gap-5 flex-wrap">
+                    <div className="flex items-center gap-[6px] text-[14px] text-[#00201B] font-semibold">
                       <IconPhone className="w-[14px] h-[14px] text-[#0D9488]" /> {c.contacto}
                     </div>
                     {c.email && (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 6,
-                          fontSize: 13,
-                          color: "#0D9488",
-                        }}
-                      >
+                      <div className="flex items-center gap-[6px] text-[13px] text-[#0D9488]">
                         <IconMail className="w-[14px] h-[14px]" />
-                        <a
-                          href={`mailto:${c.email}`}
-                          style={{ color: "#0D9488", textDecoration: "none" }}
-                        >
+                        <a href={`mailto:${c.email}`} className="text-[#0D9488] no-underline">
                           {c.email}
                         </a>
                       </div>
                     )}
                   </div>
                 </div>
-                <div style={{ textAlign: "right", flexShrink: 0 }}>
-                  <div style={{ fontSize: 12, color: "#94A3B8", marginBottom: 10 }}>
-                    {c.horario}
-                  </div>
+                <div className="text-right shrink-0">
+                  <div className="text-[12px] text-[#94A3B8] mb-[10px]">{c.horario}</div>
                   {c.contacto.match(/\d{3}/) && (
                     <a
                       href={`tel:${c.contacto.split("/")[0].trim().replace(/\s/g, "")}`}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 6,
-                        background: c.urgencia === "critica" ? "#E11D48" : "#0D9488",
-                        color: "#fff",
-                        borderRadius: 8,
-                        padding: "9px 16px",
-                        textDecoration: "none",
-                        fontSize: 13,
-                        fontWeight: 600,
-                        transition: "opacity 0.2s",
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                      className={`inline-flex items-center gap-[6px] text-white rounded-lg py-[9px] px-[16px] no-underline text-[13px] font-semibold transition-opacity duration-200 hover:opacity-85 ${
+                        c.urgencia === "critica" ? "bg-[#E11D48]" : "bg-[#0D9488]"
+                      }`}
                     >
                       <IconPhone className="w-[13px] h-[13px]" /> Llamar
                     </a>
@@ -404,121 +213,40 @@ export default function Canales() {
         </div>
 
         {/* Security info */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
-              borderRadius: 16,
-              padding: "28px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 20,
-              }}
-            >
-              <div style={{ color: "#0D9488" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-white border border-[#E2E8F0] rounded-[16px] p-[28px]">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="text-[#0D9488]">
                 <IconShield className="w-[24px] h-[24px]" />
               </div>
-              <h3
-                style={{
-                  fontFamily: "Gloock, Georgia, serif",
-                  fontSize: 20,
-                  color: "#00201B",
-                  margin: 0,
-                  fontWeight: 400,
-                }}
-              >
+              <h3 className="font-display text-[20px] text-[#00201B] m-0 font-normal">
                 Plan Cuadrante
               </h3>
             </div>
-            <p
-              style={{
-                fontSize: 14,
-                color: "#64748B",
-                lineHeight: 1.7,
-                margin: "0 0 16px",
-              }}
-            >
+            <p className="text-[14px] text-[#64748B] leading-[1.7] m-0 mb-4">
               Ficha del sector con el cuadrante de seguridad vigente y el contacto del funcionario a
               cargo, mantenida por el comité.
             </p>
-            <div style={{ fontSize: 14, color: "#00201B", fontWeight: 500 }}>
-              Comisaría 12a — Las Condes
-            </div>
-            <div
-              style={{
-                marginTop: 8,
-                fontSize: 14,
-                color: "#00201B",
-                fontWeight: 500,
-              }}
-            >
+            <div className="text-[14px] text-[#00201B] font-medium">Comisaría 12a — Las Condes</div>
+            <div className="mt-2 text-[14px] text-[#00201B] font-medium">
               Cuadrante N° 4 — Sector Norte
             </div>
           </div>
 
-          <div
-            style={{
-              background: "#fff",
-              border: "1px solid #E2E8F0",
-              borderRadius: 16,
-              padding: "28px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 20,
-              }}
-            >
-              <div style={{ color: "#0D9488" }}>
+          <div className="bg-white border border-[#E2E8F0] rounded-[16px] p-[28px]">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="text-[#0D9488]">
                 <IconBell className="w-[24px] h-[24px]" />
               </div>
-              <h3
-                style={{
-                  fontFamily: "Gloock, Georgia, serif",
-                  fontSize: 20,
-                  color: "#00201B",
-                  margin: 0,
-                  fontWeight: 400,
-                }}
-              >
+              <h3 className="font-display text-[20px] text-[#00201B] m-0 font-normal">
                 Notificaciones push
               </h3>
             </div>
-            <p
-              style={{
-                fontSize: 14,
-                color: "#64748B",
-                lineHeight: 1.7,
-                margin: "0 0 20px",
-              }}
-            >
+            <p className="text-[14px] text-[#64748B] leading-[1.7] m-0 mb-5">
               Activa las notificaciones para recibir alertas de seguridad, mantenimientos
               programados y avisos urgentes directamente en tu dispositivo.
             </p>
-            <button
-              style={{
-                background: "#0D9488",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                padding: "10px 20px",
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "background 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
-            >
+            <button className="bg-[#0D9488] hover:bg-[#005047] text-white border-none rounded-lg py-[10px] px-[20px] text-[14px] font-semibold cursor-pointer transition-colors duration-200">
               Activar notificaciones
             </button>
           </div>
@@ -528,82 +256,27 @@ export default function Canales() {
       {/* Sub-features flip cards */}
       <div className="bg-[#fff] p-[80px_24px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+          <p className="text-[11px] font-bold text-[#0D9488] tracking-[0.14em] uppercase mb-3">
             Funcionalidades
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              color: "#00201B",
-              margin: "0 0 48px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-display text-[clamp(28px,3.5vw,44px)] text-[#00201B] m-0 mb-12 font-normal">
             Cada canal, a un clic de distancia
           </h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: 20,
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5">
             {flipCards.map((card) => (
               <FlipCard
                 key={card.title}
                 height={200}
                 front={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#F8FAFB",
-                      borderRadius: 16,
-                      border: "1px solid #E2E8F0",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                      gap: 14,
-                    }}
-                  >
+                  <div className="h-full bg-[#F8FAFB] rounded-[16px] border border-[#E2E8F0] flex flex-col items-center justify-center p-6 text-center gap-[14px]">
                     {card.icon}
-                    <span
-                      style={{
-                        fontSize: 15,
-                        fontWeight: 700,
-                        color: "#00201B",
-                        lineHeight: 1.3,
-                      }}
-                    >
+                    <span className="text-[15px] font-bold text-[#00201B] leading-[1.3]">
                       {card.title}
                     </span>
                   </div>
                 }
                 back={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#0D9488",
-                      borderRadius: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                    }}
-                  >
+                  <div className="h-full bg-[#0D9488] rounded-[16px] flex items-center justify-center p-6 text-center">
                     <span className="text-[14px] text-[#fff] leading-[1.6]">{card.desc}</span>
                   </div>
                 }
@@ -617,95 +290,35 @@ export default function Canales() {
       {altSections.map((section) => (
         <div
           key={section.title}
-          style={{
-            padding: "80px 24px",
-            background: section.imgLeft ? "#F8FAFB" : "#fff",
-          }}
+          className={`py-[80px] px-[24px] ${section.imgLeft ? "bg-[#F8FAFB]" : "bg-white"}`}
         >
-          <div
-            style={{
-              maxWidth: 1280,
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 64,
-              alignItems: "center",
-            }}
-          >
+          <div className="max-w-[1280px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             {section.imgLeft ? (
               <>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-[16px] text-[#64748B] leading-[1.75] m-0">{section.body}</p>
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-[16px] text-[#64748B] leading-[1.75] m-0">{section.body}</p>
                 </div>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
               </>
             )}
@@ -715,61 +328,16 @@ export default function Canales() {
 
       {/* CTA strip */}
       <div className="bg-[#00201B] p-[64px_24px]">
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 24,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-6 flex-wrap">
           <Link
             to="/canales"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#0D9488",
-              color: "#fff",
-              borderRadius: 12,
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
+            className="inline-flex items-center gap-2 bg-[#0D9488] hover:bg-[#005047] text-white rounded-xl py-4 px-8 text-[15px] font-bold no-underline transition-colors duration-200"
           >
             Ver canales <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
           <Link
             to="/dashboard"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "transparent",
-              color: "#fff",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.3)",
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "border-color 0.2s, background 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff";
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-              e.currentTarget.style.background = "transparent";
-            }}
+            className="inline-flex items-center gap-2 bg-transparent hover:bg-white/5 text-white rounded-xl border border-white/30 hover:border-white py-4 px-8 text-[15px] font-bold no-underline transition-all duration-200"
           >
             Dashboard <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
