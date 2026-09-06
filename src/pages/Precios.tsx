@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { Fragment, useState } from "react";
 import { IconCheck, IconX } from "../components/icons/Icons";
 
@@ -310,53 +309,21 @@ const FEATURE_ROWS: FeatureRow[] = [
 function FeatureCell({ value }: { value: boolean | string }) {
   if (value === true)
     return (
-      <td style={{ padding: "12px 20px", textAlign: "center" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            width: 22,
-            height: 22,
-            borderRadius: "50%",
-            background: "#CCFBF1",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <IconCheck style={{ width: 12, height: 12, color: "#005047" }} />
+      <td className="px-5 py-3 text-center">
+        <div className="inline-flex w-[22px] h-[22px] rounded-full bg-teal-100 items-center justify-center">
+          <IconCheck className="w-3 h-3 text-[#005047]" />
         </div>
       </td>
     );
   if (value === false)
     return (
-      <td style={{ padding: "12px 20px", textAlign: "center" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            width: 22,
-            height: 22,
-            borderRadius: "50%",
-            background: "#F1F5F9",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <IconX style={{ width: 12, height: 12, color: "#CBD5E1" }} />
+      <td className="px-5 py-3 text-center">
+        <div className="inline-flex w-[22px] h-[22px] rounded-full bg-slate-100 items-center justify-center">
+          <IconX className="w-3 h-3 text-slate-300" />
         </div>
       </td>
     );
-  return (
-    <td
-      style={{
-        padding: "12px 20px",
-        textAlign: "center",
-        fontSize: 13,
-        color: "#64748B",
-        fontWeight: 500,
-      }}
-    >
-      {value}
-    </td>
-  );
+  return <td className="px-5 py-3 text-center text-[13px] text-slate-500 font-medium">{value}</td>;
 }
 
 function formatPrice(p: number | null, isAnnual: boolean) {
@@ -374,69 +341,22 @@ export default function Precios() {
   return (
     <div className="min-h-screen bg-[#F8FAFB]">
       {/* Hero */}
-      <div
-        style={{
-          background: "#00201B",
-          padding: "80px 24px 72px",
-          textAlign: "center",
-        }}
-      >
-        <p
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            color: "rgba(94,234,212,0.7)",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            marginBottom: 16,
-          }}
-        >
+      <div className="bg-[#00201B] px-6 pt-20 pb-[72px] text-center">
+        <p className="text-[11px] font-bold text-teal-300/70 tracking-[0.12em] uppercase mb-4">
           Planes y precios
         </p>
-        <h1
-          style={{
-            fontFamily: "Gloock, Georgia, serif",
-            fontSize: "clamp(34px,5vw,60px)",
-            color: "#fff",
-            lineHeight: 1.1,
-            margin: "0 0 16px",
-            fontWeight: 400,
-          }}
-        >
+        <h1 className="font-serif text-[clamp(34px,5vw,60px)] text-white leading-[1.1] m-0 mb-4 font-normal">
           Simple y sin sorpresas
         </h1>
-        <p
-          style={{
-            fontSize: 17,
-            color: "rgba(255,255,255,0.62)",
-            lineHeight: 1.7,
-            margin: "0 auto 36px",
-            maxWidth: 480,
-          }}
-        >
+        <p className="text-[17px] text-white/60 leading-[1.7] mx-auto mb-9 max-w-[480px]">
           Sin costos ocultos ni instalaciones. Empieza gratis y escala cuando tu comunidad lo
           necesite.
         </p>
 
         {/* Toggle mensual/anual */}
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 14,
-            background: "rgba(255,255,255,0.07)",
-            borderRadius: 100,
-            padding: "8px 16px",
-            border: "1px solid rgba(255,255,255,0.12)",
-          }}
-        >
+        <div className="inline-flex items-center gap-[14px] bg-white/5 rounded-full px-4 py-2 border border-white/10">
           <span
-            style={{
-              fontSize: 13,
-              color: annual ? "rgba(255,255,255,0.45)" : "#fff",
-              fontWeight: annual ? 400 : 600,
-              transition: "color 0.2s",
-            }}
+            className={`text-[13px] transition-colors duration-200 ${annual ? "text-white/45 font-normal" : "text-white font-semibold"}`}
           >
             Mensual
           </span>
@@ -444,71 +364,23 @@ export default function Precios() {
             onClick={() => setAnnual(!annual)}
             aria-label="Cambiar entre plan mensual y anual"
             aria-pressed={annual}
-            style={{
-              width: 44,
-              height: 24,
-              borderRadius: 12,
-              cursor: "pointer",
-              border: "none",
-              position: "relative",
-              background: annual ? "#0D9488" : "rgba(255,255,255,0.2)",
-              transition: "background 0.25s",
-            }}
+            className={`w-11 h-6 rounded-xl cursor-pointer border-none relative transition-colors duration-[250ms] ${annual ? "bg-teal-600" : "bg-white/20"}`}
           >
             <span
-              style={{
-                position: "absolute",
-                top: 2,
-                left: annual ? 22 : 2,
-                width: 20,
-                height: 20,
-                borderRadius: "50%",
-                background: "#fff",
-                transition: "left 0.25s",
-                display: "block",
-              }}
+              className={`absolute top-[2px] w-5 h-5 rounded-full bg-white transition-all duration-[250ms] block ${annual ? "left-[22px]" : "left-[2px]"}`}
             />
           </button>
           <span
-            style={{
-              fontSize: 13,
-              color: annual ? "#fff" : "rgba(255,255,255,0.45)",
-              fontWeight: annual ? 600 : 400,
-              transition: "color 0.2s",
-            }}
+            className={`text-[13px] transition-colors duration-200 ${annual ? "text-white font-semibold" : "text-white/45 font-normal"}`}
           >
-            Anual{" "}
-            <span
-              style={{
-                fontSize: 11,
-                color: "#5EEAD4",
-                fontWeight: 700,
-                marginLeft: 4,
-              }}
-            >
-              –25%
-            </span>
+            Anual <span className="text-[11px] text-teal-300 font-bold ml-1">–25%</span>
           </span>
         </div>
       </div>
 
       {/* Tier cards */}
-      <div
-        style={{
-          maxWidth: 1200,
-          margin: "-48px auto 0",
-          padding: "0 24px 72px",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: 20,
-            alignItems: "stretch",
-          }}
-          className="price-cards"
-        >
+      <div className="max-w-[1200px] -mt-12 mx-auto px-6 pb-[72px]">
+        <div className="price-cards grid grid-cols-3 gap-5 items-stretch">
           {PLANS.map((plan) => {
             const price = formatPrice(plan.monthlyPrice, annual);
             const period =
@@ -522,100 +394,45 @@ export default function Precios() {
             return (
               <div
                 key={plan.id}
-                style={{
-                  background: plan.highlight ? "#0D9488" : "#fff",
-                  border: `1px solid ${plan.highlight ? "#0D9488" : "#E2E8F0"}`,
-                  borderRadius: 20,
-                  padding: plan.highlight ? "40px 32px" : "32px",
-                  position: "relative",
-                  boxShadow: plan.highlight
-                    ? "0 24px 72px rgba(13,148,136,0.3)"
-                    : "0 2px 20px rgba(0,0,0,0.05)",
-                  transform: plan.highlight ? "translateY(-8px)" : "none",
-                }}
+                className={`relative rounded-[20px] ${
+                  plan.highlight
+                    ? "bg-teal-600 border border-teal-600 p-[40px_32px] shadow-[0_24px_72px_rgba(13,148,136,0.3)] -translate-y-2"
+                    : "bg-white border border-slate-200 p-8 shadow-[0_2px_20px_rgba(0,0,0,0.05)]"
+                }`}
               >
                 {plan.badge && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -12,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      background: "#fff",
-                      color: "#005047",
-                      fontSize: 11,
-                      fontWeight: 800,
-                      padding: "4px 14px",
-                      borderRadius: 100,
-                      border: "1px solid #CCFBF1",
-                      whiteSpace: "nowrap",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                    }}
-                  >
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-[#005047] text-[11px] font-extrabold px-3.5 py-1 rounded-full border border-teal-100 whitespace-nowrap shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
                     {plan.badge}
                   </div>
                 )}
 
                 <div
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 700,
-                    color: plan.highlight ? "rgba(255,255,255,0.75)" : "#94A3B8",
-                    marginBottom: 8,
-                    letterSpacing: "0.04em",
-                  }}
+                  className={`text-[13px] font-bold mb-2 tracking-[0.04em] ${plan.highlight ? "text-white/75" : "text-slate-400"}`}
                 >
                   {plan.name}
                 </div>
-                <div style={{ marginBottom: 8 }}>
+                <div className="mb-2">
                   <span
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: 46,
-                      color: plan.highlight ? "#fff" : "#00201B",
-                      lineHeight: 1,
-                    }}
+                    className={`font-serif text-[46px] leading-none ${plan.highlight ? "text-white" : "text-[#00201B]"}`}
                   >
                     {price}
                   </span>
                   {period && (
                     <span
-                      style={{
-                        fontSize: 13,
-                        color: plan.highlight ? "rgba(255,255,255,0.55)" : "#94A3B8",
-                        marginLeft: 4,
-                      }}
+                      className={`text-[13px] ml-1 ${plan.highlight ? "text-white/55" : "text-slate-400"}`}
                     >
                       {period}
                     </span>
                   )}
                 </div>
                 <p
-                  style={{
-                    fontSize: 13,
-                    color: plan.highlight ? "rgba(255,255,255,0.6)" : "#64748B",
-                    lineHeight: 1.6,
-                    margin: "0 0 28px",
-                  }}
+                  className={`text-[13px] leading-[1.6] m-0 mb-7 ${plan.highlight ? "text-white/60" : "text-slate-500"}`}
                 >
                   {plan.desc}
                 </p>
 
                 <button
-                  style={{
-                    width: "100%",
-                    padding: "13px",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    borderRadius: 10,
-                    cursor: "pointer",
-                    transition: "opacity 0.2s",
-                    background: plan.highlight ? "#fff" : "#00201B",
-                    color: plan.highlight ? "#0D9488" : "#fff",
-                    border: "none",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.87")}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+                  className={`w-full p-[13px] text-[14px] font-bold rounded-[10px] cursor-pointer transition-opacity duration-200 border-none hover:opacity-85 ${plan.highlight ? "bg-white text-teal-600" : "bg-[#00201B] text-white"}`}
                 >
                   {plan.cta}
                 </button>
@@ -626,68 +443,29 @@ export default function Precios() {
       </div>
 
       {/* Feature comparison table */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px 100px" }}>
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(26px,3vw,38px)",
-              color: "#00201B",
-              lineHeight: 1.2,
-              margin: "0 0 10px",
-              fontWeight: 400,
-            }}
-          >
+      {/* Feature comparison table */}
+      <div className="max-w-[1200px] mx-auto px-6 pb-[100px]">
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-[clamp(26px,3vw,38px)] text-[#00201B] leading-[1.2] m-0 mb-2.5 font-normal">
             Comparación completa
           </h2>
-          <p style={{ fontSize: 15, color: "#64748B", margin: 0 }}>
+          <p className="text-[15px] text-slate-500 m-0">
             Todo lo que incluye cada plan, sin letras chicas.
           </p>
         </div>
 
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 20,
-            border: "1px solid #E2E8F0",
-            overflow: "hidden",
-            boxShadow: "0 4px 30px rgba(0,0,0,0.06)",
-          }}
-        >
+        <div className="bg-white rounded-[20px] border border-slate-200 overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.06)]">
           <div className="overflow-x-auto">
-            <table
-              style={{
-                width: "100%",
-                borderCollapse: "collapse",
-                minWidth: 600,
-              }}
-            >
+            <table className="w-full border-collapse min-w-[600px]">
               <thead>
-                <tr style={{ borderBottom: "2px solid #E2E8F0" }}>
-                  <th
-                    style={{
-                      textAlign: "left",
-                      padding: "20px 24px",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "#94A3B8",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                    }}
-                  >
+                <tr className="border-b-2 border-slate-200">
+                  <th className="text-left py-5 px-6 text-[12px] font-bold text-slate-400 uppercase tracking-[0.08em]">
                     Funcionalidad
                   </th>
                   {PLANS.map((p) => (
                     <th
                       key={p.id}
-                      style={{
-                        textAlign: "center",
-                        padding: "20px",
-                        fontSize: 14,
-                        fontWeight: 700,
-                        color: p.highlight ? "#0D9488" : "#00201B",
-                        width: 160,
-                      }}
+                      className={`text-center p-5 text-[14px] font-bold w-[160px] ${p.highlight ? "text-teal-600" : "text-[#00201B]"}`}
                     >
                       {p.name}
                     </th>
@@ -700,16 +478,7 @@ export default function Precios() {
                     <tr>
                       <td
                         colSpan={4}
-                        style={{
-                          padding: "16px 24px 8px",
-                          fontSize: 11,
-                          fontWeight: 800,
-                          color: "#0D9488",
-                          textTransform: "uppercase",
-                          letterSpacing: "0.1em",
-                          background: "#F8FAFB",
-                          borderTop: gi > 0 ? "1px solid #E2E8F0" : "none",
-                        }}
+                        className={`pt-4 px-6 pb-2 text-[11px] font-extrabold text-teal-600 uppercase tracking-[0.1em] bg-slate-50 ${gi > 0 ? "border-t border-slate-200" : ""}`}
                       >
                         {group.category}
                       </td>
@@ -717,20 +486,9 @@ export default function Precios() {
                     {group.features.map((feat, fi) => (
                       <tr
                         key={`${gi}-${fi}`}
-                        style={{
-                          borderBottom: "1px solid #F1F5F9",
-                          background: fi % 2 === 0 ? "#fff" : "#FAFBFC",
-                        }}
+                        className={`border-b border-slate-100 ${fi % 2 === 0 ? "bg-white" : "bg-slate-50"}`}
                       >
-                        <td
-                          style={{
-                            padding: "12px 24px",
-                            fontSize: 13,
-                            color: "#00201B",
-                          }}
-                        >
-                          {feat.label}
-                        </td>
+                        <td className="py-3 px-6 text-[13px] text-[#00201B]">{feat.label}</td>
                         <FeatureCell value={feat.basico} />
                         <FeatureCell value={feat.comunidad} />
                         <FeatureCell value={feat.enterprise} />
@@ -745,54 +503,14 @@ export default function Precios() {
       </div>
 
       {/* CTA banner */}
-      <section
-        style={{
-          background: "linear-gradient(135deg,#0D9488,#005047)",
-          padding: "72px 24px",
-          textAlign: "center",
-        }}
-      >
-        <h2
-          style={{
-            fontFamily: "Gloock, Georgia, serif",
-            fontSize: "clamp(26px,3.5vw,42px)",
-            color: "#fff",
-            margin: "0 0 14px",
-            fontWeight: 400,
-          }}
-        >
+      <section className="bg-gradient-to-br from-teal-600 to-[#005047] py-[72px] px-6 text-center">
+        <h2 className="font-serif text-[clamp(26px,3.5vw,42px)] text-white m-0 mb-3.5 font-normal">
           ¿Tienes dudas sobre qué plan elegir?
         </h2>
-        <p
-          style={{
-            fontSize: 16,
-            color: "rgba(255,255,255,0.72)",
-            margin: "0 0 32px",
-          }}
-        >
+        <p className="text-[16px] text-white/70 m-0 mb-8">
           Nuestro equipo te ayuda a elegir el plan ideal para tu condominio — sin compromiso.
         </p>
-        <button
-          style={{
-            background: "#fff",
-            color: "#005047",
-            fontWeight: 700,
-            fontSize: 15,
-            padding: "14px 36px",
-            borderRadius: 10,
-            border: "none",
-            cursor: "pointer",
-            transition: "transform 0.15s, box-shadow 0.15s",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "none";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
+        <button className="bg-white text-[#005047] font-bold text-[15px] py-3.5 px-9 rounded-[10px] border-none cursor-pointer transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]">
           Hablar con ventas
         </button>
       </section>

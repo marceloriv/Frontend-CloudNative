@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import { useState } from "react";
 import { Link } from "react-router";
 import { registroFotos } from "../lib/data";
@@ -92,168 +91,58 @@ const altSections: AltSection[] = [
 ];
 
 function RegistroCard({ registro, onOpen }: RegistroCardProps) {
-  const [hovered, setHovered] = useState(false);
   const [showBefore, setShowBefore] = useState(true);
 
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        borderRadius: 16,
-        overflow: "hidden",
-        border: "1px solid #E2E8F0",
-        background: "#fff",
-        boxShadow: hovered ? "0 12px 40px rgba(0,0,0,0.09)" : "0 2px 8px rgba(0,0,0,0.04)",
-        transform: hovered ? "translateY(-3px)" : "none",
-        transition: "box-shadow 0.25s ease, transform 0.25s ease",
-      }}
-    >
-      <div
-        style={{
-          position: "relative",
-          height: 200,
-          background: "#E2E8F0",
-          overflow: "hidden",
-        }}
-      >
+    <div className="group rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.09)] hover:-translate-y-[3px] transition-all duration-250 ease-out">
+      <div className="relative h-[200px] bg-slate-200 overflow-hidden">
         <img
           src={showBefore ? registro.antes : registro.despues}
           alt={showBefore ? "Antes" : "Después"}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            transition: "opacity 0.3s",
-          }}
+          className="w-full h-full object-cover transition-opacity duration-300"
         />
-        <div
-          style={{
-            position: "absolute",
-            top: 12,
-            left: 12,
-            display: "flex",
-            gap: 4,
-          }}
-        >
-          {["Antes", "Después"].map((label, i) => (
-            <button
-              key={label}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowBefore(i === 0);
-              }}
-              style={{
-                padding: "4px 10px",
-                borderRadius: 100,
-                fontSize: 11,
-                fontWeight: 600,
-                cursor: "pointer",
-                border: "none",
-                background:
-                  (showBefore && i === 0) || (!showBefore && i === 1)
-                    ? "#fff"
-                    : "rgba(255,255,255,0.5)",
-                color: "#00201B",
-                transition: "background 0.15s",
-              }}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="absolute top-3 left-3 flex gap-1">
+          {["Antes", "Después"].map((label, i) => {
+            const isActive = (showBefore && i === 0) || (!showBefore && i === 1);
+            return (
+              <button
+                key={label}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowBefore(i === 0);
+                }}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-semibold cursor-pointer border-none transition-colors duration-150 text-[#00201B] ${
+                  isActive ? "bg-white" : "bg-white/50"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
-        <div
-          style={{
-            position: "absolute",
-            top: 12,
-            right: 12,
-            background: "rgba(0,0,0,0.5)",
-            backdropFilter: "blur(4px)",
-            color: "#fff",
-            fontSize: 11,
-            fontWeight: 500,
-            padding: "4px 10px",
-            borderRadius: 100,
-          }}
-        >
+        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-[4px] text-white text-[11px] font-medium px-2.5 py-1 rounded-full">
           {registro.categoria}
         </div>
       </div>
 
-      <div style={{ padding: "18px 18px 20px" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: 6,
-          }}
-        >
-          <span style={{ fontSize: 11, color: "#94A3B8" }}>{registro.fecha}</span>
-          <span style={{ fontSize: 11, color: "#94A3B8" }}>{registro.id}</span>
+      <div className="pt-[18px] px-[18px] pb-[20px]">
+        <div className="flex justify-between mb-1.5">
+          <span className="text-[11px] text-slate-400">{registro.fecha}</span>
+          <span className="text-[11px] text-slate-400">{registro.id}</span>
         </div>
-        <h3
-          style={{
-            fontFamily: "Gloock, Georgia, serif",
-            fontSize: 16,
-            color: "#00201B",
-            margin: "0 0 6px",
-            fontWeight: 400,
-            lineHeight: 1.3,
-          }}
-        >
+        <h3 className="font-display text-base text-[#00201B] m-0 mb-1.5 font-normal leading-snug">
           {registro.titulo}
         </h3>
-        <div style={{ fontSize: 13, color: "#64748B", marginBottom: 4 }}>
-          {registro.responsable}
-        </div>
-        <div
-          style={{
-            fontSize: 14,
-            fontWeight: 700,
-            color: "#00201B",
-            marginBottom: 14,
-          }}
-        >
-          {registro.monto}
-        </div>
+        <div className="text-[13px] text-slate-500 mb-1">{registro.responsable}</div>
+        <div className="text-[14px] font-bold text-[#00201B] mb-3.5">{registro.monto}</div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              fontSize: 12,
-              color: "#0D9488",
-              fontWeight: 500,
-            }}
-          >
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-1.5 text-[12px] text-teal-600 font-medium">
             <IconCheck className="w-[12px] h-[12px]" /> {registro.boleta}
           </div>
           <button
             onClick={onOpen}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: "#F0FDFA",
-              border: "1px solid #CCFBF1",
-              color: "#005047",
-              borderRadius: 8,
-              padding: "8px 14px",
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: "pointer",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#CCFBF1")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#F0FDFA")}
+            className="flex items-center gap-1.5 bg-teal-50 border border-teal-100 text-[#005047] rounded-lg px-3.5 py-2 text-[13px] font-semibold cursor-pointer transition-colors duration-200 hover:bg-teal-100"
           >
             <IconEye className="w-[14px] h-[14px]" /> Ver detalle
           </button>
@@ -275,85 +164,28 @@ export default function Registro() {
       {/* Dark hero header */}
       <div className="bg-[#00201B] p-[72px_24px_64px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.45)",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
+          <p className="text-[11px] font-bold text-white/45 tracking-[0.14em] uppercase mb-4">
             Bitácora fotográfica
           </p>
-          <h1
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(36px, 5vw, 64px)",
-              color: "#fff",
-              lineHeight: 1.08,
-              margin: "0 0 18px",
-              fontWeight: 400,
-            }}
-          >
+          <h1 className="font-display text-[clamp(36px,5vw,64px)] text-white leading-[1.08] m-0 mb-[18px] font-normal">
             Registro fotográfico
           </h1>
-          <p
-            style={{
-              fontSize: 19,
-              color: "rgba(255,255,255,0.65)",
-              margin: 0,
-              maxWidth: 540,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[19px] text-white/65 m-0 max-w-[540px] leading-[1.65]">
             Control de calidad verificable
           </p>
         </div>
       </div>
 
       {/* Existing gradient header strip */}
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0D9488 0%, #005047 100%)",
-          padding: "40px 24px 36px",
-        }}
-      >
+      <div className="bg-gradient-to-br from-[#0D9488] to-[#005047] p-[40px_24px_36px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.6)",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              marginBottom: 10,
-            }}
-          >
+          <p className="text-[11px] font-bold text-white/60 tracking-[0.12em] uppercase mb-2.5">
             Bitácora fotográfica
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(24px, 3vw, 36px)",
-              color: "#fff",
-              lineHeight: 1.1,
-              margin: "0 0 10px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-display text-[clamp(24px,3vw,36px)] text-white leading-[1.1] m-0 mb-2.5 font-normal">
             Registro Fotográfico
           </h2>
-          <p
-            style={{
-              fontSize: 15,
-              color: "rgba(255,255,255,0.72)",
-              margin: 0,
-              maxWidth: 560,
-              lineHeight: 1.65,
-            }}
-          >
+          <p className="text-[15px] text-white/70 m-0 max-w-[560px] leading-[1.65]">
             Control de calidad verificable por todos los residentes. Cada intervención documentada
             con fotos de antes y después, fecha, responsable y boleta adjunta.
           </p>
@@ -363,56 +195,26 @@ export default function Registro() {
       {/* Main registro content */}
       <div className="max-w-[1280px] mx-auto p-[40px_24px_80px]">
         {/* Stats */}
-        <div
-          style={{
-            display: "flex",
-            gap: 16,
-            marginBottom: 28,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="flex flex-wrap gap-4 mb-7">
           {[
             {
               val: registroFotos.length,
               label: "Trabajos registrados",
-              color: "#0D9488",
+              colorClass: "text-[#0D9488]",
             },
             {
               val: registroFotos.filter((r) => r.estado === "Completado").length,
               label: "Completados",
-              color: "#005047",
+              colorClass: "text-[#005047]",
             },
-            { val: "100%", label: "Con boleta adjunta", color: "#14B8A6" },
+            { val: "100%", label: "Con boleta adjunta", colorClass: "text-[#14B8A6]" },
           ].map((s) => (
             <div
               key={s.label}
-              style={{
-                background: "#fff",
-                border: "1px solid #E2E8F0",
-                borderRadius: 12,
-                padding: "16px 22px",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
+              className="bg-white border border-slate-200 rounded-xl px-5 py-4 flex items-center gap-3"
             >
-              <span
-                style={{
-                  fontFamily: "Gloock, Georgia, serif",
-                  fontSize: 28,
-                  color: s.color,
-                }}
-              >
-                {s.val}
-              </span>
-              <span
-                style={{
-                  fontSize: 13,
-                  color: "#64748B",
-                  maxWidth: 100,
-                  lineHeight: 1.3,
-                }}
-              >
+              <span className={`font-display text-[28px] ${s.colorClass}`}>{s.val}</span>
+              <span className="text-[13px] text-slate-500 max-w-[100px] leading-snug">
                 {s.label}
               </span>
             </div>
@@ -420,44 +222,27 @@ export default function Registro() {
         </div>
 
         {/* Filter */}
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            flexWrap: "wrap",
-            marginBottom: 28,
-          }}
-        >
-          {categorias.map((c) => (
-            <button
-              key={c}
-              onClick={() => setActiveCat(c)}
-              style={{
-                padding: "8px 16px",
-                borderRadius: 100,
-                fontSize: 13,
-                fontWeight: 500,
-                cursor: "pointer",
-                border: "1px solid",
-                borderColor: activeCat === c ? "#0D9488" : "#E2E8F0",
-                background: activeCat === c ? "#0D9488" : "#fff",
-                color: activeCat === c ? "#fff" : "#64748B",
-                transition: "border-color 0.15s, background 0.15s, color 0.15s",
-              }}
-            >
-              {c}
-            </button>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-7">
+          {categorias.map((c) => {
+            const isActive = activeCat === c;
+            return (
+              <button
+                key={c}
+                onClick={() => setActiveCat(c)}
+                className={`px-4 py-2 rounded-full text-[13px] font-medium cursor-pointer border transition-colors duration-150 ${
+                  isActive
+                    ? "border-teal-600 bg-teal-600 text-white"
+                    : "border-slate-200 bg-white text-slate-500"
+                }`}
+              >
+                {c}
+              </button>
+            );
+          })}
         </div>
 
         {/* Cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: 22,
-          }}
-        >
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-[22px]">
           {filtered.map((r) => (
             <RegistroCard
               key={r.id}
@@ -474,82 +259,27 @@ export default function Registro() {
       {/* Sub-features flip cards */}
       <div className="bg-[#fff] p-[80px_24px]">
         <div className="max-w-[1280px] mx-auto">
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#0D9488",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              marginBottom: 12,
-            }}
-          >
+          <p className="text-[11px] font-bold text-teal-600 tracking-[0.14em] uppercase mb-3">
             Funcionalidades
           </p>
-          <h2
-            style={{
-              fontFamily: "Gloock, Georgia, serif",
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              color: "#00201B",
-              margin: "0 0 48px",
-              fontWeight: 400,
-            }}
-          >
+          <h2 className="font-display text-[clamp(28px,3.5vw,44px)] text-[#00201B] m-0 mb-12 font-normal">
             Cada trabajo, completamente documentado
           </h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: 20,
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5">
             {flipCards.map((card) => (
               <FlipCard
                 key={card.title}
                 height={200}
                 front={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#F8FAFB",
-                      borderRadius: 16,
-                      border: "1px solid #E2E8F0",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                      gap: 14,
-                    }}
-                  >
+                  <div className="h-full bg-slate-50 rounded-2xl border border-slate-200 flex flex-col items-center justify-center p-6 text-center gap-3.5">
                     {card.icon}
-                    <span
-                      style={{
-                        fontSize: 15,
-                        fontWeight: 700,
-                        color: "#00201B",
-                        lineHeight: 1.3,
-                      }}
-                    >
+                    <span className="text-[15px] font-bold text-[#00201B] leading-snug">
                       {card.title}
                     </span>
                   </div>
                 }
                 back={
-                  <div
-                    style={{
-                      height: "100%",
-                      background: "#0D9488",
-                      borderRadius: 16,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "24px",
-                      textAlign: "center",
-                    }}
-                  >
+                  <div className="h-full bg-teal-600 rounded-2xl flex items-center justify-center p-6 text-center">
                     <span className="text-[14px] text-[#fff] leading-[1.6]">{card.desc}</span>
                   </div>
                 }
@@ -563,95 +293,35 @@ export default function Registro() {
       {altSections.map((section) => (
         <div
           key={section.title}
-          style={{
-            padding: "80px 24px",
-            background: section.imgLeft ? "#F8FAFB" : "#fff",
-          }}
+          className={`py-20 px-6 ${section.imgLeft ? "bg-slate-50" : "bg-white"}`}
         >
-          <div
-            style={{
-              maxWidth: 1280,
-              margin: "0 auto",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 64,
-              alignItems: "center",
-            }}
-          >
+          <div className="max-w-[1280px] mx-auto grid grid-cols-2 gap-16 items-center">
             {section.imgLeft ? (
               <>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-base text-slate-500 leading-relaxed m-0">{section.body}</p>
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: "clamp(26px, 3vw, 40px)",
-                      color: "#00201B",
-                      margin: "0 0 20px",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                    }}
-                  >
+                  <h2 className="font-display text-[clamp(26px,3vw,40px)] text-[#00201B] m-0 mb-5 font-normal leading-[1.2]">
                     {section.title}
                   </h2>
-                  <p
-                    style={{
-                      fontSize: 16,
-                      color: "#64748B",
-                      lineHeight: 1.75,
-                      margin: 0,
-                    }}
-                  >
-                    {section.body}
-                  </p>
+                  <p className="text-base text-slate-500 leading-relaxed m-0">{section.body}</p>
                 </div>
                 <img
                   src={section.imgUrl}
                   alt={section.title}
-                  style={{
-                    width: "100%",
-                    height: 380,
-                    objectFit: "cover",
-                    borderRadius: 20,
-                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
-                  }}
+                  className="w-full h-[380px] object-cover rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)]"
                 />
               </>
             )}
@@ -661,61 +331,16 @@ export default function Registro() {
 
       {/* CTA strip */}
       <div className="bg-[#00201B] p-[64px_24px]">
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 24,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="max-w-[1280px] mx-auto flex items-center justify-center gap-6 flex-wrap">
           <Link
             to="/registro"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "#0D9488",
-              color: "#fff",
-              borderRadius: 12,
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "background 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#005047")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#0D9488")}
+            className="inline-flex items-center gap-2 bg-teal-600 text-white rounded-xl px-8 py-4 text-[15px] font-bold no-underline transition-colors duration-200 hover:bg-[#005047]"
           >
             Ver registros <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
           <Link
             to="/dashboard"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: "transparent",
-              color: "#fff",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.3)",
-              padding: "16px 32px",
-              fontSize: 15,
-              fontWeight: 700,
-              textDecoration: "none",
-              transition: "border-color 0.2s, background 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#fff";
-              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-              e.currentTarget.style.background = "transparent";
-            }}
+            className="inline-flex items-center gap-2 bg-transparent text-white rounded-xl border border-white/30 px-8 py-4 text-[15px] font-bold no-underline transition-all duration-200 hover:border-white hover:bg-white/5"
           >
             Dashboard <IconChevronRight className="w-[16px] h-[16px]" />
           </Link>
@@ -724,177 +349,61 @@ export default function Registro() {
 
       {/* Detail modal */}
       {selected && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 200,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          }}
-        >
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-5">
           <button
             type="button"
             aria-label="Cerrar"
             onClick={() => setSelected(null)}
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,32,27,0.65)",
-              backdropFilter: "blur(6px)",
-              border: "none",
-              padding: 0,
-              cursor: "default",
-            }}
+            className="absolute inset-0 bg-[#00201B]/65 backdrop-blur-md border-none p-0 cursor-default"
           />
-          <div
-            style={{
-              position: "relative",
-              background: "#fff",
-              borderRadius: 20,
-              width: "100%",
-              maxWidth: 680,
-              maxHeight: "90vh",
-              overflowY: "auto",
-              boxShadow: "0 32px 80px rgba(0,0,0,0.25)",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                height: 320,
-                background: "#E2E8F0",
-                overflow: "hidden",
-                borderRadius: "20px 20px 0 0",
-              }}
-            >
+          <div className="relative bg-white rounded-[20px] w-full max-w-[680px] max-h-[90vh] overflow-y-auto shadow-[0_32px_80px_rgba(0,0,0,0.25)]">
+            <div className="relative h-[320px] bg-slate-200 overflow-hidden rounded-[20px_20px_0_0]">
               <img
                 src={showBefore ? selected.antes : selected.despues}
                 alt={showBefore ? "Antes" : "Después"}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  transition: "opacity 0.3s",
-                }}
+                className="w-full h-full object-cover transition-opacity duration-300"
               />
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 16,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  display: "flex",
-                  gap: 8,
-                }}
-              >
-                {["Antes", "Después"].map((label, i) => (
-                  <button
-                    key={label}
-                    onClick={() => setShowBefore(i === 0)}
-                    style={{
-                      padding: "8px 20px",
-                      borderRadius: 100,
-                      fontSize: 13,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      border: "none",
-                      background:
-                        (showBefore && i === 0) || (!showBefore && i === 1)
-                          ? "#fff"
-                          : "rgba(255,255,255,0.4)",
-                      color:
-                        (showBefore && i === 0) || (!showBefore && i === 1) ? "#00201B" : "#fff",
-                      transition: "background 0.2s, color 0.2s",
-                    }}
-                  >
-                    {label}
-                  </button>
-                ))}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                {["Antes", "Después"].map((label, i) => {
+                  const isActive = (showBefore && i === 0) || (!showBefore && i === 1);
+                  return (
+                    <button
+                      key={label}
+                      onClick={() => setShowBefore(i === 0)}
+                      className={`px-5 py-2 rounded-full text-[13px] font-semibold cursor-pointer border-none transition-colors duration-200 ${
+                        isActive ? "bg-white text-[#00201B]" : "bg-white/40 text-white"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
               </div>
               <button
                 onClick={() => setSelected(null)}
                 aria-label="Cerrar"
-                style={{
-                  position: "absolute",
-                  top: 16,
-                  right: 16,
-                  background: "rgba(0,0,0,0.5)",
-                  border: "none",
-                  borderRadius: "50%",
-                  width: 36,
-                  height: 36,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  color: "#fff",
-                }}
+                className="absolute top-4 right-4 bg-black/50 border-none rounded-full w-9 h-9 flex items-center justify-center cursor-pointer text-white"
               >
                 ✕
               </button>
             </div>
 
-            <div style={{ padding: "28px 28px 32px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  gap: 12,
-                  marginBottom: 16,
-                }}
-              >
+            <div className="px-7 pt-7 pb-8">
+              <div className="flex justify-between items-start gap-3 mb-4">
                 <div>
-                  <span
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: "#005047",
-                      background: "#CCFBF1",
-                      padding: "3px 10px",
-                      borderRadius: 6,
-                      display: "inline-block",
-                      marginBottom: 8,
-                    }}
-                  >
+                  <span className="text-[11px] font-bold text-[#005047] bg-teal-100 px-2.5 py-1 rounded-md inline-block mb-2">
                     {selected.categoria}
                   </span>
-                  <h2
-                    style={{
-                      fontFamily: "Gloock, Georgia, serif",
-                      fontSize: 22,
-                      color: "#00201B",
-                      margin: 0,
-                      fontWeight: 400,
-                      lineHeight: 1.25,
-                    }}
-                  >
+                  <h2 className="font-display text-[22px] text-[#00201B] m-0 font-normal leading-tight">
                     {selected.titulo}
                   </h2>
                 </div>
-                <span
-                  style={{
-                    fontSize: 11,
-                    color: "#94A3B8",
-                    whiteSpace: "nowrap",
-                    marginTop: 4,
-                  }}
-                >
+                <span className="text-[11px] text-slate-400 whitespace-nowrap mt-1">
                   {selected.id}
                 </span>
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 16,
-                  marginBottom: 20,
-                }}
-              >
+              <div className="grid grid-cols-2 gap-4 mb-5">
                 {[
                   { label: "Fecha", val: selected.fecha },
                   { label: "Responsable", val: selected.responsable },
@@ -902,66 +411,19 @@ export default function Registro() {
                   { label: "Estado", val: selected.estado },
                 ].map((f) => (
                   <div key={f.label}>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        fontWeight: 600,
-                        color: "#94A3B8",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        marginBottom: 4,
-                      }}
-                    >
+                    <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-[0.08em] mb-1">
                       {f.label}
                     </div>
-                    <div
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "#00201B",
-                      }}
-                    >
-                      {f.val}
-                    </div>
+                    <div className="text-[14px] font-semibold text-[#00201B]">{f.val}</div>
                   </div>
                 ))}
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  background: "#F0FDFA",
-                  borderRadius: 10,
-                  padding: "14px 16px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontSize: 13,
-                    color: "#005047",
-                    fontWeight: 600,
-                  }}
-                >
+              <div className="flex items-center justify-between bg-teal-50 rounded-lg px-4 py-3.5">
+                <div className="flex items-center gap-2 text-[13px] text-[#005047] font-semibold">
                   <IconCheck className="w-[16px] h-[16px]" /> Boleta adjunta: {selected.boleta}
                 </div>
-                <button
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6,
-                    background: "none",
-                    border: "none",
-                    color: "#0D9488",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
-                >
+                <button className="flex items-center gap-1.5 bg-transparent border-none text-teal-600 text-[13px] font-semibold cursor-pointer">
                   <IconDownload className="w-[14px] h-[14px]" /> Descargar
                 </button>
               </div>

@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-dom-props */
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 
@@ -142,7 +141,7 @@ function QRCode({ code, size = 200 }: QRCodeProps) {
       width={size}
       height={size}
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block" }}
+      className="block"
     >
       <rect width="240" height="240" fill="white" />
       {cells}
