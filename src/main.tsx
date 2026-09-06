@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { bind } from "cuelume";
 import App from "./App";
 import "./index.css";
+import "./app.css";
 
 bind();
 
