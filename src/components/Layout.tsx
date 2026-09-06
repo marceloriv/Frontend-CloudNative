@@ -653,6 +653,40 @@ export default function Layout() {
               }}
             />
 
+            {/* Avatar del usuario */}
+            {user.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.nombre}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "1px solid #E2E8F0",
+                }}
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  background: "#E2E8F0",
+                  color: "#64748B",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 700,
+                  fontSize: 12,
+                }}
+                title={user.nombre}
+              >
+                {user.nombre.charAt(0).toUpperCase()}
+              </div>
+            )}
+
             {/* Role switcher (demo) */}
             <div style={{ position: "relative" }}>
               <button
